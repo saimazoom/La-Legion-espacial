@@ -1,0 +1,32 @@
+
+ La legión Espacial
+=======================
+
+
+2 Junio 2019 
+> He limpiado el código de minif y lo he subido a GIT. Tengo que mantener el parser y el juego por separado para poder
+seguir desarrollando el parser sin referencias cruzadas.
+> Branch creada para la Legión, otra aventura corta ambientada en el universo de ZHL. 
+
+Sinopsis:
+ZHL SIDE A: Tod Connor
+ZHL SIDE B: Patricia Moons
+
+ Patricia Moons es una periodista embebida en un escuadrón militar llamado la Legión espacial varios años antes de ZHL. Durante
+su misión descienden un nuevo planeta y encuentran un teletransporte que lleva a un mundo subterráneo habitado por gigantes. 
+
+ Un legionario es decapitado por uno de los gigantes y el portal es sellado para evitar males mayores. La cabeza del legionario
+es guardada en un contenedor azul para su posterior estudio. 
+
+En la aventura somos Patricia Moons acompañando al legionario e intentando averiguar todo lo posible sobre la misión. Toda la 
+aventura se basa en diálogo y en los PNJ militares. 
+
+Ambientación nocturna, altas temperaturas, zonas de volcanes muy próximas. 
+
+El desarrollo se basa en ZMinif utilizado en desarrollo incompleto de Cafaz/La Maldición de los Reyes. El mapa de memoria ya está
+pensado para versiones de 128Kb, pero el objetivo es desarrollar aventuras para 48Kb empleando sólo 16-21Kb para la aventura y los 20Kb inferiores
+para el parser y las variables. El DAAD emplea unos 13Kb, pero no tiene la flexibilidad de programar en C, no soporta zx7, librerias de audio y fuentes proporcionales ni tampoco la paginación en modelos con 128Kb o más. 
+
+
+
+

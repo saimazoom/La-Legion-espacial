@@ -1,0 +1,5 @@
+
+IF !DEFINED_myzorg
+	DEFINE DEFINED_myzorg
+	defc myzorg = 25425
+ENDIF

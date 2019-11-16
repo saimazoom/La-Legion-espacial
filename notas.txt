@@ -1,0 +1,48 @@
+07.11.2019
+
+ Localidades
+----------------------------
+
+Area en la nave
+
+Panel de control
+Objetos: Escaleras, parabrisas, consola, mandos, nieve, un asiento
+
+Nodo central 
+Objetos: Acceso a la esclusa
+
+Esclusa 
+Objetos: Trajes, botones de abrir y cerrar, puerta de entrada y puerta de salida, mensaje de peligro
+
+Almacén
+Objetos: escaleras, paquetes y casilleros, fisura en una de las paredes 
+
+Area: Exterior 
+
+Entrada a la esclusa 
+Objetos: Escaleras de entrada, nieve, Júpiter de fondo, la silueta del almacén
+
+Entrada al almacén 
+Objetos: Teclado numérico, puerta blindada, almacén, rejilla de ventilación
+
+Almacén
+Sala 1
+Objetos: Paquetes con semillas
+Sala 2 
+Objetos: Bóveda, paquete azul
+
+Gráficos raster basados en las librerías que ya utilizamos en minif. Ver cuanto podemos meter en 16K para permitir juegos multicarga de 128Kb (o más...). 
+
+Añadir pnj más adelante no es complicado, pues se trata de tener una estructura nueva para ese tipo de objeto. 
+
+El cursor es una casilla que parpadea con un OR, ver que tal funciona sino podemos hacer una inversión de atributos pero queda mucho más cutrecito. 
+
+En la parte inferior seleccionamos entre inventario, mapa y lista de quest activas.
+---------------------------------------------------------------------------------------------------------
+
+Orden de las cargas:
+1. ZHL: La recogida
+2. Crash and Burn 
+3. El tenedor del diablo
+4. La Legión espacial
+5. Huída

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\src\appmake\abc80.c" />
+    <ClCompile Include="..\..\src\appmake\ace-tap.c" />
+    <ClCompile Include="..\..\src\appmake\appmake.c" />
+    <ClCompile Include="..\..\src\appmake\aquarius.c" />
+    <ClCompile Include="..\..\src\appmake\c128.c" />
+    <ClCompile Include="..\..\src\appmake\c7420.c" />
+    <ClCompile Include="..\..\src\appmake\cpc.c" />
+    <ClCompile Include="..\..\src\appmake\enterprise.c" />
+    <ClCompile Include="..\..\src\appmake\extract.c" />
+    <ClCompile Include="..\..\src\appmake\galaksija.c" />
+    <ClCompile Include="..\..\src\appmake\hex.c" />
+    <ClCompile Include="..\..\src\appmake\inject.c" />
+    <ClCompile Include="..\..\src\appmake\lynx.c" />
+    <ClCompile Include="..\..\src\appmake\m5.c" />
+    <ClCompile Include="..\..\src\appmake\mc.c" />
+    <ClCompile Include="..\..\src\appmake\msx.c" />
+    <ClCompile Include="..\..\src\appmake\mtx.c" />
+    <ClCompile Include="..\..\src\appmake\mz.c" />
+    <ClCompile Include="..\..\src\appmake\nascom.c" />
+    <ClCompile Include="..\..\src\appmake\nec.c" />
+    <ClCompile Include="..\..\src\appmake\newbrain.c" />
+    <ClCompile Include="..\..\src\appmake\newext.c" />
+    <ClCompile Include="..\..\src\appmake\p2000.c" />
+    <ClCompile Include="..\..\src\appmake\px.c" />
+    <ClCompile Include="..\..\src\appmake\residos.c" />
+    <ClCompile Include="..\..\src\appmake\rex6000.c" />
+    <ClCompile Include="..\..\src\appmake\rom.c" />
+    <ClCompile Include="..\..\src\appmake\sc3000.c" />
+    <ClCompile Include="..\..\src\appmake\sms.c" />
+    <ClCompile Include="..\..\src\appmake\sorcerer.c" />
+    <ClCompile Include="..\..\src\appmake\sos.c" />
+    <ClCompile Include="..\..\src\appmake\svi.c" />
+    <ClCompile Include="..\..\src\appmake\tixx.c" />
+    <ClCompile Include="..\..\src\appmake\trs80.c" />
+    <ClCompile Include="..\..\src\appmake\vg5k.c" />
+    <ClCompile Include="..\..\src\appmake\vz.c" />
+    <ClCompile Include="..\..\src\appmake\x07.c" />
+    <ClCompile Include="..\..\src\appmake\z1013.c" />
+    <ClCompile Include="..\..\src\appmake\z88.c" />
+    <ClCompile Include="..\..\src\appmake\z88shell.c" />
+    <ClCompile Include="..\..\src\appmake\z9001.c" />
+    <ClCompile Include="..\..\src\appmake\zx.c" />
+    <ClCompile Include="..\..\src\appmake\zx81.c" />
+    <ClCompile Include="..\..\src\appmake\zxvgs.c" />
+    <ClCompile Include="..\..\src\appmake\kc.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\appmake\appmake.h" />
+  </ItemGroup>
+</Project>

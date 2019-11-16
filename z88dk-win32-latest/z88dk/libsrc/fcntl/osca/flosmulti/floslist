@@ -1,0 +1,11 @@
+close
+lseek
+mkdir
+open
+read
+readbyte
+remove
+rename
+fdtell
+write
+writebyte

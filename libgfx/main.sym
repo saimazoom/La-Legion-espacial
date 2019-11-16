@@ -1,0 +1,42 @@
+Z80 Module Assembler 2.8.0, (c) InterLogic 1993-2009, Paulo Custodio 2011-2015                    Wed Oct 12 21:20:28 2016
+Page 001                                                                      'C:\Users\kmbr\AppData\Local\Temp\s68_1.sym'
+
+
+
+
+Local Module Symbols:
+
+DEFINED_ANSIstdio               = B93BF400000000
+DEFINED_HAVESEED                = 0000
+DEFINED_NEED_ZXMMC              = 0000
+DEFINED_NEEDresidos             = 0000
+DEFINED_USING_amalloc           = 0000
+DEFINED_ZXVGS                   = 0000
+DEFINED_myzorg                  = 0001
+DEFINED_nostreams               = 0000
+NEED_floatpack                  = 0000
+STACKPTR                        = 0000
+cleanup_exit                    = 001A
+myzorg                          = 6351
+start                           = 0000
+start1                          = 001F
+startup                         = 0000
+
+
+Global Module Symbols:
+
+_FRAMES                         = B93B4C00005C78
+_RND_BLOCKSIZE                  = 003B
+__sgoioblk                      = 003D
+_std_seed                       = 0032
+_vfprintf                       = 0024
+base_graphics                   = 0030
+call_rom3                       = 0024
+cleanup                         = 0019
+coords                          = 002E
+exitcount                       = 0036
+exitsp                          = 0034
+heapblocks                      = 0039
+heaplast                        = 0037
+l_dcal                          = 0023
+

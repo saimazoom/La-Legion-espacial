@@ -1,0 +1,95 @@
+
+XLIB _fzxfonts_names
+
+LIB __fzxfonts_fontnames
+XREF __fzxfonts_name_s_0
+XREF __fzxfonts_name_s_1
+XREF __fzxfonts_name_s_2
+XREF __fzxfonts_name_s_3
+XREF __fzxfonts_name_s_4
+XREF __fzxfonts_name_s_5
+XREF __fzxfonts_name_s_6
+XREF __fzxfonts_name_s_7
+XREF __fzxfonts_name_s_8
+XREF __fzxfonts_name_s_9
+XREF __fzxfonts_name_s_10
+XREF __fzxfonts_name_s_11
+XREF __fzxfonts_name_s_12
+XREF __fzxfonts_name_s_13
+XREF __fzxfonts_name_s_14
+XREF __fzxfonts_name_s_15
+XREF __fzxfonts_name_s_16
+XREF __fzxfonts_name_s_17
+XREF __fzxfonts_name_s_18
+XREF __fzxfonts_name_s_19
+XREF __fzxfonts_name_s_20
+XREF __fzxfonts_name_s_21
+XREF __fzxfonts_name_s_22
+XREF __fzxfonts_name_s_23
+XREF __fzxfonts_name_s_24
+XREF __fzxfonts_name_s_25
+XREF __fzxfonts_name_s_26
+XREF __fzxfonts_name_s_27
+XREF __fzxfonts_name_s_28
+XREF __fzxfonts_name_s_29
+XREF __fzxfonts_name_s_30
+XREF __fzxfonts_name_s_31
+XREF __fzxfonts_name_s_32
+XREF __fzxfonts_name_s_33
+XREF __fzxfonts_name_s_34
+XREF __fzxfonts_name_s_35
+XREF __fzxfonts_name_s_36
+XREF __fzxfonts_name_s_37
+XREF __fzxfonts_name_s_38
+XREF __fzxfonts_name_s_39
+XREF __fzxfonts_name_s_40
+XREF __fzxfonts_name_s_41
+
+defw __fzxfonts_fontnames
+
+_fzxfonts_names:
+
+   defw __fzxfonts_name_s_0
+   defw __fzxfonts_name_s_1
+   defw __fzxfonts_name_s_2
+   defw __fzxfonts_name_s_3
+   defw __fzxfonts_name_s_4
+   defw __fzxfonts_name_s_5
+   defw __fzxfonts_name_s_6
+   defw __fzxfonts_name_s_7
+   defw __fzxfonts_name_s_8
+   defw __fzxfonts_name_s_9
+   defw __fzxfonts_name_s_10
+   defw __fzxfonts_name_s_11
+   defw __fzxfonts_name_s_12
+   defw __fzxfonts_name_s_13
+   defw __fzxfonts_name_s_14
+   defw __fzxfonts_name_s_15
+   defw __fzxfonts_name_s_16
+   defw __fzxfonts_name_s_17
+   defw __fzxfonts_name_s_18
+   defw __fzxfonts_name_s_19
+   defw __fzxfonts_name_s_20
+   defw __fzxfonts_name_s_21
+   defw __fzxfonts_name_s_22
+   defw __fzxfonts_name_s_23
+   defw __fzxfonts_name_s_24
+   defw __fzxfonts_name_s_25
+   defw __fzxfonts_name_s_26
+   defw __fzxfonts_name_s_27
+   defw __fzxfonts_name_s_28
+   defw __fzxfonts_name_s_29
+   defw __fzxfonts_name_s_30
+   defw __fzxfonts_name_s_31
+   defw __fzxfonts_name_s_32
+   defw __fzxfonts_name_s_33
+   defw __fzxfonts_name_s_34
+   defw __fzxfonts_name_s_35
+   defw __fzxfonts_name_s_36
+   defw __fzxfonts_name_s_37
+   defw __fzxfonts_name_s_38
+   defw __fzxfonts_name_s_39
+   defw __fzxfonts_name_s_40
+   defw __fzxfonts_name_s_41
+   
+   defw 0
