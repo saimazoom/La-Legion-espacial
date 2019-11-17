@@ -11,8 +11,8 @@
 
 */
 
-#define DEBUG  // DEBUG=1 incluye funciones y mensajes de depuración
-#define GRAPHICS // GRAPHICS=1 Incluye gráficos
+#define DEBUG       // DEBUG=1 incluye funciones y mensajes de depuración
+#define GRAPHICS    // GRAPHICS=1 Incluye gráficos
 
 #include <string.h>
 

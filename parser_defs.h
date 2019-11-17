@@ -59,7 +59,7 @@ typedef struct
 	unsigned char *descripcion;
 	unsigned char id;
 	unsigned char visited;
-	//unsigned char atributos[4]; // 32bit
+	unsigned long int atributos; // 32bit
 	} loc_t;
 
 typedef struct

@@ -1,9 +1,21 @@
 
  La legión Espacial
 =======================
+17 Noviembre 2019 
 
+
+
+16 Noviembre 2019 
+
+> Pues aquí estoy de nuevo, llevo unos días activo con el DIA y he pasado a limpio el flujo del juego y el mapa. 
+> He reorganizado el Git para poder tener un repositorio distinto del parter y de los juegos. Asi que ahora tenemos: La legión espacial, La maldición de los reyes y zminif en git. 
+
+> Hace tiempo me he replanteado el motivo de escribir un relato y de la responsabilidad de la información que intento transmitir. Cada relato debe tener un mensaje, algo que contar. De otro modo se trata de un producto, orientado a generar actos de lectura/visionado en masa. Para conseguirlo es necesario historias sencillas de seguir, que encajen bien en las expectativas del público para que se sientan bien y la espectacularidad. Lo interesante es conseguir todo eso y además el contar una historia que signifique algo, que además de ver/leer tu historia el lector se lleve algo que le acompañe y le haga pensar y ver las cosas de otra manera. 
+
+Las historias son poderosas, son el vehículo que ha empleado la humanidad durante millones de años para transmitir información. 
 
 2 Junio 2019 
+
 > He limpiado el código de minif y lo he subido a GIT. Tengo que mantener el parser y el juego por separado para poder
 seguir desarrollando el parser sin referencias cruzadas.
 > Branch creada para la Legión, otra aventura corta ambientada en el universo de ZHL. 

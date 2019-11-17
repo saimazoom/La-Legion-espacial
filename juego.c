@@ -18,6 +18,7 @@
 #pragma output CRT_ENABLE_RESTART = 1
 
 // Código local
+// Si necesitamos código en páginas de memoria hay que compilarlas como .c y añadirlas aquí como extern
 char respuestas();
 char respuestas_post();
 char proceso1();
@@ -40,12 +41,18 @@ img_t imagenes_t [] =
 // Tabla de localidades de la aventura
 
 // Regiones del juego...
+// unsigned char *name;
+//	unsigned char *descripcion;
+//	unsigned char id;
+//  unsigned char visitado
+//	unsigned long int atributos; // 32bit
 
+// última localidad como ID 0 
 loc_t localidades_t [] =
 {
 	// L1     
-	{"","",1}, 
-    {"","",0}
+	{"","",1, FALSE, 0x00000000}, 
+    {"","",0, FALSE, 0x00000000}
 };
 
 // Localidades para contenedores
@@ -155,6 +162,7 @@ token_t mensajesSistema_t [] =
 
 // Tablas de vocabulario
 // Nombre propios, sustantivos...
+// último elemento debe ser 0
 
 token_t nombres_t [] =
 {
@@ -194,6 +202,7 @@ token_t nombres_t [] =
 	{"conta",       15},
 	{"turno",       16},
     {"todo",        20},
+	{"linterna",	n_linterna},
     {"",0}
 };
 
@@ -607,6 +616,7 @@ char proceso1() // Antes de la descripción de la localidad...
 char proceso1_post() // Después de la descripción
 {
  //setRAMPage(0);
+ // Usar proceso en otras páginas require compilar código por separado
  //proceso1_post_pagina0();
 }
 

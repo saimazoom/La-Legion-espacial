@@ -2,11 +2,12 @@
 
 #define l_AccesoALaTrampa 	1
 
-// Si es un objeto (por ejemplo una mochila), debemos dejar libre la localidad que corresponde con el identificador del número del objeto
+// Si es un objeto (por ejemplo una mochila), debemos dejar libre la localidad que corresponde con el identificador del nï¿½mero del objeto
 #define l_mesa 34	// La mesa no es un algo que lleve el jugador pero es un objeto de tipo contenedor.
 
-#define n_arena    21
 
+// Definiciones de vocabulario
+// Nombres de 1 a 20 reservados
 
 #define nNorte  1
 #define nSur 	2
@@ -21,13 +22,18 @@
 #define nInventario 14
 #define nPuntos 15
 #define nTurnos 16
-
 #define nTodo 20
+
+// Nombres de 21 a 255 disponibles
+#define n_linterna 21
+
+// Verbos que funcionan como nombres
 #define vSubir 10
 #define vBajar 11
 #define vEntrar 12
 #define vSalir 13
 
+// Verbos
 #define vCoger 20
 #define vDejar 21
 #define vSacar 22
