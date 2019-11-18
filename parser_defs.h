@@ -39,6 +39,9 @@
 #define BRIGHT         0x40
 #define FLASH          0x80
 
+// C64 colors
+
+
 // Parser Structures
 typedef struct {
         unsigned char id;
@@ -66,18 +69,6 @@ typedef struct
 	{
 	unsigned char id;
 	unsigned char con[10];
-/*
-	unsigned char al_n;
-	unsigned char al_s;
-	unsigned char al_e;
-	unsigned char al_o;
-	unsigned char al_ne;
-	unsigned char al_no;
-	unsigned char al_se;
-	unsigned char al_so;
-	unsigned char arriba;
-	unsigned char abajo;
-*/
 	} cnx_t;
 
 // Tabla de Objetos
@@ -206,6 +197,10 @@ typedef struct
 #define LOCATION_CARRIED 254
 #define LOCATION_NONCREATED 252
 #define LOCATION_HERE 255
+#define CARRIED 254
+#define HERE 255
+#define NONCREATED 252
+#define WORN 253
 
 // Disponibles para la aventura: 60 to 250.
 

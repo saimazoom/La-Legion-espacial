@@ -1,3 +1,14 @@
+/*
+ ZMiniIF para ordenadores de 8bit
+ Basado en PAWS y NGPAWS-Beta 9 (Uto/Carlos Sanchez) http://www.ngpaws.com
+ (c) 2016. Written by KMBR.
+ v1.0
+
+ License
+-------
+ Released under the the GPL v2 or later license.
+*/
+
 #define fherramientas 60 		// Se incrementa al buscar herrramientas
 
 #define l_AccesoALaTrampa 	1
@@ -8,7 +19,6 @@
 
 // Definiciones de vocabulario
 // Nombres de 1 a 20 reservados
-
 #define nNorte  1
 #define nSur 	2
 #define nEste	3
@@ -34,6 +44,12 @@
 #define vSalir 13
 
 // Verbos
+// Some notes about vocabulary:
+//    Words with same number but different type are not considered synomyms.
+//    Nouns under number 20 are considered "convertible", what means they can be converted to verbs if a verb is missing (so "north" does the same than "go north").
+//    Verbs undernumber 14 are considered "direction verbs", so if you have not added a specific response for a player order like "north" then ngPAWS will try to go in that direction. That doesn't happen with verbs 14 and above.
+//    You can leave gaps when adding vocabulary, that is, is not required that vocabulary numbers are consecutive.
+
 #define vCoger 20
 #define vDejar 21
 #define vSacar 22

@@ -3,7 +3,16 @@
 =======================
 17 Noviembre 2019 
 
+> Sigo limpiando un poco el código, lo bueno de usar ahora GIT es que más adelante puedo tomar un comit cualquiera y usarlo como template para futuros juegos. 
+> El principal problema que tengo en sistema de 8bit son los límites en el número de mensajes, pero en este caso puedo definir varias tablas de mensajes e includo conmutar entre ellas en varios bancos de memoria. 
+> Parece que el plugin de bookmarks fu>nciona como debe y ya se pueden añadir líneas sin que pierda la refencia.
 
+> Normalmente el flujo de trabajo comienza con la descripción de las localidades, el vocabulario, las conexiones y las descripciones. De este modo la aventura se pone en marcha muy rápido, los gráficos vienen el final. Lo malo de esta aproximación es que siento que los gráficos se convierten en redundantes y no me pongo nunca a trabajar en ellos. Aquí es donde me vendría bien un poco de ayuda externa :-)
+
+> Los juegos de ZHL se basan en la interacción con PNJs, es básico crear librerías de scripts para las conversaciones y las funciones básicas de movimiento y conversación con los PNJ. 
+
+> Encapsular todo lo posible las funciones gráficas, de este modo luego puedo generar versiones para otros sistemas. 
+> El estilo gráfico para ZHL es el de línea clara en contraste con el utilizado para La Maldición donde empleaba imágenes digitalizadas y luego retocadas para verse en color. 
 
 16 Noviembre 2019 
 

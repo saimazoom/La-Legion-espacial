@@ -8,6 +8,18 @@
 -------
  Released under the the GPL v2 or later license.
 
+-----------------------------------------------------------------------------------
+
+El mapa de memoria en Spectrum consiste en:
+
+40KB de RAM disponibles 
+0x - 0x
+Los 16KB más altos se pueden paginar. Aquí es donde conmutamos gráficos y tablas de respuestas. Un juego pensado para 128Kb debe estar fragmentado de forma que cada bloque de código no supere 16Kb. Por cada bloque se genera un .bin que luego es paginado y cargado al comienzo. 
+
+0x - 0x
+Los 24Kb más bajos son dedicados al parser y a las definiciones del juego. El parser ocupa 16Kb, eso deja 8Kb disponibles para definiciones y tablas de procesos y respuestas. 
+
+En un juego de 48Kb no nos preocuparemos de la paginación y todo el código puede distribuirse libremente por la memoria. 
 
 */
 
