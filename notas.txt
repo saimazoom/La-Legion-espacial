@@ -3,10 +3,6 @@
 
 
 
-
-
-
-
 07.11.2019
 
  Localidades
@@ -51,7 +47,13 @@ En la parte inferior seleccionamos entre inventario, mapa y lista de quest activ
 
 Orden de las cargas:
 1. ZHL: La recogida
+
+
+
 2. Crash and Burn 
+
 3. El tenedor del diablo
+
 4. La Legión espacial
+
 5. Huída

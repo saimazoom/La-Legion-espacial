@@ -9,14 +9,14 @@ del *.err
 @echo ===================================
 
 @echo Extrae Texto Parser
-F:\devel\python27\python.exe textool.py -x t -i juego.c -o juego.txt -c // -l 2
+D:\devel\Python27\python-2.7.13.amd64\python.exe textool.py -x t -i juego.c -o juego.txt -c // -l 2
 REM textool.py -x t -i parser.c -o parser.txt -c // -l 2
 @echo Comprime Texto y genera el diccionario
-F:\devel\python27\python.exe tc.py -i juego.txt -o juegoc.txt -l 0 
+D:\devel\Python27\python-2.7.13.amd64\python.exe tc.py -i juego.txt -o juegoc.txt -l 0 
 
 @echo Inserta Texto Parser
 copy juego.c juego_compressed.c
-F:\devel\python27\python.exe textool.py -r t -i juegoc.txt -o juego_compressed.c -l 2 -c // 
+D:\devel\Python27\python-2.7.13.amd64\python.exe textool.py -r t -i juegoc.txt -o juego_compressed.c -l 2 -c // 
 
 @echo ===================================
 @echo Compila Parser (Pass 1)

@@ -1,6 +1,35 @@
 
- La legión Espacial
+ La Legión Espacial
 =======================
+
+9 Diciembre 2019 
+> Tabla de mensajes completada 
+> Es el momento de compilar y ver si podemos movernos por el mapa...
++ Instalar python 2.7 
++ Instalar ZEsarUX, ZEsarUX_win-beta-8.1
+
+Primera compilación ocupa 31Kb, están todos los textos pero falta el código de la aventura y alguna función extra para los temas del ordenador. -> 10Kb free. (+2Kb de las funciones del debugger)
+
+Para referencia futura la Release 3 en DAAD en Spectrum: 	> Versión de Spectrum funcionando sin problemas: 9855bytes free, DDBB 19800bytes
+
+EL primer mensaje ha sido "No puedo ver nada está muy oscuro", pero no se ha colgado X-)
+
+8 Diciembre 2019 
+> Ya he aclarado toda la historia y lo que contiene la caja. De momento todo trazado en el documento de diseño :-) escrito en Scrivener.
+> Como primera piedra de toque con el parser voy a portar de nuevo ZHL, de este modo al ser una aventura corta me hago una idea de lo 
+que puedo llegar a meter en 48Kb y en cualquier caso puedo tirar de paginación en modelos de 128Kb o bien de carga por bloques en C64. 
+
++ Añadida la tabla de temas de conversación con el ordenador basada en temas como en I7, de este modo ahorramos un montón de mensajes y de vocabulario que es exclusivo para la conversaciñon con el ordenador de abordo. 
++ Añadida la tabla de localidades
++ Añadida tabla de conexiones
++ Añadida tabla de objetos 
+> Empiezo a portar el código del juego, sería buena idea en este punto intentar arrancar el juego y ver si puedo moverme por las localidades. 
+
+26 Noviembre 2019 
+
+> Nada que no me rindo, quiero sacar otro juego en mi querido Spectrum. Y quizá dar el salto a C64/CPC. La parte tecnológica creo que no va a caber en la memoria del 48Kb. Pero bueno, tirando de paginación seguro que podemos subir a los 128K. Para C64 puedo sacar una versión en disco/cartucho que permita cargar las páginas de memoria. 
+
+
 17 Noviembre 2019 
 
 > Sigo limpiando un poco el código, lo bueno de usar ahora GIT es que más adelante puedo tomar un comit cualquiera y usarlo como template para futuros juegos. 
@@ -13,6 +42,11 @@
 
 > Encapsular todo lo posible las funciones gráficas, de este modo luego puedo generar versiones para otros sistemas. 
 > El estilo gráfico para ZHL es el de línea clara en contraste con el utilizado para La Maldición donde empleaba imágenes digitalizadas y luego retocadas para verse en color. 
+
+Update: Abandono el proyecto debido a que casi toda la historia ya existe en "The Expanse" la serie de novelas/TV, pero todo ... todo incluído los portales, la antigua civilización, los viajes a baja velocidad por el sistema solar. 
+
+Supongo que todo era demasiado típico o predecible. 
+
 
 16 Noviembre 2019 
 

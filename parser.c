@@ -20,6 +20,7 @@ Los 16KB más altos se pueden paginar. Aquí es donde conmutamos gráficos y tablas
 Los 24Kb más bajos son dedicados al parser y a las definiciones del juego. El parser ocupa 16Kb, eso deja 8Kb disponibles para definiciones y tablas de procesos y respuestas. 
 
 En un juego de 48Kb no nos preocuparemos de la paginación y todo el código puede distribuirse libremente por la memoria. 
+Tampoco es un problema en Spectrum paginar para pintar un gráfico y luego paginar de nuevo para ejecutar código. 
 
 */
 
