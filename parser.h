@@ -3,6 +3,9 @@
  Basado en PAWS y NGPAWS-Beta 9 (Uto/Carlos Sanchez) http://www.ngpaws.com
  (c) 2016. Written by KMBR.
  v1.0
+
+FASTCALL: https://www.z88dk.org/forum/viewtopic.php?id=8848
+
 */
 
 // Funciones declaradas en juego.c ...
@@ -53,9 +56,9 @@ extern BYTE ACCobjat (BYTE locid);
 extern void ACCoset(BYTE objid, unsigned long int attrno);
 extern void ACCoclear(BYTE objid, unsigned long int attrno);
 extern void ACConeg(BYTE objid, unsigned long int attrno);
-extern void  ACClistobj();
+extern void ACClistobj();
 extern void ACCplace(BYTE objid, BYTE locno);
-extern void  ACCend();
+extern void ACCend();
 extern void __FASTCALL__ ACCsysmess(BYTE sysno);
 extern void  ACCnewline();
 extern void ACCcls();
@@ -67,6 +70,7 @@ extern void  ACCautot();
 extern void ACCclearexit(BYTE locid, BYTE value);
 extern BYTE ACCgetexit(BYTE locid, BYTE value);
 extern BYTE ACCsetexit(BYTE loc_orig, BYTE value, BYTE loc_dest);
+extern void __FASTCALL__ ACCmessage(BYTE mesno);
 
 // Librería de funciones del parser...
 void writeValue (unsigned int value);

@@ -800,7 +800,7 @@ tema_t ordenador_t[]=
 	{"eva", "-Son las siglas de actividad extra-vehicular. Es cuando sales en misión fuera de la nave. "},
 	{"traje/superviviencia/proteccion"	"-Lo encontrarás en la esclusa listo para su uso. Recuerda no salir de la nave sin llevarlo puesto."},
 	{"mierda/tacos/culo/joder/hija/puta/puton/hijo/comemierda", "-Esa acepción no forma parte de mi base de datos. -responde el ordenador con elegancia. "},
-	{"siglas", "-Ya sabes, para acortar frases demasiado largas. "},
+	{"siglas", "-Ya sabes, para acortar palabras demasiado largas. "},
 	{"calla", "-Sin problemas, ya no tarareo mas. -responde un poco dolido."},
 	{"bodega", "-Donde almacenamos los paquetes para su distribución."},
 	{"temperatura/frigo/congelador/frigorifico/enfriar", "-Tenemos un frigorífico dedicado a este tipo de paquetes. -responde después de un breve silencio"},
@@ -822,17 +822,45 @@ char respuestas()
 
 // Añadir funciones de inyección de comandos en modo DEBUG
 
+//; Sólo podemos hablar con el ordenador en la nave
+//; ORDENADOR, palabra_clave
+
 // ordenador encender consola -> encender ordenador consola -> encender consola
 if (fverbo==n_ordenador) {
 	// Llamar al procesado de la tabla por tema...
 	}
 
+//-------------------------------------------------------------
 // Cosas que se pueden hacer con los objetos...
-if (fverb== vExaminar && fnoun1== n_contenedor && fadj1 == aAzul && CNDpresent (o_Caja)) 
+
+if (fverb== vExaminar) 
 	{
-		ACCmessage (46);
-		return TRUE;
+		if (fnoun1== n_contenedor && fadj1 == aAzul && CNDpresent (o_Caja)) 
+		{
+			ACCmessage (46);
+			return TRUE;
+		}
+		if (fnoun1==n_indicador && CNDpresent(o_Caja)) 
+		{
+			ACCmessage (49);
+			DONE;
+		}
 	}
+
+if (fverb==vPoner && fnoun1==n_traje && CNDpresent(o_Traje) && CNDnotcarr(o_Traje) && CNDnotworn(o_Traje))
+	{
+	ACCmessage (191);
+	ACCget (o_Traje);
+	}
+/*
+ponerse traje PRESENT oTraje 
+                NOTCARR oTraje 
+                NOTWORN oTraje
+                MESSAGE 191
+                AUTOG
+*/
+
+
 // ---------------------------------------------------------------
 // Descripciones comúnes para la nave
 if (fverb==vAbrir && fnoun1== n_contenedor) 
@@ -841,12 +869,35 @@ if (fverb==vAbrir && fnoun1== n_contenedor)
 		return TRUE;
 	}
 
-if (fverb==vExaminar && fnoun1==n_nave)	
+// Un poco de atrezzo...
+if (fverb==vExaminar)  {
+	if (fnoun1==n_nave)	
 	{
 		if (CNDatlt (l_exterior)) { ACCmessage (14); return TRUE; }
 		if (CNDatlt (l_almacen)) { ACCmessage(36); return TRUE;}
 		// Si estamos dentro del almacén no vemos la nave...
 	}
+
+	if (fnoun1==n_pared || fnoun1==n_suelo) 
+	{
+		if (CNDatlt(l_exterior)) { ACCmessage (33); DONE; }
+			else { ACCmessage (179); DONE; }
+	}
+
+	if (fnoun1==n_techo || fnoun1==n_cielo) {
+		if (CNDatlt(l_exterior)) { ACCmessage (33); DONE;}
+			else { ACCmessage(178); DONE; }
+	}
+}
+
+if (fverb==vEscuchar) {
+	if (CNDatlt (l_exterior)) { ACCmessage (57); DONE; }
+}
+
+if (fverb==vCantar) {
+	if (CNDatlt(l_exterior)) { ACCmessage (175); DONE;}
+		else { ACCmessage (176); DONE; }
+}
 
 
 
@@ -856,7 +907,9 @@ if (fverb==vExaminar && fnoun1==n_nave)
 // Puente de mando
 if (flocation==l_puente)
 	{
-
+		if (fverb==vTeclear) {
+			ACCmessage (181); DONE;
+		}
 
 	}
 // Nodo central 
@@ -918,6 +971,16 @@ char proceso1() // Antes de la descripción de la localidad...
  //setRAMPage(1);
  //proceso1_pagina1();
  //setRAMPage(0);
+
+// Cálculo de luz
+// En ZHL todas las localidades tienen luz
+flags[flight]=1; // No está oscuro
+
+// Incrementa el contador de turnos
+if (flags[fturns_low]==255) {
+	flags[fturns_high]++;
+	flags[fturns_low]=0;	
+	} else flags[fturns_low]++;
 }
 
 char proceso1_post() // Después de la descripción
@@ -927,7 +990,7 @@ char proceso1_post() // Después de la descripción
  //proceso1_post_pagina0();
 }
 
-char proceso2() // Después de cada turno, haya tenido o no la entrada en la tabla de respuestas
+char proceso2() // Después de cada turno, haya tenido o no éxito la entrada en la tabla de respuestas
 {
  //setRAMPage(0);
  //proceso2_pagina0();

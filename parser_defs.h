@@ -8,6 +8,7 @@
 // CONSTANTS
 
 // AUX
+// Estilos de fuentes
 #define NORMAL 0
 #define TITLE 1
 #define PLAYER 2
@@ -16,6 +17,8 @@
 #define FALSE 0
 #define BYTE unsigned char
 #define WORD unsigned int
+#define DONE return TRUE
+#define NOTDONE return FALSE 
 
 // Spectrum
 #define INK_BLACK      0x00
@@ -202,7 +205,7 @@ typedef struct
 #define NONCREATED 252
 #define WORN 253
 
-// Disponibles para la aventura: 60 to 250.
+// Flagslidades disponibles para la aventura: 60 to 250.
 
 #define STATE_MENU 0
 #define STATE_LOOP 1
