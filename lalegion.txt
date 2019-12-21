@@ -2,7 +2,8 @@
  La Legión Espacial
 =======================
 TODO: 
-    - Recordar como se cambian las fuentes y elegir un buen juego para ZHL
+    - Recordar como se cambian las fuentes y elegir un buen tipo para ZHL
+    - Menú principal
     - Ya podemos recorrer la nave
     - No podemos salir al exterior sin el traje
     - Todos los examinar de la nave 
@@ -16,12 +17,19 @@ TODO:
 	- En el listado de objetos de la localidad no se muestran aquellos como Concealed	
 	- Colores en la fuente cuando habla el ordenador (toda la frase)
     
+    Versión 128K
+    - Música en el menú principal
+    - Pantallas por cada localidad 
+
+
+21 Diciembre 2019 
+> ¡¡ Comienzan las vacaciones!! :-D
+> Sigo portando código desde el original de DAAD 
++ Todas las descripciones
+
 15 Diciembre 2019
 > Había olvidado poner a 1 el flag de luz, todo estaba oscuro...
-> Más trabajo en la definición del transfondo, creo que está quedando bastante interesante. Da mucha alegría volver a una historia y ver como crece de nuevo. 
-
-
-
+> Más trabajo en la definición del transfondo, creo que está quedando bastante interesante. Que alegría volver a una historia y ver como crece de nuevo. 
 
 9 Diciembre 2019 
 > Tabla de mensajes completada 

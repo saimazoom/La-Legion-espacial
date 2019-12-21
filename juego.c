@@ -706,18 +706,19 @@ token_t verbos_t [] =
 obj_t objetos_t[]=
 {
     // ID, LOC, NOMBRE, NOMBREID, ADJID, PESO, ATRIBUTOS
-    {o_Caja, l_zonaA2,"un paquete azul",     n_paquete, aAzul,   1,0x0000 },  
-    {o_Traje, l_esclusa,"un traje presurizado",     n_traje, EMPTY_WORD,   1,0x0000 | aWear },  
-	{o_Esclusa, l_esclusa,"la compuerta de la esclusa",     n_esclusa, EMPTY_WORD,   1,0x0000 | aStatic },  
-	{o_Puerta, l_esclusa,"una puerta de metal",     n_puerta, EMPTY_WORD,   1,0x0000 | aStatic},  
-	{o_Puerta, l_esclusa,"un botón rojo",     n_boton, aRojo,   1,0x0000 | aStatic | aConcealed},  
-	{o_Puerta, l_esclusa,"un botón verde",     n_boton, aVerde,   1,0x0000 | aStatic | aConcealed},  
-	{o_Puerta, NONCREATED,"un cañón de vigilancia",     n_canon, EMPTY_WORD,   1,0x0000 | aStatic },  
-	{o_Puerta, NONCREATED,"un teclado",     n_teclado, EMPTY_WORD,   1,0x0000 | aStatic},  
+    {o_Caja, lZonaA2,"un paquete azul",     nPaquete, aAzul,   1,0x0000 },  
+    {oTraje, lEsclusa,"un traje presurizado",     nTraje, EMPTY_WORD,   1,0x0000 | aWear },  
+	{oEsclusa, lEsclusa,"la compuerta de la esclusa",     nEsclusa, EMPTY_WORD,   1,0x0000 | aStatic },  
+	{oPuerta, lEsclusa,"una puerta de metal",     nPuerta, EMPTY_WORD,   1,0x0000 | aStatic},  
+	{oPuerta, lEsclusa,"un botón rojo",     nBoton, aRojo,   1,0x0000 | aStatic | aConcealed},  
+	{oPuerta, l_esclusa,"un botón verde",     nBoton, aVerde,   1,0x0000 | aStatic | aConcealed},  
+	{oPuerta, NONCREATED,"un cañón de vigilancia",     nCanon, EMPTY_WORD,   1,0x0000 | aStatic },  
+	{oPuerta, NONCREATED,"un teclado",     nTeclado, EMPTY_WORD,   1,0x0000 | aStatic},  
     {0,0,"",                EMPTY_WORD,EMPTY_WORD,            0,0x0000}
 }; // Tabla de objetos de la aventura
 
 
+// Una tabla para hablar con el ordenador, se puede usar la misma técnica para definir listas de atrezzo y ahorrarse cientos de 'examinar objeto'.
 typedef struct {
 	BYTE *topic;
 	BYTE *respuesta;
@@ -833,122 +834,340 @@ if (fverbo==n_ordenador) {
 //-------------------------------------------------------------
 // Cosas que se pueden hacer con los objetos...
 
-if (fverb== vExaminar) 
+if (fverbo== vExaminar) 
 	{
-		if (fnoun1== n_contenedor && fadj1 == aAzul && CNDpresent (o_Caja)) 
+		if (fnombre1== n_contenedor && fadjetivo1 == aAzul && CNDpresent (oCaja)) 
 		{
 			ACCmessage (46);
-			return TRUE;
+			DONE;
 		}
-		if (fnoun1==n_indicador && CNDpresent(o_Caja)) 
+		if (fnombre1==nIndicador && CNDpresent(oCaja)) 
 		{
 			ACCmessage (49);
 			DONE;
 		}
 	}
 
-if (fverb==vPoner && fnoun1==n_traje && CNDpresent(o_Traje) && CNDnotcarr(o_Traje) && CNDnotworn(o_Traje))
+if (fverbo==vPoner && fnombre1==nTraje && CNDpresent(oTraje) && CNDnotcarr(oTraje) && CNDnotworn(oTraje))
 	{
 	ACCmessage (191);
-	ACCget (o_Traje);
+	ACCget (oTraje);
 	}
-/*
-ponerse traje PRESENT oTraje 
-                NOTCARR oTraje 
-                NOTWORN oTraje
-                MESSAGE 191
-                AUTOG
-*/
 
-
-// ---------------------------------------------------------------
-// Descripciones comúnes para la nave
-if (fverb==vAbrir && fnoun1== n_contenedor) 
+if (fverbo==vAbrir && fnombre1== nContenedor) 
 	{
 		ACCmessage(48);
 		return TRUE;
 	}
 
-// Un poco de atrezzo...
-if (fverb==vExaminar)  {
-	if (fnoun1==n_nave)	
+// ---------------------------------------------------------------
+// Descripciones comúnes para la nave
+if (fverbo==vExaminar)  {
+	if (fnombre1==nNave)	
 	{
-		if (CNDatlt (l_exterior)) { ACCmessage (14); return TRUE; }
-		if (CNDatlt (l_almacen)) { ACCmessage(36); return TRUE;}
+		if (CNDatlt (lExterior)) { ACCmessage (14); return TRUE; }
+		if (CNDatlt (lAlmacen)) { ACCmessage(36); return TRUE;}
 		// Si estamos dentro del almacén no vemos la nave...
 	}
 
-	if (fnoun1==n_pared || fnoun1==n_suelo) 
+	if (fnombre1==nPared || fnombre1==nSuelo) 
 	{
-		if (CNDatlt(l_exterior)) { ACCmessage (33); DONE; }
+		if (CNDatlt(lExterior)) { ACCmessage (33); DONE; }
 			else { ACCmessage (179); DONE; }
 	}
 
-	if (fnoun1==n_techo || fnoun1==n_cielo) {
-		if (CNDatlt(l_exterior)) { ACCmessage (33); DONE;}
+	if (fnombre1==nTecho || fnombre1==nCielo) {
+		if (CNDatlt(lExterior)) { ACCmessage (33); DONE;}
 			else { ACCmessage(178); DONE; }
 	}
+
 }
 
-if (fverb==vEscuchar) {
-	if (CNDatlt (l_exterior)) { ACCmessage (57); DONE; }
+if (fverbo==vEscuchar) {
+	if (CNDatlt (lExterior)) { ACCmessage (57); DONE; }
 }
 
-if (fverb==vCantar) {
-	if (CNDatlt(l_exterior)) { ACCmessage (175); DONE;}
+if (fverbo==vCantar) {
+	if (CNDatlt(lExterior)) { ACCmessage (175); DONE;}
 		else { ACCmessage (176); DONE; }
 }
 
-
-
 // ---------------------------------------------------------------
 // Cosas que hacer en las localidades...
-
+// --------------------------------------------------
 // Puente de mando
-if (flocation==l_puente)
+// --------------------------------------------------
+
+if (flocation==lPuente)
 	{
-		if (fverb==vTeclear) {
+		if (fverbo==vTeclear) 
+		{
 			ACCmessage (181); DONE;
 		}
+		// Atrezzo 
+		if (fverbo==vExaminar) 
+		{
+			if (fnombre1==nSistema && fadjetivo1==aTermico ) 
+			{
+				ACCmessage(15); DONE;
+			}
 
+			if (fnombre1==nParabrisas)
+			{
+				ACCmessage (12); DONE;
+			}
+
+			if (fnombre1==nCristales)
+			{
+				ACCmessage (13); DONE;
+			}
+			if (fnombre1==nEscaleras) 
+			{
+				ACCmessage (4); DONE;
+			}
+			if (fnombre1==nPantalla || fnombre1==nInterior || fnombre1==Consola) 
+			{
+				ACCmessage (8); DONE;
+			}
+			if (fnombre1==nLuz || fnombre1=nTormenta) 
+			{
+				ACCmessage (11); DONE;
+			}
+		}
+
+		if (fverbo==vEncender && fnombre1==nConsola) 
+		{
+			ACCmessage (9); DONE;
+		}
+
+		if (fverbo==vIr && fnombre1==nNodo) 
+		{
+			ACCgoto(l_puente);	DONE;	
+		}
 	}
+// --------------------------------------------------
 // Nodo central 
-if (flocation == l_nodo) 	
+// --------------------------------------------------
+
+if (flocation == lNodo) 	
 	{
+		if (fverbo==vExaminar) 
+		{
+			if (fnombre1==nEscaleras) 
+			{
+				ACCmessage(5);
+				DONE;
+			}
+		}
+		if (fverbo==vIr) 
+		{			
+			if (fnombre1==nPuente) 
+				{
+				ACCgoto (lPuente);
+				DONE;
+				}
+			if (fnombre1==nEsclusa)
+			{
+				ACCgoto (lEsclusa);
+				DONE;				
+			}
+			if (fnombre1==nBodega)
+			{
+				ACCgoto(lBodega);
+				DONE;
+			}
+		}
+
+	// Escena de casi-final...
+	if (CNDcarried(oCaja) && flags[fCasifin]==0)
+	{
+		ACCmessage (170);
+		flags[fCasifin]=1;
+		ACCanykey();
+		DONE;
+	}
 
 	}
+
+// --------------------------------------------------
 // Esclusa 
+// --------------------------------------------------
 if (flocation == l_esclusa) 
 	{
 
 	}
+
+// --------------------------------------------------
 // Bodega 
+// --------------------------------------------------
+
 if (flocation==l_bodega)
 	{
+	// Fin del juego
+	if (CNDcarried(oCaja))
+		{
+			ACCmessage (171);
+			ACCanykey();
+			ACCend();
+		}
+	if (fverbo==vExaminar)
+		{
+		if (fnombre1==nPaquetes)
+			{
+				ACCmessage (173);
+				DONE;
+			}
+		}
 
+	if ( (fverbo==vCoger || fverbo==vEmpujar) && fnombre1==nPaquetes)
+		{
+			ACCmessage (174);
+			DONE;
+		}
 	}
+// --------------------------------------------------
 // Exterior 
-if (flocation==l_exterior)
+// --------------------------------------------------
+if (fverbo==vExaminar)
+{
+	if (CNDatlt (lZonaA1) && CNDatgt(lBodega)))
 	{
-
+		if (fnombre1==nCielo) 
+		{
+			ACCmessage (7);
+			DONE;
+		}
+		if (fnombre1==nJupiter)
+		{
+			ACCmessage (178);
+			DONE;
+		}
+		if (fnombre1==nEuropa) 
+		{
+			ACCmessage (179);
+			DONE;
+		}
+		if (fnombre1==nCristales) 
+		{
+			ACCmessage (11);
+			DONE;
+		}	
 	}
+}
+
+
+if (flocation==lExterior)
+	{
+		if (fverbo==vIr)
+		{
+			if (fnombre1==nNave) 
+			{
+				ACCgoto (lEsclusa);
+			}	
+			if (fnombre1==nAlmacen || fnombre1==nMole || fnombre1==nEdificio)
+			{
+				ACCgoto (lAlmacen);
+			}
+		}
+
+		if (fverbo==vExaminar)
+		{
+			if (fnombre1==nNave) 
+			{
+				ACCmessage (36);
+				DONE;	
+			}
+			if (fnombre1==nMole) 
+			{
+				ACCmessage (38);
+				DONE;
+			}
+		}
+	}
+
+// --------------------------------------------------
 // Entrada al almacén
-if (flocation==l_entrada)
-	{
-
+// --------------------------------------------------
+if (flocation==lEntrada)
+	{		
+		if (fverbo==vIr) 
+		{
+			if (fnombre1==nNave) 
+			{
+				ACCgoto (lExterior);
+				DONE;
+			}	
+		}
+	
+		if (fverbo==vExaminar)
+		{
+			if (fnombre1==nEdificio) 
+			{
+				ACCmessage (39);
+				ACCplace (oTeclado,lEntrada);
+				DONE;
+			}
+		}
+	
 	}
+// --------------------------------------------------
 // Zona A1
-if (flocation==l_zonaA1)
+// --------------------------------------------------
+if (flocation==lZonaA1)
 	{
-
+		if (fverbo1==vExaminar) 
+		{
+			if (fnombre1==nEstanterias) 
+			{
+				ACCmessage (43); DONE;
+			}			
+			if (fnombre1==nTecho || fnombre1==nSuelo || fnombre1==nParedes || fnombre1==nPasillo) {
+				ACCmessage (44); DONE;
+			}
+			if (fnombre1==nContenedores) {
+				ACCmessage (190);
+				DONE;
+			}
+		}
 	}
+
+// --------------------------------------------------
 // Zona A2
-if (flocation==l_zonaA2)
+// --------------------------------------------------
+if (flocation==lZonaA2)
 	{
+		if (fverbo1==vExaminar)
+		{
+			if (fnombre1==nBoveda) 
+			{
+				ACCmessage (45);
+				DONE;
+			}	
+			if (fnombre1==nPasillo) 
+			{
+				ACCmessage (44);
+				DONE;
+			}
+			if (fnombre1==nEstanterias)
+			{
+				ACCmessage (44);
+				DONE;
+			}
+			if (fnombre1==nContenedores)
+			{
+				ACCmessage (190);
+				DONE;
+			}
+		}
 
 	}
 
- return FALSE;
+ NOTDONE;
+
+// ================= LIBRERíA BASE FINAL=======================================
+
+
+
 }
 
 // ----------------------------------------------------------

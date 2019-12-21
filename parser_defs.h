@@ -17,8 +17,8 @@
 #define FALSE 0
 #define BYTE unsigned char
 #define WORD unsigned int
-#define DONE return TRUE
-#define NOTDONE return FALSE 
+#define DONE ACCdone(); return TRUE
+#define NOTDONE ACCbreak(); return FALSE 
 
 // Spectrum
 #define INK_BLACK      0x00
@@ -189,10 +189,10 @@ typedef struct
 #define fverbo flags[fverb]
 #define fnombre1 flags[fnoun1]
 #define fnombre2 flags[fnoun2]
-#define fadj1 flags[fadject1]
-#define fadj2 flags[fadject2]
-#define fadv flags[fadverb]
-#define fprepo flags[fprep]
+#define fadjetivo1 flags[fadject1]
+#define fadjetivo2 flags[fadject2]
+#define fadverbio flags[fadverb]
+#define fpreposicion flags[fprep]
 #define flocalidad flags[flocation]
 
 #define LOCATION_MAX  251

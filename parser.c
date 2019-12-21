@@ -1066,10 +1066,17 @@ BYTE ACCsetexit(BYTE loc_orig, BYTE value, BYTE loc_dest)
 	if (value < NUM_CONNECTION_VERBS) setConnection(get_loc_pos(loc_orig), value, get_loc_pos(loc_dest));
 }
 
+// Prints message mesno.
+void ACCmes (BYTE mesno)
+{
+    writeMessage(mesno);
+}
+
+// 
 void  ACCmessage(BYTE mesno)
 {
 	writeMessage(mesno);
-	// ACCnewline();
+	ACCnewline();
 }
 
 BYTE trytoGet(BYTE objno)  // auxiliaty function for ACCget
@@ -2153,7 +2160,7 @@ void newLine ()
     //fzx_putc('X');
 
     //writeValue(fzx.y);
-
+    // Spectrum: 256 x 192 
     fzx.x = TextWindow.x*8;
     fzx.y+=9; // Coordenada estimada para la siguiente línea
     if ( (fzx.y)>179) // Si hemos llegado al final de la ventana de texto...
