@@ -2,7 +2,14 @@
  MiniIF para ordenadores de 8bit
  Basado en PAWS y NGPAWS-Beta 9 (Uto/Carlos Sanchez) http://www.ngpaws.com
  (c) 2016. Written by KMBR.
- v1.0
+ v0.1
+
+  License
+-----------------------------------------------------------------------------------
+ Released under the the GPL v2 or later license. The parser license does not extend 
+ to the applications including it. The application is free to choose the license model.
+-----------------------------------------------------------------------------------
+
 */
 
 // CONSTANTS
@@ -71,7 +78,7 @@ typedef struct
 typedef struct
 	{
 	unsigned char id;
-	unsigned char con[10];
+	unsigned char con[12];
 	} cnx_t;
 
 // Tabla de Objetos
@@ -110,12 +117,15 @@ typedef struct
 #define MAX_CHANNELS 2 // Number of SFX channels
 #define STR_NEWLINE "^"
 
-// Attributes
-// Indica el número del bit...
+// Object attributes
+// Indicates the bit number in HEX...
 #define aLight  	0x00000001
+// aWear: The object can be weared.
 #define aWear   	0x00000002
+// aContainer: The object can contain things. Additionally it can be also a supporter.
 #define aContainer  0x00000004
 #define aNPC        0x00000008
+// Concealed is a hidden object that can be manipulated
 #define aConcealed  0x00000010
 #define aEdible     0x00000020
 #define aDrinkable  0x00000040
@@ -126,13 +136,17 @@ typedef struct
 #define aMale       0x00000800
 #define aNeuter     0x00001000
 #define aOpenable   0x00002000
+// aOpen = 1 -> OPEN, aOpen =0 -> CLOSE
 #define aOpen       0x00004000
 #define aPluralName 0x00008000
 #define aTransparent 0x00010000
+// Scenery: An object which is concealed and not manipulated just examined (Concealed+Scenery).
 #define aScenery    0x00020000
 #define aSupporter  0x00040000
 #define aSwitchable 0x00080000
+// aOn =1 -> ON, aON=0 -> OFF
 #define aOn         0x00100000
+// Static: An object which cannot be manipulated
 #define aStatic     0x00200000
 #define aExamined   0x00400000
 #define aTaken      0x00800000
@@ -141,7 +155,10 @@ typedef struct
 #define aTalked     0x04000000
 #define aWore       0x08000000
 #define aEaten      0x10000000
+// The parser does not add the article
 #define aPropio     0x20000000
+// The parser adds the article
+// In spanish: el,la, los, las 
 #define aDeterminado 0x40000000
 
 // Definición de FLAGS del PARSER...
@@ -195,17 +212,20 @@ typedef struct
 #define fpreposicion flags[fprep]
 #define flocalidad flags[flocation]
 
+// Some dupes here due to historic reasons i.e. PAWS, DAAD, NGPAWS, etc
 #define LOCATION_MAX  251
 #define LOCATION_WORN 253
 #define LOCATION_CARRIED 254
+#define LOCATION_NOTCREATED 252
 #define LOCATION_NONCREATED 252
 #define LOCATION_HERE 255
 #define CARRIED 254
 #define HERE 255
-#define NONCREATED 252
+#define NOT_CREATED 252
 #define WORN 253
+#define NONCREATED 252 
 
-// Flagslidades disponibles para la aventura: 60 to 250.
+// Localidades disponibles para la aventura: 60 to 250.
 
 #define STATE_MENU 0
 #define STATE_LOOP 1
@@ -287,3 +307,5 @@ typedef struct
 #define SYSMESS_OVER_YOUCANSEE 67
 #define SYSMESS_YOUCANTTAKEOBJECTFROM 69
 #define SYSMESS_YOUPUTOBJECTON 70
+#define SYSMESS_YOUCANNOTTAKE 71
+#define SYSMESS_CANNOTMOVE 72

@@ -1,31 +1,95 @@
 
  La Legión Espacial
 =======================
-TODO: 
-    - Recordar como se cambian las fuentes y elegir un buen tipo para ZHL
-    - Menú principal
-    - Ya podemos recorrer la nave
-    - No podemos salir al exterior sin el traje
-    - Todos los examinar de la nave 
-    - Teclear el password en el teclado
-    - Ponerse el traje 
-    - Hablar con el ordenador
-    - La compuerta se abre
-    - Fin del juego 
-	- Mensaje de: No llevo nada en lugar del que se muestra por defecto.
-	- Listar el inventario en fila añadiendo (puesto), (encendido),etc	
-	- En el listado de objetos de la localidad no se muestran aquellos como Concealed	
-	- Colores en la fuente cuando habla el ordenador (toda la frase)
-    
-    Versión 128K
-    - Música en el menú principal
-    - Pantallas por cada localidad 
 
+TODO: 
+  - Hablar con el ordenador
+  - En el listado de objetos de la localidad no se muestran aquellos con atributos Concealed	o Scenery
+  - Recordar como se cambian las fuentes y elegir un buen tipo para ZHL
+  - Colores en la fuente cuando habla el ordenador (toda la frase)
+  - SAVE/LOAD 
+  - RAMSAVE/RAMLOAD 
+  - UNDO para el último movimiento 
+  - FIN permite terminar la partida y regresar al menú principal 
+  - Autocompletar basado en el texto de la localidad y el inventario 
+
+  Versión 128K
+  - Pantallas por cada localidad 
+  - Música en el menú principal
+   
+Optimizar el código:
+ - Implementar atrezzo:
+    Object atrezzo_blaus_porche blaus_porche
+    class decorado
+    with describir 
+        'ruedas' "Llevan bastantes kilómetros encima." G_FEMENINO+G_PLURAL
+        'rueda' "" G_FEMENINO
+        'parachoques' "" G_MASCULINO + G_PLURAL
+        'capota' "" G_FEMENINO
+        'techo' "" G_MASCULINO
+        'cerradura' "" G_FEMENINO
+        'ventana' "Mosaico multicolor en la primera planta y sencillas en el desván." G_FEMENINO
+        'ventanas' "Mosaico multicolor en la primera planta y sencillas en el desván." G_FEMENINO+G_PLURAL
+        'ventanal' "Mosaico multicolor en la primera planta y sencillas en el desván." G_MASCULINO
+        'ventanales' "Mosaico multicolor en la primera planta y sencillas en el desván." G_MASCULINO+G_PLURAL;
+
+23 Diciembre 2019
+ Casi Navidad y los niños están super nerviosos por los regalos :-D 
+  + Examinar/Abrir/Empujar paquetes en la bodega
+  + Los objetos no aparecen listados en la localidad
+  + El traje no está en la esclusa 
+  + Se pueden coger/dejar objetos con el atributo aStatic/aScenery. Faltabba comprobar el atributo en parser.c
+  + Pulsar botón rojo/verde no funciona. 
+    + Faltaba el verbo Pulsar 
+    + Falta un mensaje en caso de pulsar sólo el botón 
+    + El parser no reconoce el adjetivo. Ahora la lista de adjetivos forma parte del código del juego y no del parser. 
+ + Una vez en el inventario no podemos examinar el traje. Faltaba la acción de examinar el traje en las respuestas. 
+ + Ponerse/quitarse el traje no funciona. Faltaba una línea para comprobar el objeto en ACCautow X-) 
+ > Ya podemos salir al exterior.
++ Listar el inventario en fila añadiendo (puesto), (encendido),etc	
++ He podido terminar el juego pero con algunos errores en los mensajes. 
++ Se pueden añadir conexiones a las localidades, para la entrada del almacén.
+
+@ZonaA2:
++Coge paquete: No ves eso por aquí.
++Ex indicador: No ves eso por aquí. pero Ex etiqueta funciona 
+
+¡La secuencia del final se ejecuta y el juego termina!
+35396bytes sin debugger 
+
+lExterior 1301bytes 
+
+Para 8 pantallas necesitamos: 10408bytes
+Tenemos 40960bytes - 35396 = 5564bytes 
+
+Hay que conseguir unos 5Kb más mediante optimización del código. 
+
+Eliminando la librería FZX de fuentes baja a 32873bytes ->  2523bytes
+
+
+22 Diciembre 2019
+  + No podemos salir al exterior sin el traje
+  + La compuerta se abre
+  + Volver al interior de la nave con la esclusa correctamente cerrada y el traje quitado
+  + Ponerse/quitarse el traje para acceder al interior/exterior
+  + Teclear el password en el teclado
+  + Todo el código portado a C. En total han sido 4 días, a 2h por día. 
+  + Los verbos como saltar, cantar no dan la respuesta correcta. Al imprimir los mensajes los condactos ACCmes y ACCmessage estaban usando la posición en el array en lugar del identificador. 
+
+35244bytes (2Kb aprox para el debugger) 
 
 21 Diciembre 2019 
 > ¡¡ Comienzan las vacaciones!! :-D
 > Sigo portando código desde el original de DAAD 
 + Todas las descripciones
++ Fin del juego 
++ Añadida la librería base de La maldición de los reyes (¿Acabaré algún día ese juego?)
++Todo el vocabulario
+parser.bin ocupa 33444bytes, el código en C se está mostrando bastante compacto pero todavía no he aplicado ninguna optimización.
++ Faltaba por añadir la localidad de la bodega
++ Ya podemos recorrer la nave
+
+¡A por los puzzles!
 
 15 Diciembre 2019
 > Había olvidado poner a 1 el flag de luz, todo estaba oscuro...
@@ -39,7 +103,7 @@ TODO:
 
 Primera compilación ocupa 31Kb, están todos los textos pero falta el código de la aventura y alguna función extra para los temas del ordenador. -> 10Kb free. (+2Kb de las funciones del debugger)
 
-Para referencia futura la Release 3 en DAAD en Spectrum: 	> Versión de Spectrum funcionando sin problemas: 9855bytes free, DDBB 19800bytes
+Para referencia futura la Release 3 en DAAD en Spectrum: 	> Versión de Spectrum funcionando sin problemas: 9855bytes free, DDBB 19800bytes pero sin posibilidad de ampliar a 128Kb la aventura.
 
 EL primer mensaje ha sido "No puedo ver nada está muy oscuro", pero no se ha colgado X-)
 

@@ -48,14 +48,14 @@
 
 // Define para los objetos, o_
 //; Objetos
-#define oCaja 0
-#define oTraje 1
-#define oEsclusa 2
-#define oPuerta 3
-#define obotonrojo 4
-#define obotonverde 5
-#define oCanon 6
-#define oTeclado 7
+#define oCaja 1
+#define oTraje 2
+#define oEsclusa 3
+#define oPuerta 4
+#define obotonrojo 5
+#define obotonverde 6
+#define oCanon 7
+#define oTeclado 8
 // -------------------------------------------------------------------------------------------
 // ----------------------------------- VOCABULARIO ------------------------------------------- 
 // -------------------------------------------------------------------------------------------
@@ -70,10 +70,13 @@
 #define nSurEste 7
 #define nSurOeste 8
 #define nArriba 9
+#define nSubir 9
 #define nAbajo 10
-#define nEntrar 13
-#define nEntra 13
-#define nAdentro 13
+#define nBajar 10
+#define nEntrar 11
+#define nEntra 11
+#define nAdentro 11
+#define nDentro 11
 #define nSalir 12
 #define nSal 12 
 #define nAfuera 12
@@ -81,6 +84,7 @@
 #define nPuntos 15
 #define nTurnos 16
 #define nTodo 20
+ 
 
 // Nombres < 20 se pueden usar como verbos
 // Nombres por debajo de 50 como nombre propio, no admite lo,las...
@@ -89,7 +93,10 @@
 // Nombres de 21 a 255 disponibles
 // ------------------------------------------------
 #define nOrdenador 21      
-#define nComputador    21      
+#define nComputador    21
+#define nCompu 21
+// Al usar 5 caracteres Computadora y Compuerta son lo mismo...
+#define nCompuerta 21       
 #define nIa      21      
 #define nDot     21      
 #define nNavi    21      
@@ -105,7 +112,8 @@
 #define nEscaleras 55
 #define nEscalera 55      
 #define nPlane   57      
-#define nPared   58      
+#define nPared   58  
+#define nParedes 58    
 #define nSuelo   59      
 #define nTecho   60      
 #define nLuz     61      
@@ -114,13 +122,33 @@
 #define nInstr   63      
 #define nParabrisas   64      
 #define nPaquete 65
+#define nPaquetes 65
 #define nCaja 65
 #define nContenedor 65
+#define nContenedores 65
 #define nCielo 66
 #define nNave 67
+#define nTormenta 69
+#define nEuropa 70
+#define nLuna 70
+#define nLunas 70
+#define nSatelite 70
+#define nJupiter 71
+#define nJoviano 71
+#define nCara 71
+#define nLado 72
+#define nInterior 95
+#define nAlmacen 102
+#define nMole 102
+#define nEdificio 102
+#define nConsola 104 
+#define nPuente 104
+#define nMando 104
+#define nSistema 125
 #define nAirlock     132 
 #define nEsclusa     132 
 #define nTraje 135
+#define nBodega 139 
 #define nPantalla    170 
 #define nCristal       171 
 #define nCristales       171 
@@ -131,6 +159,7 @@
 #define nPasillo     176 
 #define nBoveda      177 
 #define nEstanteria  178 
+#define nEstanterias 178
 #define nCamara      179 
 #define nCanon       179 
 #define n32768       180 
@@ -140,6 +169,8 @@
 #define nControles   183 
 #define nEtiqueta 184 
 #define nIndicador 184 
+#define nFuera 182
+#define nExterior 182
 
 
 // Verbos que funcionan como nombres < 20
@@ -162,11 +193,14 @@
 #define vNorOeste 6
 #define vSurEste 7
 #define vSurOeste 8
+#define vSubir 0
 #define vArriba 9
 #define vAbajo 10
-#define vEntrar 13
-#define vEntra 13
-#define vAdentro 13
+#define vBajar 10
+#define vEntrar 11
+#define vEntra 11
+#define vAdentro 11
+#define vDentro 11
 #define vSalir 12
 #define vSal 12 
 #define vAfuera 12
@@ -175,32 +209,71 @@
 #define vCoger 20
 #define vDejar 21
 #define vSacar 22
-#define vQuitar 22
+#define vQuitar 23
 #define vMeter 74
 #define vMirar 24
 #define vFin 25
 #define vMirar 24
-#define vExaminar 30
-#define vDecir 31
-#define	vHablarCon 31
-#define vTirar  32
-#define vLanzar 32
-#define vEmpujar 33
-#define vAtacar 46
-#define vAgitar 49
-#define vAtar 	54
-#define vAbrir 64
-#define vCerrar 65
-#define vEncender 66
-#define vApagar 67
-#define vRomper 69
-#define vPoner 71
-#define vDesatar 98
-#define vLeer 109
-#define vMover 110
-#define vAsustar 120
-#define vMojar 121
-#define vIr     90
+#define vExaminar   30      
+#define vDecir  31      
+#define vMandar   31      
+#define vPreguntar 31      
+#define vHablar  31      
+#define vPulsa   32      
+#define vPulsar   32      
+#define vEmpujar   32      
+#define vApretar   32      
+#define vPresionar   32      
+#define vAbrir   33      
+#define vAbre    33      
+#define vCierr   34      
+#define vCerrar  34      
+#define vTirar   35      
+#define vTeclear   36
+#define vTeclea 36      
+#define vEscribe   37
+#define vEscribir 37      
+#define vEnciede   38      
+#define vEncender   38      
+#define vApagar   39      
+#define vIntroduce 40    
+#define vIr      41      
+#define vVe      41      
+#define vVes     41      
+#define vVolver  41      
+#define vRegresa 41      
+#define vCamina  41      
+#define vOler    42      
+#define vHuele   42      
+#define vTocar   43      
+#define vPalpar  43      
+#define vToca    43      
+#define vEscuchar 44     
+#define vOir      44     
+#define vOye      44     
+#define vSentarse 45     
+#define vSientate 45     
+#define vSaltar   46     
+#define vMea      47     
+#define vCaga     47     
+#define vMear     47     
+#define vCagar    47     
+#define vChupar   48     
+#define vLamer    48     
+#define vCantar   49     
+#define vPaper    50     
+#define vInk      51     
+#define vTest     52     
+#define vT        52
+#define vLanzar   53
+#define vGirar    54
+#define vEsperar    55
+#define vLeer 56
+#define vAtacar 57
+#define vPoner 58
+#define vRomper 59 
+#define vVestir 60
+#define vDar 61
 
 // Adverbios
 #define adRapidamente 2
@@ -228,7 +301,7 @@
 
 // Adjetivos
 
-#define aPequeño 2
+#define aPequeno 2
 #define aGrande  3
 #define aViejo   4
 #define aVieja   4
@@ -252,3 +325,10 @@
 #define aCalor   16    
 #define aAmarillo 17   
  
+// Funciones adicionales
+typedef struct {
+	BYTE *topic;
+	BYTE *respuesta;
+} tema_t;
+
+unsigned char buscador_tema (tema_t *tabla, unsigned char *word);

@@ -2,12 +2,11 @@
  ZMiniIF para ordenadores de 8bit
  Basado en PAWS y NGPAWS-Beta 9 (Uto/Carlos Sanchez) http://www.ngpaws.com
  (c) 2016. Written by KMBR.
- v1.0
+ v0.1
 
  License
--------
+-----------------------------------------------------------------------------------
  Released under the the GPL v2 or later license.
-
 -----------------------------------------------------------------------------------
 
 El mapa de memoria en Spectrum consiste en:
@@ -21,6 +20,22 @@ Los 24Kb más bajos son dedicados al parser y a las definiciones del juego. El pa
 
 En un juego de 48Kb no nos preocuparemos de la paginación y todo el código puede distribuirse libremente por la memoria. 
 Tampoco es un problema en Spectrum paginar para pintar un gráfico y luego paginar de nuevo para ejecutar código. 
+
+----------------------------------
+Comandos de depuración
+----------------------------------
+;testme : Lanza una sequencia de test pre-definida
+;xlista":
+;goto":
+;gonear:
+;flag:
+;setflag:
+;place:
+;attr:
+;sattr:
+;cattr:
+;help:
+;where:
 
 */
 
@@ -62,6 +77,7 @@ extern cnx_t conexiones_t[];
 extern obj_t objetos_t[]; // Tabla de objetos de la aventura
 extern token_t nombres_t []; // Tabla de nombres...
 extern token_t verbos_t []; // Tabla de verbos...
+extern token_t adjetivos_t[]; // Tabla de adjetivos
 
 // Parser FLAGS (Internal), not available for the game creator
 BYTE gNUM_OBJECTS;
@@ -132,23 +148,6 @@ token_t verbos_debug_t [] =
     {";cattr", d_clearattr},
     {";help", d_help},
     {";where", d_where},
-    {"",0}
-};
-
-
-token_t adjetivos_t [] =
-{
-    {"peque",       2},
-    {"grand",        3},
-    {"viejo",         4},
-    {"vieja",         4},
-    {"nuevo",         5},
-    {"nueva",         5},
-    {"duro",          6},
-    {"dura",          6},
-    {"suave",         7},
-    {"largo",         9},
-    {"larga",         9},
     {"",0}
 };
 
@@ -436,10 +435,11 @@ while (salir==0) // Recorre la cadena hasta el final
             {
                 if (flags[fverb]==EMPTY_WORD && (i = buscador(verbos_t, playerWord))>0)
                 {
+                    flags[fverb]=i;
                    #ifdef DEBUG
                    writeText ("V");
+                   writeValue (flags[fverb]);
                    #endif
-                   flags[fverb]=i;
                 }
                 else
                 if ((flags[fnoun1]==EMPTY_WORD || flags[fnoun2]==EMPTY_WORD) && (i = buscador(nombres_t, playerWord))>0) // Busca si es un nombre...
@@ -451,17 +451,19 @@ while (salir==0) // Recorre la cadena hasta el final
                         else
                             if (flags[fnoun1]==EMPTY_WORD)
                             {
-                                    #ifdef DEBUG
-                                    writeText ("1");
-                                    #endif
-                                    flags[fnoun1]=i;
+                                flags[fnoun1]=i;
+                                #ifdef DEBUG
+                                writeText("1_");
+                                writeValue(flags[fnoun1]);                    
+                                #endif                                    
                             }
                             else
                             {
-                                #ifdef DEBUG
-                                writeText("2");
-                                #endif
                                 flags[fnoun2]=i;
+                                #ifdef DEBUG
+                                writeText("2_");
+                                writeValue(flags[fnoun1]);                            
+                                #endif                            
                             }
                 }
                 else
@@ -543,6 +545,7 @@ void debugger ()
 #define d_move 7
 #define d_attr 8
 #define d_setattr 9
+#define d_where 10
 */
 
 switch (flags[fverb])
@@ -556,7 +559,6 @@ switch (flags[fverb])
         ACCgoto(flags[fnoun1]);
         break;
     case d_gonear:
-
         ACCgoto (objetos_t[get_obj_pos(flags[fnoun1])].locid);
         break;
     case d_flag:
@@ -583,8 +585,13 @@ switch (flags[fverb])
     case d_clearattr:
         ACCoclear(flags[fnoun1], (unsigned long int)1<<flags[fnoun2]);
         break;
+    case d_where:
+        playerInput[0]=0;
+        writeValue(objetos_t[get_obj_pos(flags[fnoun1])].locid);
+       // writeText (playerInput);
+        writeText ("^");
+        break;
     case d_help:
-
         writeText (";testme seqid ");
         writeText (";xlista locid ");
         writeText (";goto locid ");
@@ -595,15 +602,10 @@ switch (flags[fverb])
         writeText (";attr objid attrid ");
         writeText (";sattr objid attrid ");
         writeText (";cattr objid attrid ");
+        writeText (";where objid");
         writeText (";help ^");
-
         break;
-    case d_where:
-        playerInput[0]=0;
-        writeValue(objetos_t[get_obj_pos(flags[fnoun1])].locid);
-        writeText (playerInput);
-        writeText ("^");
-        break;
+    
     }
 
 }
@@ -646,7 +648,7 @@ void procesaString ()
 // Librería de condactos
 // --------------------------------------------
 
-void  ACCdesc(void)
+void ACCdesc(void)
 {
 	gDESCRIBE_LOCATION_FLAG = TRUE;
 	ACCbreak(); // Cancel doall loop
@@ -670,21 +672,23 @@ unsigned char CNDat(BYTE locid)
     else return FALSE;
 }
 
-unsigned char  CNDnotat(BYTE locid)
+unsigned char CNDnotat(BYTE locid)
 {
 	 return (!CNDat(locid));
 }
 
-unsigned char  CNDatgt(BYTE locid)
+unsigned char CNDatgt(BYTE locid)
 {
- if (locid >= flags[flocation]) return TRUE;
+ if (flags[flocation] > locid) return TRUE;
     else return FALSE;
 }
 
-unsigned char  CNDatlt(BYTE locid)
+unsigned char CNDatlt(BYTE locid)
 {
- if (locid <= flags[flocation]) return TRUE;
-    else return FALSE;
+   // writeValue (locid);
+   // writeValue (flags[flocation]);
+    if (flags[flocation] < locid) return TRUE;
+        else return FALSE;
 }
 
 BYTE  CNDpresent(BYTE objid)
@@ -717,7 +721,12 @@ BYTE CNDabsent(BYTE objid)
 
 BYTE CNDworn(BYTE objid)
 {
-	return (getObjectLocation( get_obj_pos(objid)) == LOCATION_WORN);
+    if (getObjectLocation( get_obj_pos(objid)) == LOCATION_WORN) return TRUE;
+    #ifdef DEBUG
+        writeText ("(Not worn)");
+    #endif
+    return FALSE;
+	// return (getObjectLocation( get_obj_pos(objid)) == LOCATION_WORN);
 }
 
 BYTE  CNDnotworn(BYTE objid)
@@ -730,8 +739,8 @@ BYTE  CNDnotworn(BYTE objid)
 
 BYTE  CNDnotcarr(BYTE objid)
 {
-    if (CNDcarried(objid)==TRUE)return FALSE;
-        else return FALSE;
+    if (CNDcarried(objid)==TRUE) return FALSE;
+        else return TRUE;
 	//return !CNDcarried(objid);
 }
 
@@ -996,6 +1005,14 @@ void  ACCautog()
     objid = ACCgetReferredObject(flags[fnoun1]);
     if (objid != EMPTY_OBJECT)
     {
+        if (CNDonotzero(objid, aScenery) || CNDonotzero(objid, aStatic))
+            {
+                //writeText("(");
+                //writeObject (get_obj_pos(objid));
+                //writeText(")");
+                writeSysMessage (SYSMESS_YOUCANNOTTAKE);
+                DONE;
+            }
         ACCget (objid);
         return TRUE;
     }
@@ -1066,16 +1083,10 @@ BYTE ACCsetexit(BYTE loc_orig, BYTE value, BYTE loc_dest)
 	if (value < NUM_CONNECTION_VERBS) setConnection(get_loc_pos(loc_orig), value, get_loc_pos(loc_dest));
 }
 
-// Prints message mesno.
-void ACCmes (BYTE mesno)
-{
-    writeMessage(mesno);
-}
-
 // 
-void  ACCmessage(BYTE mesno)
+void  ACCmessage(BYTE mesid)
 {
-	writeMessage(mesno);
+	writeMessage(get_msg_pos(mesid));
 	ACCnewline();
 }
 
@@ -1230,14 +1241,14 @@ void ACCplace(BYTE objid, BYTE locid) // Aquí locno puede ser otro número de obj
 //	setFlag(flagno,value);
 //}
 
-void  ACCnewline()
+void ACCnewline()
 {
     newLine();
 }
 
 void  ACCwriteText(BYTE flagno)
 {
-   writeMessage(flags[flagno]);
+   writeMessage(get_msg_pos(flags[flagno]));
 }
 
 void  ACCsysmess(BYTE sysno)
@@ -1377,9 +1388,9 @@ void ACCprocess(BYTE procno)
 }
 */
 
-void  ACCmes(BYTE mesno)
+void  ACCmes(BYTE mesid)
 {
-	writeMessage(mesno);
+   	writeMessage(get_msg_pos(mesid));
 }
 
 /*
@@ -1729,6 +1740,9 @@ BYTE  CNDcarried(BYTE objid)
 {
 	if (getObjectLocation(get_obj_pos(objid)) == LOCATION_WORN) return TRUE;
 	if (getObjectLocation(get_obj_pos(objid)) == LOCATION_CARRIED) return TRUE;
+#ifdef DEBUG
+    writeText ("(Not carried)");
+#endif
 	return FALSE;
 }
 
@@ -1911,8 +1925,8 @@ BYTE  loc_here ()
     return flags[flocation]; // flocation contiene el ID de la localidad
 }
 
-// Input: ID de localidad
-// Output: Posición dentro del array de localidades.
+// Input: Location ID
+// Output: Position within the location array
 
 BYTE get_loc_pos (BYTE locid)
 {
@@ -1924,7 +1938,8 @@ BYTE get_loc_pos (BYTE locid)
 	}
 	return FALSE;
 }
-
+// Input: Object ID 
+// Output: Position within the object array 
 BYTE get_obj_pos (BYTE objid)
 {
 	BYTE i=0;
@@ -1942,6 +1957,17 @@ BYTE get_img_pos (BYTE imgid)
 	while (i<gNUM_IMG)
 	{
 		if (imagenes_t[i].id==imgid) return i;
+        i++;
+	}
+	return FALSE;
+}
+
+BYTE get_msg_pos (BYTE mesid)
+{
+    BYTE i=0;
+	while (mensajes_t[i].id!=0)
+	{
+		if (mensajes_t[i].id==mesid) return i;
         i++;
 	}
 	return FALSE;
@@ -2103,7 +2129,7 @@ BYTE  objectIsNPC(BYTE objno)
 void writeObject(BYTE objno)
 {
     BYTE isPlural = objectIsAttr(objno, aPluralName);
- 	BYTE isFemale = objectIsAttr(objno, aFemale);
+    BYTE isFemale = objectIsAttr(objno, aFemale);
  	BYTE isMale = objectIsAttr(objno, aMale);
  	BYTE isPropio = objectIsAttr(objno, aPropio);
  	BYTE isDeterminado = objectIsAttr(objno, aDeterminado);
@@ -2125,27 +2151,28 @@ void writeObject(BYTE objno)
         {
             if (!isPlural) // Singular
             {
-                if (isMale) writeText ("el ");
-                 else writeText ("la ");
+                //if (isMale) writeText ("el ");
+                if (isFemale) writeText ("la ");
+                    else writeText ("el ");
             }
             else
             {
-                if (isMale) writeText ("los ");
-                 else writeText ("las ");
+                if (isFemale) writeText ("las ");
+                 else writeText ("los ");
             }
         }
         else // Indeterminado
         {
             if (!isPlural) // Singular
             {
-                if (isMale) writeText ("un ");
-                 else writeText ("una ");
+                if (isFemale) writeText ("una ");
+                 else writeText ("un ");
 
             }
             else // Plural
             {
-                 if (isMale) writeText ("unos ");
-                 else writeText ("unas ");
+                 if (isFemale) writeText ("unas ");
+                 else writeText ("unos ");
             }
         }
     }
@@ -2455,7 +2482,7 @@ void  ACCautow()
 void  ACCautor()
 {
     BYTE objno;
-	objno =findMatchingObject(LOCATION_WORN);
+    objno =findMatchingObject(LOCATION_WORN);
 	if (objno != EMPTY_OBJECT) { ACCremove(objetos_t[objno].id); return; };
 	objno =findMatchingObject(LOCATION_CARRIED);
 	if (objno != EMPTY_OBJECT) { ACCremove(objetos_t[objno].id); return; };

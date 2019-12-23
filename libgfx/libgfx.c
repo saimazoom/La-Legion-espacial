@@ -407,7 +407,7 @@ void clear_screen (BYTE color)
  memset(22528, color, 768); // Atributos
  #asm
  ;; Set border colour to black
-	ld a,0x06
+	ld a,0x00
 	out ($fe),a
  #endasm
 }

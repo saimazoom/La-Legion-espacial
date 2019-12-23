@@ -2,7 +2,14 @@
  MiniIF para ordenadores de 8bit
  Basado en PAWS y NGPAWS-Beta 9 (Uto/Carlos Sanchez) http://www.ngpaws.com
  (c) 2016. Written by KMBR.
- v1.0
+ v0.1
+
+ 
+ License
+-----------------------------------------------------------------------------------
+ Released under the the GPL v2 or later license.
+-----------------------------------------------------------------------------------
+
 
 FASTCALL: https://www.z88dk.org/forum/viewtopic.php?id=8848
 
@@ -47,12 +54,12 @@ extern void __FASTCALL__ ACCdestroy(BYTE objno);
 extern void __FASTCALL__ ACCcreate(BYTE objno);
 extern BYTE __FASTCALL__ ACCget(BYTE objno);
 extern BYTE __FASTCALL__ ACCdrop(BYTE objid);
-extern BYTE  ACCremove(BYTE objid);
-extern BYTE  ACCwear(BYTE objid);
+extern BYTE  __FASTCALL__ ACCremove(BYTE objid);
+extern BYTE  __FASTCALL__ ACCwear(BYTE objid);
 extern void __FASTCALL__ ACCgoto(BYTE locno);
 extern void ACCweigh(BYTE objno, BYTE flagno);
 extern void ACClistat (BYTE locno, BYTE container_objno);
-extern BYTE ACCobjat (BYTE locid);
+extern BYTE __FASTCALL__ ACCobjat (BYTE locid);
 extern void ACCoset(BYTE objid, unsigned long int attrno);
 extern void ACCoclear(BYTE objid, unsigned long int attrno);
 extern void ACConeg(BYTE objid, unsigned long int attrno);
@@ -60,17 +67,18 @@ extern void ACClistobj();
 extern void ACCplace(BYTE objid, BYTE locno);
 extern void ACCend();
 extern void __FASTCALL__ ACCsysmess(BYTE sysno);
-extern void  ACCnewline();
+extern void ACCnewline();
 extern void ACCcls();
 extern BYTE __FASTCALL__ ACCgetReferredObject(BYTE num);
 extern void ACCputin(BYTE objid, BYTE obj2id);
 extern void ACCtakeout(BYTE objid, BYTE obj2id);
-extern void  ACCautop();
-extern void  ACCautot();
+extern void ACCautop();
+extern void ACCautot();
 extern void ACCclearexit(BYTE locid, BYTE value);
 extern BYTE ACCgetexit(BYTE locid, BYTE value);
 extern BYTE ACCsetexit(BYTE loc_orig, BYTE value, BYTE loc_dest);
-extern void __FASTCALL__ ACCmessage(BYTE mesno);
+extern void __FASTCALL__ ACCmessage(BYTE mesid);
+extern void __FASTCALL__ ACCmes (BYTE mesid);
 
 // Librería de funciones del parser...
 void writeValue (unsigned int value);
@@ -96,7 +104,9 @@ BYTE __FASTCALL__ objectIsContainer (BYTE objno);
 BYTE objectIsAttr (BYTE objno, unsigned long int att);
 BYTE __FASTCALL__ objectIsNPC(BYTE objno);
 extern BYTE __FASTCALL__ get_loc_pos (BYTE locid);
-extern BYTE get_img_pos (BYTE imgid);
+extern BYTE __FASTCALL__ get_img_pos (BYTE imgid);
+extern BYTE __FASTCALL__ get_msg_pos (BYTE mesid);
+
 extern void __FASTCALL__ writeText (unsigned char *texto);
 void __FASTCALL__ writeSysMessage (BYTE messno);
 void __FASTCALL__ writeMessage (BYTE messno);

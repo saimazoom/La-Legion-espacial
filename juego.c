@@ -2,7 +2,7 @@
 //
 // ZHL. Escrita por KMBR.
 // 2016-2019 KMBR
-// ZHL is licensed under a Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)  license.
+// This code is licensed under a Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)  license.
 // http://creativecommons.org/licenses/by-nc-sa/4.0/
 
 //#include <stdio.h>
@@ -10,6 +10,8 @@
 //#include <spectrum.h>
 #include "parser_defs.h"
 #include "parser.h"
+// Flags del Juego
+#include "juego_flags.h"
 
 /* Allocate space for the stack */
 
@@ -23,6 +25,7 @@
 #pragma output CLIB_FOPEN_MAX = -1  // don't even create the open files list
 #pragma output CRT_ENABLE_RESTART = 1
 
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Código local
 // Si necesitamos código en páginas de memoria hay que compilarlas como .bin y añadirlas aquí como extern
 // Se llaman desde el código usando: setRAMpage (n) y llamando a la función, al terminar hay que volver siempre a la página 0
@@ -34,17 +37,24 @@ char proceso1_post();
 char proceso2();
 char proceso2_post();
 
-// Variables que necesitamos del parser...
-extern unsigned char flags[255]; // Flags 60...250 Disponibles para el usuario
 
-// Flags del Juego
-#include "juego_flags.h"
+// Variables que necesitamos del parser...
+// Se pueden declarar más tablas de flags para el juego pero el parser
+// sólo trabaja con esta. 
+extern unsigned char flags[255]; // Flags 60...250 Disponibles para el usuario
 
 // Tabla de imágenes del juego
 img_t imagenes_t [] =
     {   
     { 0,0,0}
     };
+
+// Tabla de regiones
+// Regiones del juego...
+//unsigned char region_exterior [] = { 4,6,7,0 };
+//unsigned char region_entrada [] = { 13,10,17,14,9,0 };
+//unsigned char region_superior [] = { 3,8,23,26,27,0 };
+//unsigned char region_inferior [] = { 12,15,19,2,5,11,21,16,19,18,27,28,25,24,30,1,31,20,0 };
 
 // Tabla de localidades de la aventura
 // 250 to 255 reservadas
@@ -56,15 +66,17 @@ img_t imagenes_t [] =
 //	unsigned long int atributos; // 32bit
 
 // última localidad como ID 0 
+
 loc_t localidades_t [] =
 {
-	{"Puente de mando","El interior de la nave está iluminado débilmente por la consola de mando. Una luz ambarina tiñe los instrumentos de un color cálido mientras en el exterior se abate una tormenta de hielo. El nodo central de la nave se encuentra bajando un tramo de escaleras al sur. ",l_puente, FALSE, 0x00000000},
-	{"Nodo central ","La nave ha sido diseñada de forma modular. El nodo central conecta el puente de mando con la esclusa al exterior al oeste, y la bodega al sur. Una tenue iluminación proviene de las escaleras del puente del mando. ",l_nodo, FALSE, 0x00000000},
-	{"Esclusa","La esclusa es el sistema de intercambio de presión entre el exterior y la zona habitable de la nave.",l_esclusa, FALSE, 0x00000000},
-	{"Exterior","El cielo es un borrón de nieve y cristales de hielo. La tormenta castiga la superficie en la zona oscura de Europa. La nave flota a pocos centímetros de la superficie congelada. Al oeste se distingue una mole de metal que podría ser la entrada del almacén.",l_exterior, FALSE, 0x00000000},
-    {"Entrada al almacén","Una mole de metal se encuentra enclavada en la superficie helada de Europa. ",l_almacen, FALSE, 0x00000000},
-    {"Zona A1","Las estanterías repletas de contenedores blancos crean una atmósfera opresiva. Un pasillo negro al oeste da acceso a otra sala del almacén.",l_zonaA1, FALSE, 0x00000000},
-    {"Zona A2","El almacén termina en una sala abovedada pintada de blanco. Aquí hay aun más contenedores perfectamente ordenados en estanterías.",l_zonaA2, FALSE, 0x00000000},
+	{"Puente de mando","Una luz ambarina tiñe los instrumentos de un color cálido mientras en el exterior se abate una tormenta de hielo. El nodo central de la nave se encuentra bajando un tramo de escaleras. ",lPuente, FALSE, 0x00000000},
+	{"Nodo central ","La nave ha sido diseñada de forma modular. El nodo central conecta el puente de mando con la esclusa al exterior al oeste, y la bodega al sur. Una tenue iluminación proviene de las escaleras del puente del mando. ",lNodo, FALSE, 0x00000000},
+	{"Esclusa","La esclusa es el sistema de intercambio de presión entre el exterior y la zona habitable de la nave.",lEsclusa, FALSE, 0x00000000},
+	{"Bodega de carga","La zona de carga de la nave justifica la existencia de esta nave. Tiene espacio suficiente para atender los típicos envíos entre particulares en un sistema. Hay varios paquetes que esperan su entrega. ", lBodega, FALSE, 0x00000000},
+	{"Exterior","El cielo es un borrón de nieve y cristales de hielo. La tormenta castiga la superficie en la zona oscura de Europa. La nave flota a pocos centímetros de la superficie congelada. Al oeste se distingue una mole de metal que podría ser la entrada del almacén.",lExterior, FALSE, 0x00000000},
+    {"Entrada al almacén","Una mole de metal se encuentra enclavada en la superficie helada de Europa. ",lAlmacen, FALSE, 0x00000000},
+    {"Zona A1","Las estanterías repletas de contenedores blancos crean una atmósfera opresiva. Un pasillo negro al oeste da acceso a otra sala del almacén.",lZonaA1, FALSE, 0x00000000},
+    {"Zona A2","El almacén termina en una sala abovedada pintada de blanco. Aquí hay aun más contenedores perfectamente ordenados en estanterías.",lZonaA2, FALSE, 0x00000000},
     {"","",0, FALSE, 0x00000000}
 };
 
@@ -72,19 +84,18 @@ loc_t localidades_t [] =
 
 // Tabla de conexiones...
 // Se usan los ID de localidad para idenfiticar las conexiones
-
 cnx_t conexiones_t [] =
 {
-// LOC | AL_N | AL_S | AL_E | AL_O | AL_NE | AL_NO | AL_SE | AL_SO | ARRIB | ABAJO
-	{l_puente,{	0,		l_nodo,		0,		0,		0,		0,		0,		0,		0,		l_nodo}},
-	{l_nodo,{l_puente,		l_bodega,		0,		l_esclusa,		0,		0,		0,		0,		l_puente,		0}},
-	{l_esclusa,{0,		0,		l_nodo,		0,		0,		0,		0,		0,		0,		0}},
-	{l_bodega,{l_nodo,		0,		0,		0,		0,		0,		0,		0,		l_nodo,		0}},
-	{l_exterior,{0,		0,		l_esclusa,		0,		0,		0,		0,		0,		0,		0}},
-	{l_entrada,{0,		0,		l_exterior,		0,		0,		0,		0,		0,		0,		0}},
-	{l_zonaA1,{0,		0,		l_entrada,		l_zonaA2,		0,		0,		0,		0,		0,		0}},
-	{l_zonaA2,{0,		0,		l_zonaA1,		0,		0,		0,		0,		0,		0,		0}},
-	{0,{	0,		0,		0,		0,		0,		0,		0,		0,		0,		0}}
+// LOC | AL_N | AL_S | AL_E | AL_O | AL_NE | AL_NO | AL_SE | AL_SO | ARRIB | ABAJO | ENTRAR | SALIR 
+	{lPuente,{	0,		lNodo,		0,		0,		0,		0,		0,		0,		0,		lNodo,	0,	0}},
+	{lNodo,{lPuente,		lBodega,		0,		lEsclusa,		0,		0,		0,		0,		lPuente,		0,0,0}},
+	{lEsclusa,{0,		0,		lNodo,		0,		0,		0,		0,		0,		0,		0,0,0}},
+	{lBodega,{lNodo,		0,		0,		0,		0,		0,		0,		0,		lNodo,		0,0,0}},
+	{lExterior,{0,		0,		lEsclusa,		lEntrada,		0,		0,		0,		0,		0,		0,0,0}},
+	{lEntrada,{0,		0,		lExterior,		0,		0,		0,		0,		0,		0,		0,0,0}},
+	{lZonaA1,{0,		0,		lEntrada,		lZonaA2,		0,		0,		0,		0,		0,		0,0,lEntrada}},
+	{lZonaA2,{0,		0,		lZonaA1,		0,		0,		0,		0,		0,		0,		0,0,0}},
+	{0,{	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,0,0}}
 	};
 
 // Tabla de mensajes de la aventura
@@ -95,8 +106,7 @@ cnx_t conexiones_t [] =
 
 token_t mensajes_t [] =
 {
-	{"E U R O P A",0},
-	{"ZHL \n Entregamos su paquete en 24h. \n (c) 2016, 2019 KMBR. Release 4."},
+	{"ZHL^ Entregamos su paquete en 24h. ^ (c) 2016, 2019 KMBR. Release 4.",1},
 	{"No veo nada en particular.",2},
 	{"ZHL by KMBR",3},
 	{"Descienden al nodo central.",4},
@@ -116,7 +126,7 @@ token_t mensajes_t [] =
 	{"Está apagada.",18},
 	{"-No sobreviviré en Europa sin el traje protector.",19},
 	{"-Debido a la contaminación deja el traje antes de pasar al nodo central -te recuerda el ordenador.",20},
-	{"La esclusa sirve para igualar la presión entre el exterior y el interior de la nave. ",21},
+	{"La esclusa sirve para igualar la presión entre el exterior y el interior de la nave. Se controla con el bóton rojo para cerrar y el botón verde para abrir. ",21},
 	{"Está cerrada.",22},
 	{"Está abierta.",23},
 	{"-La esclusa se abre con los controles manuales de la esclusa -informa el ordenador.",24}, 
@@ -162,10 +172,10 @@ token_t mensajes_t [] =
 	{"Lo más duro es tener que reciclar sus piezas para la siguiente misión. Llegan a creerse humanos. En fin... -suspira el ordenador mientras recoge los restos de tu cuerpo con una robofregona.",62},
 	{"-Central, aquí Tod Connor -dice la voz- Volvemos a Marte con el paquete. Repito volvemos con el paquete. ",63},
 	{"Hay dos botones: rojo y verde. Se utilizan para cerrar y abrir la esclusa al exterior. ",172},
-	{"Paquetes que esperan su entrega.",173},
+	{"Los siguientes paquetes para entregar.",173},
 	{"No es momento de jugar al Sokoban.",174},
 	{"-Voolare... ooh oooh -te devuelve cruel el eco de la nave.",175},
-	{"-Cantare, ooh oooh -intentas entonar \n -Nel blu dipinto di blu...",176},
+	{"-Cantare, ooh oooh -intentas entonar ^ -Nel blu dipinto di blu...",176},
 	{"Sólo escucho estática. La tormenta interfiere en las comunicaciones.",177},
 	{"Estoy en la cara oculta, no veo Júpiter.",178},
 	{"Satélite helado e inhóspito.",179}, 
@@ -183,7 +193,9 @@ token_t mensajes_t [] =
 	{"Son contenedores de transporte.",191}, 
 	{"(cogiendo antes el traje)",192},
 	{"-Entonces te quedarías a solas en este lugar inhóspito -te recuerda el ordenador.",193},
-	{"-Busco un paquete azul. ",194}
+	{"-Sólo necesito un paquete azul. ",194},
+	{"La superficie es lisa, sólo se activa con el teclado.", 195},
+	{"E U R O P A",196},
 };
 
 token_t mensajesSistema_t [] =
@@ -251,30 +263,41 @@ token_t mensajesSistema_t [] =
 	{"Nombre del fichero: ",60},
 	{"",61},
 	{"¿Perdón? Por favor prueba con otras palabras.^",62},
-	{"Aquí ",63},
-	{"está ",64},
-	{"están",65},
-    {"Dentro hay ",66},
-    {"Encima hay ",67},
+	{"Aquí ",SYSMESS_NPCLISTSTART},
+	{"está ",SYSMESS_NPCLISTCONTINUE},
+	{"están",SYSMESS_NPCLISTCONTINUE_PLURAL},
+    {"Dentro hay ",SYSMESS_INSIDE_YOUCANSEE},
+    {"Encima hay ",SYSMESS_OVER_YOUCANSEE},
     {"",68},
 	{"No es algo que pueda quitarme.^",69},
-	{"Pongo ",70},
-    {"",0}
+	{"Pongo ",SYSMESS_YOUPUTOBJECTON },
+    {"No es algo que pueda cogerse.^",SYSMESS_YOUCANNOTTAKE},
+	{"No parece que pueda moverse.^", SYSMESS_CANNOTMOVE},
+	{"",0}	
 };
-
-#define SYSMESS_NONSENSE_SENTENCE 62
-#define SYSMESS_NPCLISTSTART 63
-#define SYSMESS_NPCLISTCONTINUE 64
-#define SYSMESS_NPCLISTCONTINUE_PLURAL 65
-#define SYSMESS_INSIDE_YOUCANSEE 66
-#define SYSMESS_OVER_YOUCANSEE 67
-#define SYSMESS_YOUCANTTAKEOBJECTFROM 69
-#define SYSMESS_YOUPUTOBJECTON 70
-
 
 // Tablas de vocabulario
 // Nombre propios, sustantivos...
 // último elemento debe ser 0
+#define nNorte  1
+#define nSur 	2
+#define nEste	3
+#define nOeste  4
+#define nNoreste 5
+#define nNorOeste 6
+#define nSurEste 7
+#define nSurOeste 8
+#define nArriba 9
+#define nSubir 9
+#define nAbajo 10
+#define nBajar 10
+#define nEntrar 11
+#define nEntra 11
+#define nAdentro 11
+#define nDentro 11
+#define nSalir 12
+#define nSal 12 
+
 
 token_t nombres_t [] =
 {
@@ -295,35 +318,103 @@ token_t nombres_t [] =
 	{"suroeste",        nSurOeste},  // 14
     {"suroe",           nSurOeste},
     {"arriba",          nArriba},   // 16
-	{"nw",              nNorOeste},
+	{"up",              nNorOeste},
 	{"abajo",           nAbajo},   // 18
 	{"no",              nNorOeste},
-	{"sudes",           nSurEste},
-	{"suroe",           nSurOeste},
-	{"sw",              nSurOeste},
-	{"so",              nSurOeste},
-	{"u",               nArriba},
-	{"up",              nArriba},
-	{"d",               nAbajo},
-	{"down",            nAbajo},
-    {"i",               14},
-    {"inven",           14},
-	{"inv",         14 },
-	{"punto",       15},
-	{"puntu",       15},
-	{"conta",       15},
-	{"turno",       16},
-    {"todo",        20},
+	{"entrar",			nEntrar}, // 20
+	{"entra",			nEntrar},
+	{"salir",			nSalir}, // 22
+	{"sal",				nSalir},
+	{"ascie",	nArriba},
+	{"subet",	nArriba},
+	{"sube",   	nArriba},
+	{"bajar",  	nAbajo},
+	{"baja",    nAbajo},
+	{"desce",	nAbajo},
+	{"desci",  	nAbajo},
+	{"bajat",  	nAbajo},
+	{"entra",	nEntrar},
+	{"enter",	nEntrar},
+	{"intro",	nEntrar},
+	{"adent",   nEntrar},
+	{"dentr",   nEntrar},
+	{"inter",	nEntrar},
+	{"salir",	nSalir},
+	{"sal",		nSalir},
+	{"exit",	nSalir},
+	{"fuera",   nSalir},
+	{"afuer",   nSalir},
+    {"i",               nInventario},
+    {"inven",           nInventario},
+	{"inv",         nInventario },
+	{"punto",       nPuntos},
+	{"puntu",       nPuntos},
+	{"conta",       nPuntos},
+	{"turno",       nTurnos},    
+	// Names < 20 can be used as verbs
 	// Nombres para el Vocabulario del juego,
-    {"orden", n_ordenador},
-	{"compu", n_ordenador},
-	{"ia", n_ordenador},
-	{"dot", n_ordenador},
-	{"navi", n_ordenador}, 
-	{"gps", n_ordenador},  
-	{"galileo", n_ordenador},
-	{"tom", n_ordenador},    
-	{"tomtom", n_ordenador}, 
+	{"todo",        nTodo},
+	{"puerta", nPuerta},
+	{"boton", nBoton},
+	{"escal", nEscalera},
+	{"pared", nPared},
+	{"suelo", nSuelo},
+	{"techo", nTecho},
+	{"luz", nLuz},
+	{"haz", nLuz},
+	{"parab", 	nParabrisas},
+	{"caja",	nCaja},
+	{"paque",	nPaquete},
+	{"conte",	nContenedor},
+	{"cielo",	nCielo},
+	{"nave",	nNave},
+	{"nodo",	nNodo},
+	{"puent",	nPuente},
+	{"torme",	nTormenta},
+	{"Europ",	nEuropa},
+	{"Luna",	nLuna},
+	{"Lunas",	nLuna},
+	{"Satel",	nSatelite},
+	{"Jupit",	nJupiter},
+	{"Jovia",	nJoviano},
+	{"Cara",	nCara},
+	{"Lado",	nLado},
+    {"inter", 	nInterior},
+	{"almac",	nAlmacen},
+	{"mole",	nMole},
+	{"edifi",	nEdificio},
+	{"orden", 	nOrdenador},
+	{"compu", 	nOrdenador},
+	{"ia", 		nOrdenador},
+	{"dot", 	nOrdenador},
+	{"navi", 	nOrdenador}, 
+	{"gps", 	nOrdenador},  
+	{"galileo", nOrdenador},
+	{"tom", 	nOrdenador},    
+	{"tomtom", 	nOrdenador}, 
+	{"inter", 	nInterior},
+	{"conso", 	nConsola},
+	{"puent", 	nConsola},
+	{"mando",	 nConsola},
+	{"siste",	nSistema},
+	{"esclu", 	nEsclusa},
+	{"airlo", 	nEsclusa},
+	{"traje",	nTraje},
+	{"bodega", nBodega},
+	{"boveda", nBoveda},
+	{"estant",	nEstanteria},
+	{"camara",	nCamara},
+	{"canon",	nCanon},
+	{"32768",	n32768},
+	{"tecla",	nTeclas},
+	{"exter",	nExterior},
+	{"fuera",	nFuera},
+	{"afuer",	nFuera},
+	{"etiqu",	nEtiqueta},
+	{"indic",	nIndicador},
+	{"panta", nPantalla},
+	{"instr", nPantalla},
+	{"contr", nControles},
 	{"",0}
 };
 
@@ -331,50 +422,29 @@ token_t nombres_t [] =
 // VOCABULARIO
 token_t verbos_t [] =
 {
-	{"subir",	10},
-	{"ascen",	10},
-	{"ascie",	10},
-	{"subet",	10},
-	{"sube",   	10},
-	{"bajar",  	11},
-	{"baja",    11},
-	{"desce",	11},
-	{"desci",  	11},
-	{"bajat",  	11},
-	{"entra",	12},
-	{"enter",	12},
-	{"intro",	12},
-	{"adent",   12},
-	{"dentr",   12},
-	{"inter",	12},
-	{"salir",	13},
-	{"sal",		13},
-	{"exit",	13},
-	{"fuera",   13},
-	{"afuer",   13},
-    {"coger",	20},
-    {"coge",	20},
-    {"tomar",	20},
-    {"toma",	20},
-    {"take",	20},
-    {"dejar",	21},
-    {"deja",	21},
-    {"solta",	21},
-    {"suelt",	21},
-    {"drop",	21},
-    {"quita",	22},
-    {"sacat",	22},
-    {"sacar",	22},
-    {"desvi",	22},
-    {"desve",	22},
+    {"coger",	vCoger},
+    {"coge",	vCoger},
+    {"tomar",	vCoger},
+    {"toma",	vCoger},
+    {"take",	vCoger},
+    {"dejar",	vDejar},
+    {"deja",	vDejar},
+    {"solta",	vDejar},
+    {"suelt",	vDejar},
+    {"drop",	vDejar},
+    {"quita",	vQuitar},
+    {"sacat",	vQuitar},
+    {"sacar",	vSacar},
+    {"desvi",	vQuitar},
+    {"desve",	vQuitar},
 //    {"SENTA",	23},
 //    {"SENTA",	23},
 //    {"SENTA",	23},
 //    {"SIENT",	23},
-    {"l",		24},
-    {"look",	24},
-    {"m",		24},
-    {"mirar",	24},
+    {"l",		vMirar},
+    {"look",	vMirar},
+    {"m",		vMirar},
+    {"mirar",	vMirar},
     {"mira",	24},
     {"quit",	25},
     {"fin",		25},
@@ -388,35 +458,41 @@ token_t verbos_t [] =
 	{"graba",	28},
 	{"ramlo",	29},
 	{"carga",	29},
-	{"x",       30},
-	{"exami",	30},
-	{"ex",		30},
-	{"inspe",	30},
-	{"obser",	30},
-	{"decir", 	31},
-	{"di",		31},
-	{"habla", 	31},
-	{"respo",  	31},
-	{"lanza",	32},
-	{"tirar",	32},
-	{"arroj",	32},
-	{"empuj",	33},
+	{"x",       vExaminar},
+	{"exami",	vExaminar},
+	{"ex",		vExaminar},
+	{"inspe",	vExaminar},
+	{"obser",	vExaminar},
+	{"decir", 	vDecir},
+	{"di",		vDecir},
+	{"habla", 	vDecir},
+	{"respo",  	vDecir},
+	{"manda",	vDecir},
+	{"lanza",	vLanzar},
+	{"tira", 	vLanzar},
+	{"tirar",	vLanzar},
+	{"arroj",	vLanzar},
+	{"empuj",	vEmpujar},
+	{"apret",	vEmpujar},
+	{"pulsa",	vPulsar},
 	/*
 	{"AYUDA",	34},
 	{"HELP",	34},
 	*/
-	{"girar",  	35},
-	{"gira",    35},
-	{"rota",	35},
-	{"rotar",	35},
+	{"girar",  	vGirar},
+	{"gira",    vGirar},
+	{"rota",	vGirar},
+	{"rotar",	vGirar},
 	/*
 	{"VOLTE",	35},
 	{"MOSTR",	36},
 	{"MUEST",	36},
 	{"ENSEÑ", 	36},
-	{"ESCUC", 	37},
-	{"OIR",		37},
-	{"OYE",		37},
+	*/
+	{"escuc", 	vEscuchar},
+	{"oir",		vEscuchar},
+	{"oye",		vEscuchar},
+	/*
 	{"COMER",	38},
 	{"COME",	38},
 	{"COMET",	38},
@@ -436,28 +512,26 @@ token_t verbos_t [] =
 	{"EXITS",   41},
 	{"X",		41},
 	*/
-	{"oler",	42},
-	{"huele",	42},
-	{"olfat",	42},
-	{"husme", 	42},
-	{"esper",	43},
-	{"z",		43},
-/*
-	{"CANTA",	44},
-	{"SALTA", 	45},
-	{"BRINC",	45},
-*/
-	{"ataca",	46},
-	{"agred",	46},
-	{"matar",	46},
-	{"mata",	46},
-	{"asesi",	46},
-	{"estra",	46},
-	{"patea",	46},
-	{"pisot",	46},
-	{"tortu",	46},
-	{"noque",	46},
-	{"lucha",	46},
+	{"oler",	vOler},
+	{"huele",	vOler},
+	{"olfat",	vOler},
+	{"husme", 	vOler},
+	{"esper",	vEsperar},
+	{"z",		vEsperar},
+	{"canta",	vCantar},
+	{"salta", 	vSaltar},
+	{"brinc",	vSaltar},
+	{"ataca",	vAtacar},
+	{"agred",	vAtacar},
+	{"matar",	vAtacar},
+	{"mata",	vAtacar},
+	{"asesi",	vAtacar},
+	{"estra",	vAtacar},
+	{"patea",	vAtacar},
+	{"pisot",	vAtacar},
+	{"tortu",	vAtacar},
+	{"noque",	vAtacar},
+	{"lucha",	vAtacar},
 /*
 	{"ORINA",	47},
 	{"MEAR",	47},
@@ -470,14 +544,12 @@ token_t verbos_t [] =
 	{"ERUCT",	47},
 	{"VOMIT",	47},
 	{"ESCUP",	48},
-*/
 	{"agita",	49},
 	{"menea",	49},
 	{"sacud",	49},
 	{"remov",	49},
 	{"remue",	49},
 	{"balan",	49},
-/*
 	{"COLUM",	50},
 	{"EXCAV",	51},
 	{"CAVAR",	51},
@@ -488,12 +560,10 @@ token_t verbos_t [] =
 	{"CORTA",	52},
 	{"RASGA",	52},
 	{"LEVAN",	53},
-	*/
 	{"atar",	54},
 	{"ata",		54},
 	{"enlaz",	54},
 	{"anuda",	54},
-	/*
 	{"LLENA",	55},
 	{"RELLE",	55},
 	{"NADAR",	56},
@@ -527,52 +597,50 @@ token_t verbos_t [] =
 	{"PALAD",	63},
 	{"SABOR",	63},
 	*/
-	{"abri",	64},
-	{"abre",	64},
-    {"abrir",   64},
-	{"open",	64},
-	{"cerrar",	65},
-	{"cierra",	65},
-	{"close",	65},
-	{"quema",	66},
-	{"encen",	66},
-	{"encie",	66},
-	{"incen",	66},
-	{"prend",	66},
-	{"apaga",	67},
-	{"extin",	67},
-	{"sofoc",	67},
-	{"trans",	68},
-	{"rompe",	69},
-	{"parti",	69},
-	{"parte",	69},
-	{"quebr",	69},
-	{"quieb",	69},
-	{"destr",	69},
-	{"versi",	70},
-	{"poner",	71},
-	{"pon",		71},
-	{"ponte",	71},
-	{"ponse",	71},
-	{"poner",	71},
-	{"viste",	71},
-	{"vesti",	71},
-	{"golpe",	72},
-	{"dar",		73},
-	{"da",		73},
-	{"dase",	73},
-	{"darse",	73},
-	{"darte",	73},
-	{"dale",	73},
-	{"darle",	73},
-	{"ofrec",	73},
-	{"regal",	73},
-	{"meter",	74},
-	{"mete", 	74},
-	{"intro",	74},
-	{"inser",	74},
-	{"echa",	74},
-	{"echar",	74},
+	{"abri",	vAbrir},
+	{"abre",	vAbrir},
+    {"abrir",   vAbrir},
+	{"cerrar",	vCerrar},
+	{"cierra",	vCerrar},
+//	{"quema",	66},
+	{"encen",	vEncender},
+	{"encie",	vEncender},
+	{"incen",	vEncender},
+	{"prend",	vEncender},
+	{"apaga",	vApagar},
+	{"extin",	vApagar},
+	{"sofoc",	vApagar},
+//	{"trans",	68},
+	{"rompe",	vRomper},
+	{"parti",	vRomper},
+	{"parte",	vRomper},
+	{"quebr",	vRomper},
+	{"quieb",	vRomper},
+	{"destr",	vRomper},
+//	{"versi",	70},
+	{"poner",	vPoner},
+	{"pon",		vPoner},
+	{"ponte",	vPoner},
+	{"ponse",	vPoner},
+	{"pone",	vPoner},
+	{"viste",	vVestir},
+	{"vesti",	vVestir},
+	{"golpe",	vAtacar},
+	{"dar",		vDar},
+	{"da",		vDar},
+	{"dase",	vDar},
+	{"darse",	vDar},
+	{"darte",	vDar},
+	{"dale",	vDar},
+	{"darle",	vDar},
+	{"ofrec",	vDar},
+//	{"regal",	73},
+	{"meter",	vMeter},
+	{"mete", 	vMeter},
+	{"intro",	vMeter},
+	{"inser",	vMeter},
+	{"echa",	vMeter},
+	{"echar",	vMeter},
 /*
 	{"LLAMA",	76},
 	{"GRITA",	77},
@@ -607,18 +675,18 @@ token_t verbos_t [] =
 	{"INSUL",	89},
 	{"INCRE",	89},
 	*/
-	{"ir",		90},
-	{"ve",		90},
-	{"vete",	90},
-	{"irte",	90},
-	{"irse",	90},
-	{"camin",	90},
-	{"anda",	90},
-	{"andar",	90},
-	{"corre",	90},
-	{"huir",	90},
-	{"huye",	90},
-	{"dirig",	90},
+	{"ir",		vIr},
+	{"ve",		vIr},
+	{"vete",	vIr},
+	{"irte",	vIr},
+	{"irse",	vIr},
+	{"camin",	vIr},
+	{"anda",	vIr},
+	{"andar",	vIr},
+	{"corre",	vIr},
+	{"huir",	vIr},
+	{"huye",	vIr},
+	{"dirig",	vIr},
 	/*
 	{"ESCON",	91},
 	{"OCULT",	91},
@@ -635,9 +703,7 @@ token_t verbos_t [] =
 	{"SOPLA",	95},
 	{"DOBLA",	96},
 	{"DESDO",	97},
-	*/
 	{"desat",	98},
-	/*
 	{"UNIR",	99},
 	{"UNE",		99},
 	{"JUNTA",	99},
@@ -666,15 +732,15 @@ token_t verbos_t [] =
 	{"CONSU",	107},
 	{"PREGU",	108},
 	*/
-	{"lee",		109},
-	{"leer",	109},
-	{"leers",	109},
-	{"leert",	109},
-	{"leete",	109},
-	{"mover",	110},
-	{"mueve",	110},
-	{"despl",	110},
-	/*
+	{"lee",		vLeer},
+	{"leer",	vLeer},
+	{"leers",	vLeer},
+	{"leert",	vLeer},
+	{"leete",	vLeer},
+	{"mover",	vEmpujar},
+	{"mueve",	vEmpujar},
+	{"despl",	vEmpujar},
+/*
 	{"APRET",	111},
 	{"APRIE",	111},
 	{"ESTRU",	111},
@@ -687,14 +753,45 @@ token_t verbos_t [] =
 	{"SECAR",	116},
 	{"COLOC",	117},
 	{"MACHA",	118},
-	*/
 	{"asust", 120},
 	{"moja",121},
 	{"mojar",121},
 	{"empap",121},
 	{"impre",121},
+*/
+	{"tecle", vTeclear},
+	{"escri", vEscribir},
     {"",0}
 };
+
+// Tabla de adjetivos
+token_t adjetivos_t [] =
+{
+	{"peque", aPequeno},
+	{"grand", aGrande},
+	{"viejo", aViejo},
+	{"vieja", aVieja},
+	{"nuevo", aNuevo},
+	{"nueva", aNueva},
+	{"duro", aDuro},
+	{"dura", aDura},
+	{"bland", aBlando},
+	{"corto", aCorto},
+	{"corta", aCorta},
+	{"largo", aLargo},
+	{"larga", aLarga},
+	{"azul", aAzul},
+	{"verde", aVerde},
+	{"negro", aNegro},
+	{"rojo", aRojo},
+	{"verde", aVerde},
+	{"amari", aAmarillo},
+	{"termi", aTermico},
+	{"frio", aFrio},
+	{"calie", aCaliente},
+	{"",0}
+};
+
 
 // Tabla de objetos
 // No existe la limitación de PAWS donde el objeto 1 siemmpre es la fuente de luz 
@@ -706,23 +803,18 @@ token_t verbos_t [] =
 obj_t objetos_t[]=
 {
     // ID, LOC, NOMBRE, NOMBREID, ADJID, PESO, ATRIBUTOS
-    {o_Caja, lZonaA2,"un paquete azul",     nPaquete, aAzul,   1,0x0000 },  
-    {oTraje, lEsclusa,"un traje presurizado",     nTraje, EMPTY_WORD,   1,0x0000 | aWear },  
-	{oEsclusa, lEsclusa,"la compuerta de la esclusa",     nEsclusa, EMPTY_WORD,   1,0x0000 | aStatic },  
-	{oPuerta, lEsclusa,"una puerta de metal",     nPuerta, EMPTY_WORD,   1,0x0000 | aStatic},  
-	{oPuerta, lEsclusa,"un botón rojo",     nBoton, aRojo,   1,0x0000 | aStatic | aConcealed},  
-	{oPuerta, l_esclusa,"un botón verde",     nBoton, aVerde,   1,0x0000 | aStatic | aConcealed},  
-	{oPuerta, NONCREATED,"un cañón de vigilancia",     nCanon, EMPTY_WORD,   1,0x0000 | aStatic },  
-	{oPuerta, NONCREATED,"un teclado",     nTeclado, EMPTY_WORD,   1,0x0000 | aStatic},  
+    {oCaja, lZonaA2,"paquete azul",     nPaquete, aAzul,   1,0x0000 | aMale | aDeterminado},  
+    {oTraje, lEsclusa,"traje presurizado",     nTraje, EMPTY_WORD,   1,0x0000 | aWear| aMale | aDeterminado},  
+	{oEsclusa, lEsclusa,"compuerta de la esclusa", nEsclusa, EMPTY_WORD,   1,0x0000 | aStatic | aFemale | aDeterminado},  
+	{oPuerta, lEntrada,"puerta de metal",     nPuerta, EMPTY_WORD,   1,0x0000 | aStatic | aFemale},  
+	{obotonrojo, lEsclusa,"botón rojo",     nBoton, aRojo,   1,0x0000 | aStatic | aConcealed | aMale},  
+	{obotonverde, lEsclusa,"botón verde",     nBoton, aVerde,   1,0x0000 | aStatic | aConcealed | aMale},  
+	{oCanon, NONCREATED,"cañón de vigilancia",     nCanon, EMPTY_WORD,   1,0x0000 | aStatic | aMale},  
+	{oTeclado, NONCREATED,"teclado",     nTeclado, EMPTY_WORD,   1,0x0000 | aStatic | aMale},  
     {0,0,"",                EMPTY_WORD,EMPTY_WORD,            0,0x0000}
 }; // Tabla de objetos de la aventura
 
-
 // Una tabla para hablar con el ordenador, se puede usar la misma técnica para definir listas de atrezzo y ahorrarse cientos de 'examinar objeto'.
-typedef struct {
-	BYTE *topic;
-	BYTE *respuesta;
-} tema_t;
 
 // Tabla de conversación con el ordenador 
 tema_t ordenador_t[]= 
@@ -763,8 +855,7 @@ tema_t ordenador_t[]=
 	{"entrada", "-La entrada está hay fuera. Es posible que necesites algún código de acceso para entrar."},
 	{"codigo", "-No tengo ningún dato en la orden de la central acerca del código."},
 	{"central", "-La central de ZEUR está en la Tierra."},
-	{"ZEUR", "-Es la empresa de reparto de paquetes en 24h que nos paga el sueldo y las piezas para seguir recorriendo
-	el Universo."},
+	{"ZEUR", "-Es la empresa de reparto de paquetes en 24h que nos paga el sueldo y las piezas para seguir recorriendo el Universo."},
 	{"Tierra", "-Salvo en las zonas protegidas se ha convertido en un conglomerado de mega-urbes. Un sitio peligroso, pero lleno de oportunidades." },
 	{"almacen", "-Hemos aterrizado cerca de la entrada. Debes salir al exterior, entrar en el almacén y volver con el paquete para que puedas terminar la misión. "},
 	{"temperatura", "-En torno a 150ºC bajo cero en el exterior. Te recomiendo que lleves el traje de superviviencia."},
@@ -813,6 +904,7 @@ tema_t ordenador_t[]=
 // ----------------------------------------------------------------
 char respuestas()
 {
+ BYTE aux;
  //setRAMPage(0);
  //if (respuestas_pagina0()==FALSE)
   //  {
@@ -827,8 +919,35 @@ char respuestas()
 //; ORDENADOR, palabra_clave
 
 // ordenador encender consola -> encender ordenador consola -> encender consola
-if (fverbo==n_ordenador) {
+if (fnombre1==nOrdenador) {
 	// Llamar al procesado de la tabla por tema...
+	// ordenador encender consola -> encender ordenador consola -> encender consola
+	// ordenador palabra_clave
+	// Fuera del alcance...
+	if (CNDatgt (lBodega)) { ACCmessage (177); DONE; }
+	// Comandos al ordenador
+	if (fverbo==vAbrir)
+	{
+		if (fnombre2==nEsclusa)
+		{
+			ACCmessage (132); DONE;
+		}
+	}
+
+	if (fverbo==vApagar) { ACCmessage (192); DONE; }
+	if (fverbo==vEncender && fnombre2==nConsola) { ACCmessage (105); DONE; }
+	if (fverbo==vCerrar)
+	{
+
+	}
+	// Preguntas al ordenador
+	//if (aux=buscador_tema(ordenador_t, nombres_t[fnombre2]))
+	//{
+	//	writeText (ordenador_t[aux].respuesta);
+	//	DONE;
+	//}	
+	ACCmessage (50);
+	DONE;
 	}
 
 //-------------------------------------------------------------
@@ -836,7 +955,7 @@ if (fverbo==n_ordenador) {
 
 if (fverbo== vExaminar) 
 	{
-		if (fnombre1== n_contenedor && fadjetivo1 == aAzul && CNDpresent (oCaja)) 
+		if (fnombre1== nContenedor  && CNDpresent (oCaja)) 
 		{
 			ACCmessage (46);
 			DONE;
@@ -846,18 +965,28 @@ if (fverbo== vExaminar)
 			ACCmessage (49);
 			DONE;
 		}
+		if (fnombre1==nTraje && CNDpresent(oTraje)) { ACCmessage (16); DONE; }
 	}
 
-if (fverbo==vPoner && fnombre1==nTraje && CNDpresent(oTraje) && CNDnotcarr(oTraje) && CNDnotworn(oTraje))
+if (fverbo==vPoner && fnombre1==nTraje && CNDpresent(oTraje))
 	{
-	ACCmessage (191);
-	ACCget (oTraje);
+		if (CNDnotcarr(oTraje) && CNDnotworn(oTraje))
+		{
+			ACCmessage (192);
+			ACCget (oTraje);
+		}
 	}
+
+// Quitar el traje...
+if (fverbo==vQuitar && fnombre1==nTraje && CNDworn(oTraje))
+{
+	if (CNDatgt(lBodega)) { ACCmessage(19); DONE; }
+}
 
 if (fverbo==vAbrir && fnombre1== nContenedor) 
 	{
 		ACCmessage(48);
-		return TRUE;
+		DONE;
 	}
 
 // ---------------------------------------------------------------
@@ -883,11 +1012,16 @@ if (fverbo==vExaminar)  {
 
 }
 
-if (fverbo==vEscuchar) {
+if (fverbo==vSaltar) { ACCmessage(56); DONE; }
+if (fverbo==vEscuchar) 
+{
 	if (CNDatlt (lExterior)) { ACCmessage (57); DONE; }
+	ACCmessage(56);
+	DONE;
 }
 
-if (fverbo==vCantar) {
+if (fverbo==vCantar) 
+{
 	if (CNDatlt(lExterior)) { ACCmessage (175); DONE;}
 		else { ACCmessage (176); DONE; }
 }
@@ -898,12 +1032,9 @@ if (fverbo==vCantar) {
 // Puente de mando
 // --------------------------------------------------
 
-if (flocation==lPuente)
+if (flocalidad==lPuente)
 	{
-		if (fverbo==vTeclear) 
-		{
-			ACCmessage (181); DONE;
-		}
+		if (fverbo==vTeclear) { ACCmessage (181); DONE; }
 		// Atrezzo 
 		if (fverbo==vExaminar) 
 		{
@@ -917,39 +1048,24 @@ if (flocation==lPuente)
 				ACCmessage (12); DONE;
 			}
 
-			if (fnombre1==nCristales)
-			{
-				ACCmessage (13); DONE;
-			}
-			if (fnombre1==nEscaleras) 
-			{
-				ACCmessage (4); DONE;
-			}
-			if (fnombre1==nPantalla || fnombre1==nInterior || fnombre1==Consola) 
+			if (fnombre1==nCristales) { ACCmessage (13); DONE; }
+			if (fnombre1==nEscaleras) { ACCmessage (4); DONE; }
+			if (fnombre1==nPantalla || fnombre1==nInterior || fnombre1==nConsola || fnombre1==nControles) 
 			{
 				ACCmessage (8); DONE;
-			}
-			if (fnombre1==nLuz || fnombre1=nTormenta) 
-			{
-				ACCmessage (11); DONE;
-			}
+			}	
+			if (fnombre1==nLuz) { ACCmessage (10); DONE; }		
+			if (fnombre1==nTormenta) { ACCmessage (11); DONE; }
 		}
 
-		if (fverbo==vEncender && fnombre1==nConsola) 
-		{
-			ACCmessage (9); DONE;
-		}
-
-		if (fverbo==vIr && fnombre1==nNodo) 
-		{
-			ACCgoto(l_puente);	DONE;	
-		}
+		if (fverbo==vEncender && (fnombre1==nPantalla || fnombre1==nConsola)) { ACCmessage (9); DONE; }
+		if (fverbo==vIr && fnombre1==nNodo) { ACCgoto(lNodo); DONE;	}
 	}
 // --------------------------------------------------
 // Nodo central 
 // --------------------------------------------------
 
-if (flocation == lNodo) 	
+if (flocalidad == lNodo) 	
 	{
 		if (fverbo==vExaminar) 
 		{
@@ -980,43 +1096,122 @@ if (flocation == lNodo)
 
 	// Escena de casi-final...
 	if (CNDcarried(oCaja) && flags[fCasifin]==0)
-	{
-		ACCmessage (170);
-		flags[fCasifin]=1;
-		ACCanykey();
-		DONE;
-	}
+		{
+			ACCmessage (58);
+			flags[fCasifin]=1;
+			ACCanykey();
+			ACCmessage (59);
+			DONE;
+		}
 
 	}
 
 // --------------------------------------------------
 // Esclusa 
 // --------------------------------------------------
-if (flocation == l_esclusa) 
+if (flocalidad == lEsclusa) 
 	{
+	// Sinónimos...
+	if (fverbo==vIr && fnombre1==nExterior) { fverbo = vSalir; }
+	if (fverbo==nOeste) { fverbo = vSalir; }
+	if (fverbo==nEste) { fverbo = vIr; fnombre1=nNodo; }
+	// Puzzle de la esclusa y ponerse el traje
+	// No podemos quitarnos el traje con la esclusa abierta...
+	if (fverbo==vQuitar && fnombre1==nTraje  && CNDcarried(oTraje))
+		{
+			if (CNDonotzero(oEsclusa, aOpen)) { ACCmessage (19); DONE; }
+		}
 
+	if (fverbo==vSalir)
+		{
+		// Salir, compuerta cerrada...
+		if (CNDozero (oEsclusa, aOpen)) { ACCmes(24); ACCmessage(22); DONE; }
+		// Salir, Pero no lleva el traje
+		if (CNDnotworn (oTraje)) { ACCmessage (19); DONE;}
+		// Salir con éxito 
+		if (CNDonotzero(oEsclusa, aOpen) && CNDworn(oTraje)) { ACCgoto (lExterior); DONE; }
+		}
+	
+	// Regresa al nodo pero lleva puesto el traje...
+	if (fverbo==vIr && fnombre1==nNodo)
+		{
+			if (CNDworn(oTraje) || CNDcarried(oTraje)) { ACCmessage (20); DONE; }
+				else { ACCgoto (lNodo); DONE; }
+		}
+
+	// Puzzle de abrir la compuerta
+	if (fnombre1==nPuerta || fnombre1==nCompuerta) fnombre1=nEsclusa;
+	if (fverbo==vAbrir && fnombre1==nEsclusa ) { ACCmessage(24); DONE; }
+	if (fverbo==vCerrar && fnombre1==nEsclusa) { ACCmessage(25); DONE; }
+	if (fverbo==vExaminar)
+		{			
+			if (fnombre1==nEsclusa || fnombre1==nCompu)
+			{
+				ACCmes(21);
+				// Aparecen listados...
+				ACCoclear (obotonrojo,aConcealed);
+				ACCoclear (obotonverde,aConcealed);
+				if (CNDonotzero(oEsclusa, aOpen)) { ACCmessage(23); DONE; }
+					else { ACCmessage(22); DONE; }
+			}
+			if (fnombre1==nControles) { ACCmessage(24); DONE; }
+			if (fnombre1==nBoton) 
+			{
+				if (fadjetivo1==aVerde) { ACCmessage (26); DONE; }
+				if (fadjetivo1==aRojo) { ACCmessage(27); DONE; }	
+				ACCmessage(172); 
+				DONE; 
+			} 
+		}
+	// Usar los botones...
+
+	if (fverbo==vPulsar)
+	{
+		if (fnombre1==nBoton)
+		{
+			// Cerrar esclusa 
+			if (fadjetivo1==aRojo)
+			{
+				if (CNDozero(oEsclusa,aOpen)) { ACCmessage(32); DONE; }
+				else { ACCoclear (oEsclusa, aOpen); ACCmessage(30); DONE; }
+			}
+			// Abrir esclusa...
+			if (fadjetivo1==aVerde)
+			{
+				if (CNDonotzero(oEsclusa,aOpen)) { ACCmessage(28); DONE; }
+				else { 
+					// Pero no tiene puesto el traje...
+					if (CNDnotworn(oTraje)) { ACCmessage(19); DONE; }
+					// Abre la compuerta
+					ACCoset (oEsclusa, aOpen); ACCmessage(29); DONE; }
+			}
+		}	
+	}
+		
 	}
 
 // --------------------------------------------------
 // Bodega 
 // --------------------------------------------------
 
-if (flocation==l_bodega)
+if (flocalidad==lBodega)
 	{
 	// Fin del juego
 	if (CNDcarried(oCaja))
 		{
-			ACCmessage (171);
+			ACCmessage (60);
 			ACCanykey();
+			ACCmessage (61);
+			ACCanykey();
+			ACCmessage (62);
+			ACCanykey();
+			ACCmessage (63);
 			ACCend();
+			DONE;
 		}
 	if (fverbo==vExaminar)
 		{
-		if (fnombre1==nPaquetes)
-			{
-				ACCmessage (173);
-				DONE;
-			}
+		if (fnombre1==nPaquetes) { ACCmessage (173); DONE; }
 		}
 
 	if ( (fverbo==vCoger || fverbo==vEmpujar) && fnombre1==nPaquetes)
@@ -1030,33 +1225,17 @@ if (flocation==l_bodega)
 // --------------------------------------------------
 if (fverbo==vExaminar)
 {
-	if (CNDatlt (lZonaA1) && CNDatgt(lBodega)))
+	if (flocalidad==lExterior || flocalidad==lAlmacen)
 	{
-		if (fnombre1==nCielo) 
-		{
-			ACCmessage (7);
-			DONE;
-		}
-		if (fnombre1==nJupiter)
-		{
-			ACCmessage (178);
-			DONE;
-		}
-		if (fnombre1==nEuropa) 
-		{
-			ACCmessage (179);
-			DONE;
-		}
-		if (fnombre1==nCristales) 
-		{
-			ACCmessage (11);
-			DONE;
-		}	
+		if (fnombre1==nCielo) { ACCmessage (7); DONE; }
+		if (fnombre1==nJupiter) { ACCmessage (178); DONE; }
+		if (fnombre1==nEuropa) { ACCmessage (179); DONE; }
+		if (fnombre1==nCristales) { ACCmessage (11); DONE; }	
 	}
 }
 
 
-if (flocation==lExterior)
+if (flocalidad==lExterior)
 	{
 		if (fverbo==vIr)
 		{
@@ -1088,97 +1267,259 @@ if (flocation==lExterior)
 // --------------------------------------------------
 // Entrada al almacén
 // --------------------------------------------------
-if (flocation==lEntrada)
-	{		
-		if (fverbo==vIr) 
-		{
-			if (fnombre1==nNave) 
-			{
-				ACCgoto (lExterior);
-				DONE;
-			}	
-		}
+if (flocalidad==lEntrada)
+{		
+	if (fverbo==vIr) 
+	{
+		if (fnombre1==nNave) { ACCgoto (lExterior); DONE; }	
+	}
 	
-		if (fverbo==vExaminar)
+	
+	if (fverbo==nEste) { fverbo==vIr; fnombre1==nNave; }
+	if (fverbo==vIr && fnombre1==nNave) { ACCgoto(lExterior); DONE; }
+	if (fverbo==nOeste || fnombre1==nOeste) { fverbo==vEntrar; }
+	// Entrar al almacén...
+	if (fverbo==vEntrar) 
+	{
+		if (CNDozero(oPuerta, aOpen)) { ACCmessage(22); DONE; }
+		ACCgoto(lZonaA1);
+		DONE;
+	}
+
+	if (fverbo==vExaminar)
+	{
+		if (fnombre1==nEdificio) { ACCmessage(182); DONE; }	
+
+		if (fnombre1==nPuerta) 
 		{
-			if (fnombre1==nEdificio) 
+			ACCmes(180);
+			if (!CNDisat(oTeclado,lEntrada))
 			{
-				ACCmessage (39);
-				ACCplace (oTeclado,lEntrada);
+				ACCmes (39);
+				ACCplace (oTeclado,lEntrada);			
+			}	
+			if (CNDonotzero(oPuerta, aOpen)) { ACCmessage(23); DONE;}
+				else { ACCmessage(22); DONE; }
+			DONE;
+		}
+
+		if (fnombre1==nCanon && CNDpresent(oCanon)) { ACCmessage(41); DONE; }
+		if (fnombre1==nTeclado && CNDpresent(oTeclado)) 
+		{
+			if (CNDabsent(oCanon) && CNDozero (oPuerta, aOpen)) 
+			{
+				ACCplace(oCanon, lEntrada);
+				ACCmessage(40);
 				DONE;
 			}
+			writeText ("El teclado no responde. La puerta ya está abierta.^");
+			DONE;
 		}
-	
 	}
+
+	if ( (fverbo==vAbrir||fverbo==vCerrar) && fnombre1==nPuerta)
+	{
+		ACCmessage (195);
+		if (!CNDisat(oTeclado,lEntrada))
+		{
+			ACCmes (39);
+			ACCplace (oTeclado,lEntrada);			
+		}	
+		DONE;
+	}
+		
+	if (fverbo==vTeclear) fverbo=vEscribir;
+	if (fverbo==vEscribir)
+	{
+		if (fnombre2==EMPTY_WORD) { fnombre2=nTeclado; ACCmes(183); }
+		if (fnombre2==nTeclado)
+		{
+			// Si ya está abierta...
+			if (CNDpresent(oTeclado) && CNDonotzero(oPuerta, aOpen))
+			{
+				ACCmessage(184);
+				DONE;
+			}
+			if (fnombre1==n32768 && CNDpresent(oTeclado))
+			{
+				// No está abierta...
+				if (CNDozero(oPuerta, aOpen))
+				{
+					ACCmessage(186);
+					ACCoset (oPuerta, aOpen);
+					ACCplace (oCanon, LOCATION_NOTCREATED);
+					ACCsetexit (lEntrada, nOeste, lZonaA1);
+					ACCsetexit (lEntrada, nEntrar, lZonaA1);
+					ACCdesc();
+					DONE;
+				}	
+			}
+
+			// Clave incorrecta...
+			if (CNDpresent(oTeclado) && CNDpresent(oCanon)) 
+			{
+				ACCmes (185);
+				flags[fCanon]++;
+				if (flags[fCanon]<3)
+				{
+					ACCmessage (186+flags[fCanon]);
+					DONE;
+				} 
+				// Ha excedido el número de intentos
+				ACCmessage(41);				
+			}
+		}
+	}
+}
 // --------------------------------------------------
 // Zona A1
 // --------------------------------------------------
-if (flocation==lZonaA1)
+
+if (flocalidad==lZonaA1)
+{
+	if (fverbo==vExaminar) 
 	{
-		if (fverbo1==vExaminar) 
+		if (fnombre1==nEstanterias) { ACCmessage (43); DONE;}			
+		if (fnombre1==nTecho || fnombre1==nSuelo || fnombre1==nParedes || fnombre1==nPasillo) 
 		{
-			if (fnombre1==nEstanterias) 
-			{
-				ACCmessage (43); DONE;
-			}			
-			if (fnombre1==nTecho || fnombre1==nSuelo || fnombre1==nParedes || fnombre1==nPasillo) {
-				ACCmessage (44); DONE;
-			}
-			if (fnombre1==nContenedores) {
-				ACCmessage (190);
-				DONE;
-			}
+			ACCmessage (44); DONE;
+		}
+		if (fnombre1==nContenedores) 
+		{
+			ACCmessage (191);
+			DONE;
 		}
 	}
+}
 
 // --------------------------------------------------
 // Zona A2
 // --------------------------------------------------
-if (flocation==lZonaA2)
+if (fverbo==vCoger) 
+{
+	if (fnombre1==nPaquete)
 	{
-		if (fverbo1==vExaminar)
+		if (fadjetivo1==aAzul) 
 		{
-			if (fnombre1==nBoveda) 
-			{
-				ACCmessage (45);
-				DONE;
-			}	
-			if (fnombre1==nPasillo) 
-			{
-				ACCmessage (44);
-				DONE;
-			}
-			if (fnombre1==nEstanterias)
-			{
-				ACCmessage (44);
-				DONE;
-			}
-			if (fnombre1==nContenedores)
-			{
-				ACCmessage (190);
-				DONE;
-			}
+			ACCautog(); DONE; 
+		} 
+				
+		if (flocalidad==lZonaA2 || flocalidad==lZonaA1) { ACCmessage (194);DONE;}
+		
+	}
+}
+if (flocalidad==lZonaA2)
+{
+	 
+	if (fverbo==vExaminar)
+	{
+		if (fnombre1==nBoveda) 
+		{
+			ACCmessage (45);
+			DONE;
+		}	
+		if (fnombre1==nPasillo) 
+		{
+			ACCmessage (44);
+			DONE;
 		}
-
+		if (fnombre1==nEstanterias)
+		{
+			ACCmessage (44);
+			DONE;
+		}
+		if (fnombre1==nContenedores)
+		{
+			ACCmessage (191);
+			DONE;
+		}
 	}
 
+}
  NOTDONE;
 
 // ================= LIBRERíA BASE FINAL=======================================
-
-
 
 }
 
 // ----------------------------------------------------------
 // Tabla de respuestas-post
-// Se llama después de ejecutar con éxito una entrada de la tabla de respuestas
+// Se llama después de ejecutar el proceso de respuestas
 // ----------------------------------------------------------
 
 char respuestas_post()
 {
  //setRAMPage(0);
  // respuestas_post_pagina0();
+
+// ------------------- LIBRERÍA BASE -----------------------------------
+ // Comandos de dirección...
+ // writeText ("Respuestas Post: %u %u^", flags[fverb], flags[fnoun1]);
+ // Movimiento entre localidades...
+    BYTE i;
+    BYTE loc_temp;
+
+	if (fverbo==vQuitar) {  ACCautor(); DONE; }
+	if (fverbo==vPoner) { ACCautow(); DONE; }
+	
+	// En este punto el examinar no ha sido cubierto por las respuestas
+    if (flags[fverb]==vExaminar)
+    {
+        if (findMatchingObject(get_loc_pos(loc_here()))!=EMPTY_OBJECT)
+            writeText ("Deberías coger eso antes.^");
+        else
+			writeText ("No ves eso por aquí.^");
+		DONE;
+    }
+
+    if(flags[fverb]==nInventario)
+    {
+        ACCinven();
+        ACCnewline();
+        DONE;
+    }
+
+    if (flags[fverb]==vCoger)  { ACCautog(); DONE; }
+
+    if (flags[fverb]==vDejar) { ACCautod(); DONE; }
+
+    if (flags[fverb]==vMeter) { DONE; }
+
+    if (flags[fverb]==vSacar) { DONE; }
+
+    // Si es un nombre/verbo de conexión...
+    if (flags[fverb]>0 && flags[fverb]<NUM_CONNECTION_VERBS)
+        {
+            i=0;
+            loc_temp = get_loc_pos (flags[flocation]); // La posicion en el array no tiene porque coincidir con su id
+			i = conexiones_t[loc_temp].con[flags[fverb]-1];
+	        if (i>0)
+            {
+                ACCgoto(i);
+                DONE;
+            }
+            else {
+                ACCsysmess(SYSMESS_WRONGDIRECTION);
+                NOTDONE;
+            }
+
+        }
+
+    // Comandos típicos...
+    if (flags[fverb]==vMirar)
+    {
+        ACCgoto( flags[flocation]);
+        DONE;
+    }
+	if (flags[fverb]==vEmpujar || flags[fverb]==vTirar)
+	{
+		ACCsysmess (SYSMESS_CANNOTMOVE);
+		DONE;
+	}
+
+    // Si ninguna acción es válida...
+    ACCsysmess(SYSMESS_IDONTUNDERSTAND);
+    newLine();
 }
 
 char proceso1() // Antes de la descripción de la localidad...
@@ -1218,6 +1559,7 @@ char proceso2() // Después de cada turno, haya tenido o no éxito la entrada en l
  //setRAMPage(0);
 }
 
+
 void main (void)
 {
 	clear_screen(INK_YELLOW | PAPER_BLACK);
@@ -1226,9 +1568,36 @@ void main (void)
 // Inicializar variables
     initParser ();                // Inicializa el parser y la pantalla
     defineTextWindow (0,0,32,23); // Pantalla reducida en 128Kb, Gráficos + Texto
-    ACCgoto(l_puente); // Localidad inicial, en el puente de mando
+    ACCgoto(lPuente); // Localidad inicial, en el puente de mando
     flags[LOCATION_MAX] = 8; // Número más alto de localidad
     ACCability(10,20); // 10 objetos, 20 piedras
 
 	ParserLoop (); // Pone en marcha el bucle principal
 }
+
+// Funciones propias del juego
+
+// Función para buscar en tablas a partir de una palabra clave
+unsigned char buscador_tema (tema_t *tabla, unsigned char *word) 
+{
+    // Input: Cadena de texto
+    unsigned char fin=0;
+    unsigned char counter=0;
+    //writeText ("Buscando...%s\n",word);
+    while (fin==0)
+    {
+		//writeText ("%s-%s ",tabla[counter].word,playerWord);
+        if (tabla[counter].topic==0) fin=1; // Fin de la tabla...
+        if (strncmp(word,tabla[counter].topic,MAX_WORD_LENGHT)==0)
+        {
+            // flags[ftemp]=tabla[counter].id;
+            //writeText ("found %u", flags[ftemp]);
+            return counter;
+        }
+        counter++;
+    }
+    return EMPTY_WORD;
+}
+
+
+
