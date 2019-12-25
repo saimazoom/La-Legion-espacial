@@ -1,0 +1,2161 @@
+Referencias:
+    https://github.com/Utodev/ngPAWS/wiki/Lista-alfabética-de-condactos
+    FX y música con AY: http://foro.speccy.org/viewtopic.php?f=6&t=4806
+
+Listado de puzzles pendientes
+
+ - Recargar la lámpara/antorcha cuando se gastan
+
+
+7/04/2018
+ Abandoné el proyecto el pasado verano sobre todo debido a la falta de tiempo y un poco a la decepción de los cuelgues y lo difícil de conseguir las ilustraciones y el sonido para el juego.
+
+ > Hoy he arrancado de nuevo la aventura, jugador durante unos minutos y pienso
+ que es una lástima que no vea la luz.
+
+ El plan es el siguiente, aprovechar las nuevas ganas para darle un empujón
+ y terminar una versión de SOLO TEXTO. En un principio no cabrá en 48K, pero
+ luego le puedo dar una vuelta.
+
+> Voy a aprovechar para mirar la aventura con la mirada fresca y me ha gustado
+mucho lo que se puede jugar.
+
+- Si te quedas sin luz en la pirámide ¿cómo recargo la lámpara/antorcha?
+- No se puede coger la cuerda
+
+
+
+20/07/2017
+ > Díficil seguir con el desarrollo durante las vacaciones, pero bueno...
+ > La aventura sigue estable con la paginación en los modelos de 128K y +3 después de desactivar
+ los gráficos. Sigo adelante en este modo hasta poder terminar
+ + Depurando el infame espaciado cuando hace scroll... finalmente ya funciona. Nada a destacar,  salvo que hay un buen lío con los márgenes y los incrementos.
+
+
+
+Listado de puzzles...
+
+En la Sala de Cofre
+- Añadir respuestas a meter cosas en la ranura del cofre o abrir el cofre con cosas...
+- Respuestas a Abrir Cofre
+- excavar en el desierto
+- coger herramientas
+- Mejorar la descripción del pedernal
+- Revisa descripción de la estancia
+- Poder meter cosas en las vasijas si son pequeñas
+- Sacar trigo de vasija, mejorar el mensaje
+- Meter barra en vasija
+- Mejorar el mensaje de meter la llave en el cofre
+
+Puzzle de la trampa
+ - Se trata de una puerta falsa de madera o de piedra, utilizada para comunicarse con el mundo de los muertos
+ - La llave es una loseta que encaja en la entrada. Al introducirla la puerta cae a plomo
+a un nivel ingerior.
+ - La entrada a la trampa está bloqueada por una llave
+ - Abre la puerta con la llave
+
+    - No se reimprime el menú si se pulsa una tecla no esperada...
+    - Barra de estado y sistema de puntos
+
+
+
+
+-> Release Beta 1 interna <-
+    - RamSave / RamLoad
+    - Save / Load en cinta
+    - Cursor Arriba '7' imprime el comando anterior.
+	- Tutorial para el puzzle hasta encajar el bloque
+    - Si no se encuentra la palabra correcta se busca la más parecida y se imprime "Quizá quisiste decir: xxxx yyy
+    - Pequeño diccionario para autocompletar pulsando 'EXTRA'
+    - Salvar/cargar partida a cinta/disco. En 128K a lo mejor podemos permitir un ramsave/ramload.
+        https://www.worldofspectrum.org/forums/discussion/53173/saving-and-loading-data-in-assembly
+
+	- Poder usar el histórico de comandos...
+    - Música en el menú, mientras se juega y algunos FX
+    - Según nos adentramos en la pirámide vamos perdiendo cordura. Algunos efectos:
+        - Reset del ordenador y aparece el prompt del 48K
+        - Se caen las letras de la pantalla poco a poco
+        - Las direcciones están intercambiadas al desplazarnos.
+        - La brújula no deja de dar vueltas
+        - Escucha voces desde el interior de los sarcófagos
+        - Algo rasca detrás de las rocas
+        - En el menú inicial vemos poco a poco el rostro del faraón
+        - No se ve lo que se escribe.
+        - Se escriben cosas incoherentes
+        - Los textos aparecen invertidos
+        - Nieve negra va ocultando el texto según nos quedamos sin luz
+        - Al no haber luz no debería mostrarse el gráfico de la localidad
+        - Si no tenemos luz en la pirámide, el color de atributos es sólo azul y negro, cuando nos
+        vamos quedando sin luz pasa a rojo y negro
+
+    - Replay automático con "testme"
+		- Vector de test para completar la aventura...
+        - Cola de comandos para poder hacer sentencias complejas... (n,s,e,o, coger piedra y linterna)
+
+14/07/2017
+ Por cosas de la vida he tenido una parada de varias semanas, ahora a darle el toque final :). Ya tenemos distribuidor para la aventura y Kano está trabajando en la portada para el juego.
+
+ Voy a intentar pulir los dos últimos problemas técnicos: La paginación en +2A/+3 y la infame línea en blanco que aparece de vez en cuando.
+
+ > Paginación
+    > Balanceo la memoria entre la página 4 y la 6 para no sobrepasar los 16384 bytes.
+    > He reparado mi +3 con la ayuda de Dani, y he podido cargar un .tap de la aventura. Efectivamente se cuelga como en el Spectaculator (sin embargo el cuelgue no sucede en ZXSpin),
+    simplemente al entrar en los créditos.
+
+    Refrescando un poco la paginación...
+    https://magazinezx.speccy.org/17/128k-mode.html
+
+    Modelos +2/128K : Bancos 1, 3, 5 y 7.
+    Modelos +2A/+3: Bancos 4, 5, 6 y 7.
+
+    En nuestro juego los gráficos están ubicados en las páginas 4 y 6.
+
+    - Nada más cargar el último bloque es la página 0, asi que debería funcionar la primera
+    pantalla. Se cuelga tanto en 128K como en +3
+    + Cargador simplificado tan sólo parser y página 0 y sin paginación.
+        + Funciona en 128K y +3
+    + Mismo cargador pero paginando entre la 0 y la 1, pero sin llamar a ninguna rutina de la página 1 pues no han sido cargadas.
+        + Funciona en 128K y +3
+    > Quizá el problema reside en como voy paginando con el poke en el cargador...
+    - Cargador con página 0 y página 1 en memoria.
+        + Paginando de vuelta a 0 y ejecutando código... OK para 128K y +3
+        + Ejecutando código de la página 0 y la página 1... OK para 128K y +3
+
+    > Todo el código de la aventura ocupa 43299 bytes. Casi nos cabe en 48Kb (41194bytes). Quizá
+después de eliminar el debugger, se puede eliminar una fuente o alguna librería a cambio de conseguir entrar en 41Kb.
+
+    > El caso es que sin gráficos, de momento todo es estable paginando tanto en 128Kb como en +3.
+    > Voy a seguir el desarrollo sin los gráficos, para terminar lo que queda de la aventura.
+
+29/05/2017
+30/05/2017
+01/05/2017
+
+> He añadido los condactos para gestionar salidas en las localidades.
+> Repaso a todo el código de conexiones para tener en cuenta la nueva definición de localidades y los condactos.
+> Ahora las conexiones se definen en un array, en lugar de usar una estructura.
+> Toca revisar todo el código de conexiones U_U. Ya está funcionando de nuevo...
+
+Puzzle del Sepulcro y el Pozo
+- Nueva pantalla para el sepulcro
+- Atar la cuerda a la polea y la tapa
+- Abrir el sarcófago con la polea y la cuerda
+- No sale listada la salida al oeste
++ Ex sarcofago/feretro/tumba
++ Mensaje de Abrir sarc/tapa con las manos
+- Ex focos, Ex polea
+- Girar Polea, Usar Polea
+- Evitar que el jugador meta/saque cosas del sarcófago
+- Los grabados del sarcófago muestran ahora la pista de la copa, la espada y el anillo.
++ ex mano
++ ex momia
+- ex vendas
++ Usar el anillo para contentar el espíritu del faraón. Una vez se lo pone accidentalmente se abre un acceso al norte, por ejemplo una viga de los
+excavadores empuja la pared. También la puede empujar el jugador...
+
+
+27/05/2017
+> Repaso de todos los textos, más descripciones en la aventura. Voy virando la ambientación al terror psicológico.
+> La carta ahora es un telegrama y habla del presente en pasado... :-m. ¿Problemas con la dilatación del espacio-tiempo en la pirámide?
+> Revisión de textos
++ Se imprimen los turnos y los puntos
+> Recopilación de más imágenes
+> He añadido un dibujo nuevo para la cobra
+
+
+25/05/2017
+> Nueva pantalla para la entrada a la pirámide
++ La cobra no aparece listada al entrar en la antesala... Fixed
+
+Puzzle de la trampa
+ - La entrada a la trampa está bloqueada por una llave
+ + Carta en la sala de la trampa
+ + Repaso del texto de la carta de Carter
+ + La trampa se pone en marcha al coger la carta por primera vez...
+ + La sala se mueve descubriendo una puerta
+ + La barra detiene los pinchos pero no el giro, de este modo podemos salir por el pasillo
+ + Con esto ya se puede acabar el juego...
+
+Puzzle del Sepulcro y el Pozo
++ Falta el anillo en el pozo. El anillo se lleva puesto desde el principio. Es un regalo de Carter.
++ Eliminar el pozo de almas. No lo encuentro en la literatura egipcia, yo creo que lo tomaron prestado de la película de Indiana Jones.
+- Los grabados del sarcófago muestran ahora la pista de la copa, la espada y el anillo.
+- Abrir el sarcófago con la polea
+- ex mano falla
+- ex momia
+- ex vendas
+- Usar el anillo propio para contentar al faraón. Una vez se lo pone accidentalmente se abre un acceso al norte, por ejemplo una viga de los
+excavadores empuja la pared. También la puede empujar el jugador...
+
+Puzzle de la espada
+ - Se abre el pasadizo al poner el anillo al faraón
+ - La hoja de la espada aparece sobre un hueco
+
+
+24/05/2017
+> Repaso del texto de todas las localidades
+ - La cobra no aparece listada al entrar en la antesala...
+ - Los mensajes de oscuridad al descender no parecen funciona bien...
+
+22/05/2017
+Puzzle de la Trampa
++ En el distribuidor la puerta no está cerrada -> Cambiar a que la puerta cierre el acceso a la trampa
+    + Fusionar la pantalla 1 y la 31 en una sola trampa
++ Morir en la trampa si se intenta cruzar, pero no de forma inmediata dar algunos turnos antes de que se cierre sobre nosotros
++ No hace falta llevar objetos para atravesar la trampa, tan sólo bloquearla
++ Movemos la carta de Lord Carnarvon a la trampa del laberinto, al cogerla o intentar salir al norte se activa la trampa. De este modo
+sugerimos que es una trampa preparada por él, quizá por venganza al saber de la relación entre Evelyn y Carter. Quizá Carter ya está
+atrapado dentro de la pirámide.
+13/05/2017
+14/05/2017
+15/05/2017
+16/05/2017
+17/05/2017
+18/05/2017
+19/05/2017
+20/05/2017
+
+> He eliminado las localidades 31, 30, 27 y 28 pues no aportan nada al juego.
+> Compilación de rutinas y mensajes de depuración en función de #define DEBUG. Para release ahorramos 1.5Kb :-D y el juego ya cabe en 48Kb
++ Al arrancar no aparece la descripción de la localidad ni el input del jugador.
+    Faltaba una llave en una condición de la página 1 >_<
+> Parece que el cuelgue en modelos +2a y +3 es debido a la tabla de interrupciones al conmutar a memoria contenida.
+https://www.worldofspectrum.org/forums/discussion/38214/maritrini-and-cray-5-loading-problems
+
+https://worldofspectrum.org/forums/discussion/38284/redirect/p2
+
+ No uso interrupciones, pero por lo visto es lo que me está machacando...
+ En 128K IR vale 0x00xx, xx va cambiando con la ejecución
+ En +2A IR vale 0x00xx
+ En +3A IR vale 0x00xx
+
+> Nuevo dibujo para las escaleras de entrada, ahora tengo que arreglar también la parte de la pirámide... :-/
+
+Puzzle de la Ofrenda
++ La llave de plata pasa al limbro, sólo aparece cuando se resuelve el puzzle de la mesa.
++ Solucionando el problema de la mesa.
+    + Sólo funciona el examinar...
+    + Desambigua para todas las acciones...
+    En lugar de hacer un apaño he pensado que mejor implementar ya el código para futuras aventuras:
+    + Añado todo el código de gestión de contenedores: Meter, sacar, coger de, dejar en
+    + Mirar/Mirar dentro de...
+    + Quitar/Poner objetos con propiedad aWear
+    + Al quedarme sin memoria base muevo las funciones nuevas a la página 0 que todavía tiene bastante memoria libre.
+    + Quitar/Poner el anillo
+    + Ya se puede dejar y coger de la mesa cualquier objeto...
+    + Al dejar trigo y maiz se resuelve el puzzle...
+
+Puzzle de la Espada
++ Nada en la ranura. Aparece la descripción de la espada.
++ Ex ranura falla
++ Falta la espada en el altar
+
+11/05/2017
+12/05/2017
+13/05/2017
++ No se puede hacer referencia a las semillas de maiz por maíz
++ Faltan retornos de carro:
+    + Lo intentas con las manos...
+    + rompes las vasijas con la barra...
+    + Es del tipo que arde
+    + Excavado en la roca...
+    + Desplazas la tapa del sepulcro...
++ "un trigo" por "unas semillas de trigo"
++ No se puede coger la tabla
+    + La tabla pesa bastante y nos obliga a dejar objetos
++ No se puede coger la sandalia
++ Cofre_ el cofre, ex ranura falla
++ Cuando te pierdes en la oscuridad la pantalla no se actualiza antes de la descripción de la entrada...
++ Añadir:
+   Mojar antorcha en aceite, Empapar antorcha en aceite, Meter antorcha en aceite, Impregnar antorcha en aceite
++ Se puede descender en la sala del sepulcro aunque no uses la cuerda
++ Se puede cruzar el puente aunque vayas cargado de objetos. Arreglado.
++ Luminaria: Meter antorcha en hueco, Dejar antorcha en hueco, Poner antorcha en hueco
++ ex semillas falla
+        + ex semillas trigo
+        + ex semillas maiz
+        + ex semillas ¿cuál?
++ Dejar trigo en mesa funciona pero no dejar maiz
+    + El trigo aparece en la localidad de la trampa (1)
+    + Faltaba por definr la localidad de la mesa en localidades_t.
++ No aparecen listados los objetos sobre la mesa
+    + Definido mesa como soporte
+
+
+10/05/2017
+
++ No puedo pasar la serpiente dejando la linterna encendida en el suelo
+    + Error en condactos de cndisat y cndat
++ El comando ;move ahora permite mover objetos al inventario y a puesto.
+> El debugger es absolutamene maravilloso :-D
+
+- No se puede hacer referencia a las semillas de maiz por maíz
+- Faltan retornos de carro:
+    - Lo intentas con las manos...
+    - rompes las vasijas con la barra...
+    - Es del tipo que arde
+    - Excavado en la roca...
+    - Desplazas la tapa del sepulcro...
+
+- un trigo por semillas de trigo
+- ex semillas falla
+- ex trigo falla
+- ex ranura falla
+- Dejar trigo en mesa funciona pero no dejar maiz
+    - El trigo aparece en la localidad de la trampa (1)
+- No aparecen listados los objetos sobre la mesa
+- En el distribuidor la puerta no está cerrada
+- La trampa no tiene ningún efecto, no parece quedar claro que es el objetivo para pasar a la otra pirámide...
+- Morir en la trampa si se intenta cruzar, pero no de forma inmediata dar algunos turnos antes de que se cierre sobre nosotros
+
+- No se puede coger la tabla
+- Añadir:
+   Mojar antorcha en aceite, Empapar antorcha en aceite, Meter antorcha en aceite, Impregnar antorcha en aceite
+- Luminaria: Meter antorcha en hueco, Dejar antorcha en hueco, Poner antorcha en hueco
+- Cuando te pierdes en la oscuridad la pantalla no se actualiza antes de la descripción de la entrada...
+- Se puede cruzar el puente aunque vayas cargado de objetos...
+- Se puede descender en la sala del sepulcro aunque no uses la cuerda
+Sepulcro
+- ex mano falla
+- ex momia
+- ex vendas
+- Falta el anillo en el pozo
+Altar
+- Nada en la ranura
+- Ex ranura falla
+- Falta la espada en el altar
+
+- Secuencia para ganar:
+   1) Coger linterna -> Coger barra -> Conseguir llave -> Bajar -> Abrir trampa -> Bloquear la trampa -> Fin de juego
+   Puzzles:
+    - Encontrar la linterna +5
+    - Empujar el bloque para conseguir la barra +10
+    - Hipnotizar la serpiente +10
+    - Resolver el puzzle de la ofrenda +10
+    - Conseguir antorcha, mojarla en aceite y encenderla para tener luz +5 +5
+    - Bloquear la trampa con la barra +5
+
+   50pts
+
+   Puzzles alternativos:
+   - Conseguir el anillo del pozo +5
+   - Antorcha en luminaria +5
+   - Conseguir la cuerda +5
+   - Conseguir la espada +5
+   - Conseguir la copa del cofre +10
+
+   30pts
+
+   80 puntos
+
+09/05/2017
+> Arreglado el ENTER extra al llamar al inventario y al imprimir el prompt.
+- Todavía quda una línea en blanco que aparece al imprimir un texto y hacer scroll... :-m
+> Pantalla03 arreglada para evitar el problema de atributos
+
+08/05/2017
+> Un gran paso, he rascado otros 300bytes al bajar la dirección de inicio de 24500 a 24200.
+> Voy aprendiendo algunos trucos:
+     > Evitar el uso de variables intermedias, si es posible meterlo todo en una línea al llamar a una función.
+
+07/05/2017
+> Ya tengo los comandos del debugger funcionando.
+- La tecla 0 no funciona, la estoy usando como código de borrar :-m
+> Nuevo comando para averiguar la localidad de un objeto. ;where objid
+- De nuevo sin memoria base :-/
+No tiene mucho sentido que una función como el debugger ocupe casi 1Kb de memoria, el parserloop otros 3Kb y asi otras muchas funciones con
+condiciones y un poquito de complejidad. Toca aprender a usar bien el compilador de C para no gastar tanto código...
+
+ Actualmente todo el parser ocupa unos 20Kb, es demasiado. (!!!) Idealmente el parser debería rondar los 10Kb.
+
+ La memoria común de la aventura, localidades, conexiones, objetos y todo el vocabulario ocupa en torno a 4Kb. Lo cual es razonable.
+
+ Operación: ¡Aligerar ese parser!
+
+06/05/2017
+ > Primera estimación de memoria para MSX-1: 64Kb de Gráficos y 40Kb de código. Dentro de poco tendré que meterme a intentar generar
+ un ejecutable con el z88dk. Pero bueno, de momento a terminar la versión ZX.
+ > Algunos comandos de debugging para facilitar las pruebas.
+    ;testme
+    ;xlista locid
+    ;goto locid
+    ;gonear objid
+    ;flag flagnum
+    ;setflag flagnum val
+    ;move objid locid
+    ;attr objid attrid
+    ;sattr objid attrid
+    ;cattr objid attrid
+ - Problemas con la memoria parece que me he solapado con la página 0 :-m. ¿Cómo puedo adelgazar un poco el parser?
+
+05/05/2017
+
+> Para usar variables de C desde ASM:
+    https://sourceforge.net/p/z88dk/mailman/message/34145623/
+>
+
+04/05/2017
+> Nuevo texto para la intro
+> Trabajo en la rutina de scroll para que funcione también a partir de una columna
+
+03/05/2017
+> Puzzle de la momia
+ + Los mensajes de la momia sólo aparecen al moverse entre localidades... Fixed
+ + El estado de la momia debe resetearse una vez salimos de la localidad
+ + Si la momia ataca, nos empuja fuera de la localidad
+ > En la 'estancia/L08' Puzzle de conseguir trigo
+    > Sinónimos para Romper y Atacar
+    + Falta el objeto para el trigo
+ > Puzzle de conseguir semillas
+    + Faltan las semillas en la sala de la vida eterna
+    + Falta el objeto para el maiz
+ > Nueva pantalla para la intro
+
+02/05/2017
+ > Nueva ilustración para el desierto
+
+01/05/2017
+ + Siempre hay un luz en la región inferior. Activar la oscuridad. Corregido.
+ + El comando 'o' no funciona, el resto de direcciones sí. -> Se había colado un espacio
+ en el nombre.
+ + Antorcha en la sala de luminaria, da luz a todas las estancias.
+ + El Menú principal parpadea si se pulsa otra tecla
+
+30/04/2017
+ - Si al imprimir un bloque de texto se hace scroll perdir confirmación.
+ + En la descripción de la entrada aparecen dos líneas en blanco después de 'herramientas'
+ + Corregir que al teclear el input del jugador parpadea. Fixed
+
+29/04/2017
+ > Jugando la aventura para ir cerrando puzzles...
+ + Falta la conexión entre el final del corredor y el pasillo estrecho. Localidad eliminada del mapa.
+ + El gráfico de la antesala es incorrecto
+ + No carga el gráfico de la sala del cofre, sala de la momia, Sala vida eterna
+ + El puzzle de la pasarela permite cruzar si no llevamos objetos
+ + Añadir Entrar en las escaleras
+ + Nueva pantalla de carga y de créditos
+
+ - Mejorar el espaciado entre el input del jugador y las respuestas. Añadir 1 pixel.
+ - Verbo de dirección 'o' no funciona
+ - La descripción de las salidas del pasadizo bajo es incorrecta
+ - No debo poder ir más allá del Final del corredor sin encender una fuente de luz: bien
+ linterna o antorcha.
+ > ¿Hay Cobras en el desierto? -> Sí, la famosa Cobra Egipcia que mató a Cleopatra
+ - asustar/atacar serpiente no funciona
+ + añadir un ^ al final de la cobra intenta abalanzarse...
+ - El menú se reimprime si se pulsa otra tecla
+ - El input del jugador parpadea al borrar
+
+
+28/04/2017
+ > Creo que el problema viene propiciado por la rutina que imprime el prompt del jugador
+ + Finalmente he encontrado el problema, si la coordenada y es >179 no se imprime la fuente
+ en fzx :-O
+ + Bug solucionado. He puesto un límite al imprimir de 179, curiosamente sí que aprovecha
+ toda la pantalla. En fin, ya tenemos la rutina de scroll funcionando.
+
+ + Devuelve un mensaje de error aunque el comando haya tenido éxito. No estaba teniendo en cuenta
+ el retorno de las funciones de respuestas.
+
+ Que siga la aventura... :-D
+
+ + Nuevo texto formateado para el menú
+ + Ahora el inventario se muestra en horizontal
+ + Corregir rutina de scroll para que no deje fuera la última columna
+ + Corregir el problema de los atributos al cargar una pantalla. La zona de texto toma los
+ atributos de la pantalla cargada.
+    + Fuentes amarillas para los exteriores
+    + Fuentes blancas para el interior
+
+27/04/2017
+ > Semana muy dura en el trabajo. Voy a intentar derrotar de nuevo al monstruo de la última
+línea.
+ + He arreglado el bug de la última fila en la rutina de scroll.
+ - Bug de la última columna al hacer scroll, no se copia correctamente
+ - Sigue sin funcionar la impresión con newline en función de la posición. Sin embargo
+ si fuerzo laimpresión en la última línea, si que veo que se imprime y el scroll es correcto
+
+
+
+24/04/2017
+ > Scroll de pantalla ya funciona en bloques de 8píxel, pero hay un problema con el
+ posicionamiento del texto después de hacer scroll.
+
+
+
+23/04/2017
+ > Cambio a ZXSPIN para debuggear la aventura, no es tan bonito como el spectaculator pero
+ tiene más opciones y por ejemplo permite ver los bancos de memoria en los modelos de 128Kb!! :D
+ También permite inyectar datos en la cola, alterar la memoria, escribir puertos y añadir instrucciones !! :-D
+
+ > Modifico el cargador para cargar de nuevo TODOS los bancos y examinar con ZXSPIN que se han
+ cargado correctamente...
+ > Estupendo ZXSpin tiene un bug y no muestra correctamente los bancos de memoria AARRFXGXGX
+
+    > El TAB de Memory sólo muestra la última página desde C000 a FFFF, no muestra
+    la memoria del banco. Parece que tiene un bug en el refresco, pues por ejemplo
+    al seleccionar página 7 se ve 00 y mover el scroll aparece de nuevo el contenido de la
+    memoria paginada actualmente.
+
+    > Parece que la pestaña de Disassembly sí funciona
+        Al terminar de cargar tenemos en MAIN C000 la página 6 de gráficos
+        Pero la Página 6 en el emulador se muestra vacia... :-m, quizá sea
+        un efecto de tener paginada esa en particular.
+        Página 6 Vacía
+        Página 4 Contenido de la página 4 gráficos ??
+        Página 1 Vacía
+        Página 0 Contenido de la página 6 gráficos
+        MAIN en 0xC000 Contenido de la página 6 gráficos
+
+    > Según ZXSPIN lo que sucede es que he cargado sobre la RAM0 todo el rato, y
+    al terminar tengo seleccionada la RAM0 que muestra los contenidos del último
+    bloque cargado.
+
+    > Cargo sólo el bloque de RAM0 en memoria
+        P6 Vacía
+        P4 Vacía
+        P3 Vacía
+        P1 Vacía
+        P0 Correcto.
+        MAIN 0xC000 Contenido de Página 0
+        ejecución OK
+
+    > Si Cargo el primer bloque en RAM1
+        RAM6, Vacía
+        RAM4, Vacía
+        RAM3, Vacía
+        RAM1, Contenido Correcto del primer bloque
+        RAM0, Vacía, Correcto pues no hemos cargado nada en memoria.
+        MAIN, Vacía Apunta a la Página 0. Es Correcto, el Loader apunta a la página 0
+        antes de ejecutar el código.
+
+    Los problemas surgen cuando intento cargar múltiples páginas...
+       > En el cargador original cambio el orden de carga a P1, P4, P6 y P0.
+       Al terminar la carga tengo en MAIN RAM0, pero RAM1 aparece vacía. RAM4 y RAM6 son correctas.
+       > He copiado tal cual la secuencia de pokes del cargador del Hobbi128, ahora
+       tengo cargadas MAIN RAM0, RAM1, RAM4 aparece vacía y RAM6 es correcta.
+
+       > Cambiando entre modelos de Spectrum, 128K, +2, +2A y +3 obtengo distintos estados
+       de las páginas. Obviamente no estoy haciendo el direccionamiento de forma correcta.
+
+       Objetivo 1: Las páginas deben contener la información correcta después de cargar...
+        Elimino los POKE que no entiendo su función. Sólo dejo las llamadas al puerto en el
+        cargador.
+        Ahora en el +3 no obtengo ninguna página con información correcta
+        En el modelo 128K también las páginas 1,4 y 6 están vacias.
+
+    >Del manual de usuario del Spectrum he visto que desde BASIC se puede usar POKE para seleccionar las páginas con: POKE 23388,16+n y funciona!!! :-D. Ya tengo todas las páginas cargadas correctamente.
+    > Ahora a paginar desde CM... De nuevo el UM al rescate. Página 221. Ya tengo toda la paginación funcionando tannto desde CM como desde BASIC
+    > Paginando gráficos desde la 4 y la 6 sin problemas.
+    > El juego se ejecuta pero se cuelga si selecciono la página 0 (que debería cargar
+    seleccionada por defecto)
+    > Ya funciona, he cambiado la definición eliminando el __CALLEE__, que estaba relacionado
+    con al reconstrucción de la pila.
+
+    Con esto funcionando acabo de abrir una puerta al desarrollo de Spectrum en 128K, e incluso
+    al desarrollo de juegos paginados a disco. Pues ahora puedo cargar desde disco.
+
+    http://www.worldofspectrum.org/faq/reference/128kreference.htm
+
+    > Se muestran las pantallas en cada localidad... OK. Pero el texto y el scroll pisan el
+    área de gráficos.
+    > Reviso el código del área de gráficos y textos. El área de texto ya no pisa la parte
+    gráfica.
+
+    + Para evitar que se pise la pantalla de carga...
+        http://foro.speccy.org/viewtopic.php?f=6&t=5022
+
+    - Scroll de pantalla machaca la zona de gráficos...
+
+
+22/04/2017
+  + Paquete de gráficos completo en Páginas 4 y 6.
+  - Un pasito adelante y otro detrás, ahora al comenzar el juego se cuelga U_U
+        + Cargando sólo la página 0 vuelve a funcionar '':-)
+        - Ya puedo cargar todas las páginas, muestro gráficos pero peta al entrar en el juego y habilitar la página 0
+
+        Más o menos lo he acotado. Si cargo sólo el código de la página 0, pero elimino las
+        llamadas a SetRAMBank todo funciona, pero una vez llamo a SetBank se cuelga al ejecutar
+        código.
+        He comprobado que la memoria se rellena correctamente desde los ficheros, y que setBank
+        al menos selecciona el banco correcto.
+
+        Pero falta algo para que se pueda ejecutar código de una página una vez se selecciona...
+
+        Si vacio SetRamBank también se cuelga... :-m
+		Seguramente se trate de un problema de puntero de pila o bien de solapamiento de memoria
+
+		Esto no tiene ningún sentido, estoy seleccionando a propósito páginas que no he cargado y en el
+		emulador sigo viendo el contenido de la página0
+
+		Regreso a la función original en libgfx... el emulador se resetea...
+
+	> He montado el entorno de desarrollo en red desde mi antiguo portátil, un vetusto Celeron de 1.6GHz
+	que tiene la friolera de 10 años. Pero la verdad es que va bastante bien para estas tareas y me encanta
+	el tacto del teclado.
+	+ Elimino proceso2_post y reordeno proceso1 y proceso1_post. De este modo el programador puede añadir
+	antes y después de la descripción de la localidad. Útil por ejemplo para imprimir los gráficos al entrar
+	en la localidad.
+
+  + Pruebo a descomprimir la primera pantalla y se cuelga U_U. Era un problema de punteros, ahora ya puedo descomprimir y mostrar pantallas con rcs y zx7! :-D
+  + Nuevo tipo de estructura para definir todas las imágenes, de este modo puedo mostrarlas
+  mediante condactos del Parser.
+  + Nuevos condactos ACCpicture y ACCgraphic.
+
+  - Nuevo tipo de objeto: Region y condactos para comprobar la ubicación del jugador.
+
+21/04/2017
+  > Código para la región inferior en la página 1
+  + Desde BASIC al conmutar la página se cuelga (no llega ni a carga la página-1). Seguramente sea debido al puntero de pila que no
+  está situado en la región correcta.
+    He añadido un CLEAR a la posición anterior del primer bloque de código.
+
+19/04/2017
+ + Pantalla de carga
+    http://little-shop-of-pixels.blogspot.com.es/2012/02/making-of-spectrum-loading-screen-part2.html
+
+ + Escribir el LOADER que carge los bloques de código y ejecute el código base...
+    https://www.z88dk.org/wiki/doku.php?id=platform:zx
+    https://www.z88dk.org/forum/viewtopic.php?id=9159, para compilar varios .o con distintas
+
+ + Usando las herramientas bas2tap y bin2tap para añadir el cargador y la pantalla de carga.
+    + Automatizado en cc.bat y run.bat. Por supuesto se cuelga al terminar de cargar, pues no
+    he me metido los crt aún...
+
+ + Escribir un CRT para el arranque del juego y otro CRT para las páginas.
+        - crt0_base.asm
+        - crt0_page.asm
+
+   Del manual: "* --no-crt allows compiles to proceed without using the library's supplied crt for a target.  The first file listed on a compile line will stand in as the crt and will be responsible for initialization and setting up the memory map."
+
+ + Conseguir que CAFAX arranque de nuevo. !!! y luego se cuelga X-)
+ + El P0.def no contiene las direcciones correctas... he actualizado el crt0_page.asm para que sea
+ una copia del base. No importa mucho, pues no necesitamos arrancar nada por defecto.
+ + El contenido de los textos no es correcto... Al salvar/cargar con json la lista de simbolos
+ se usan caracteres unicode, al reemplazar he tenido que convertir desde unicode a utf-8 para
+ que no de error.
+
+ > ¡¡¡¡¡¡¡¡¡¡¡¡¡ Arranca y responde a los comandos típicos !!!!!!!!!!!!!!!!!!!!!! :-D
+ > Ya tenemos la aventura funcionando con el código segmentado en base y página 0. A partir de aquí
+ debería ser sencillo seguir añadiendo páginas... :D
+  + Soporte 128Kb
+        + Compilar proceso1, procesa2 y respuestas a un módulo de 16Kb.
+        + Todo el código del parser y las librerías gráficas por debajo de la 0xC000
+    http://www.mojontwins.com/mojoniaplus/viewtopic.php?t=1685&start=90
+    http://foro.speccy.org/viewtopic.php?f=6&t=592&hilit=ram+basic+compilado
+        Páginas desde 0xC000 a 0xFFFF.
+        Página 0: Modo 48K
+        Página 1,3, 4 y 6: Libre
+        Página 2 y 5: No usar.
+        Página 7: Shadow Screen. Es mejor no tocarla para evitar entrar en colisión con aplicaciones de terceros. Pero está disponible para datos sino importa perder compatibilidad
+        con el acceso a disco en los +3.
+
+        En total tenemos para la aventura: 16K*5 = 80Kb (Perdemos 48Kb en las páginas 2, 5 y 7)
+        Páginas 0 a 3 son rápidas.
+        Páginas 4 a 7 un 25% más lentas.
+
+    https://www.z88dk.org/forum/viewtopic.php?id=9159, para compilar varios .o con distintas direcciones
+
+ - Definir el mapa de memoria para las páginas...
+        + Base Parser y definiciones globales: aprox 22Kb
+        + Página 0:
+            Región superior y código de los objetos
+            Librerías de base
+            El código ha ocupado 10Kb
+        - Página 1
+            Región inferior
+        - Página 3
+            Libre
+        - Página 4 Gráficos 1 a 19
+        - Página 6 Gráficos 20 a 31
+
+18/04/2017
+ > Diagrama de flujo de puzzles en el cuaderno. Voy a simplificar bastante el flujo del juego,
+ daremos puntos por solucionar enigmas pero la gran mayoría pasan a ser opcionales. Al fin y al
+ cabo para atravesar la trampa final sólo necesitamos la barra y una fuente de luz.
+
+ > Mil gracias a la respuesta en speccy a mi pregunta. Ahora voy desentramando poco a poco
+ como funciona el compilador de C, ASM y el Linker. También he comprobado que en el nuevo
+ compilador al añadir +zx supone un overhead de unos 2Kb debido al CRT de ZX Spectrum.
+
+ http://foro.speccy.org/viewtopic.php?f=6&t=5032&p=52115#p52115
+
+ > Ahora se puede compilar con --no-crt y de ese modo tenemos que inicializar todo por nuestra cuenta, lo cual es justo lo que estoy buscando. De este modo puedo ahorrar esa memoria y me
+ permite gestionar la compilación de módulos por separado.
+
+ > He perdido casi toda la tarde dando vueltas sobre los errores de compilación y resulta
+ que hay que borrar manualmente los ficheros .err para evitar errores antiguos.
+
+ + No funciona lo de renombrar el .def generado en una compilación anterior, al menos no
+con funciones. Si lo meto con un include de asm, o bien lo compilo junto al resto de los fuentes
+no los reconoce correctamente como direcciones de funciones.
+   Sin embargo el mismo ejemplo pero con un fichero C, e incluso con la salida ASM del mismo
+fichero C sí que funciona sin problemas. Tengo que investigar un poco esto...
+
+  Veo en la respesta en speccy que las nnightly build incluyen una opción -gp que permite usar
+  la salida directamente al compilar. Veamos...
+
+  pues si que funciona con la última nighly build :-m
+
+Parece que finalmente lo tengo compilando de nuevo. Todavía me falta el código de inicialización,
+breve explicación para futuras versiones:
+
+ +Para compilar por bancos/páginas es necesario generar binarios independientes. En nuestro
+ caso uno por página y uno de base.
+ +En las últimas versiones del compilador se puede generar un fichero .def que contiene las
+ direcciones y los símbolos de cada función declarada como global. Incluyendo este fichero
+ en una nueva compilación (y no pisando las direcciones previsamente reservadas), podemos llamar
+ a las funciones previamente compiladas.
+ + Nuestro caso es un ligeramente complicado:
+    - Nuestro código de base contiene las librerias gráficas, el parser, el main y las tablas
+    generales de respuestas y procesos. Desde estas tablas debemos podemos paginar y llamar
+    las tablas contenidas en las distintas páginas.
+    - En las distintas páginas debemos poder llamar al código de base, pues es donde tenemos
+    las librerías gráficas y el parser.
+
+    Asi que tenemos un típico caso de tener que incluir las definiciones de cada uno, si faltan
+    las definiciones de uno de los dos ninguno compila.
+
+    Para resolver el cruce:
+        1) Compilar el código base sin hacer referencias a las páginas. Esto nos genera un
+        fichero dummy de referencias, donde podemos ver todas las funciones. Las direcciones
+        son incorrectas, pues falta el código que llama a las páginas pero es suficiente para
+        compilar las páginas.
+        2) Compilas las páginas usando el .def del código base. Esto nos genera los ficheros .def
+        de las páginas. Las direcciones de estos ficheros no van a cambiar, pero las llamadas
+        al código de base todavía no son correctas.
+        3) Habilitamos todas las llamadas en el código base que sean necesarias para las páginas.
+        Compilamos de nuevo, ahora tenemos los .def de las páginas. Ahora la salida del .def ya es correcta
+        para el código de base.
+        4) Recompilar las páginas con el .def final del código base.
+
+    Normalmente al cambiar el código de base o de las páginas compilaremos 3) 4) y 3). El cambiar los ficheros .def no cambia el tamaño al compilar el fuente, lo importante es que la llamada esté presente.
+
+  + Hay que tener cuidado pues en el paso 3) al exportar el .def obtendremos las direcciones
+de 2/4) por lo que habrá una duplicación. Esto se soluciona eliminando del -gpf los símbolos con una expresión regular:
+
+https://github.com/z88dk/z88dk/issues/73#issuecomment-282950817
+
+ En nuestro caso contenida en parser_match.txt
+
+ > Al añadir las fzx el código base sube hasta 23226bytes, la dirección de origen está en 23550bytes. Por lo tanto todavía tengo algo de margen 49152-23550-23226=2376bytes
+
+ + Añado a la compilación la función de zx_saddrpdown para que compilen las fzx.
+ - Si regreso a usar el crt0 por defecto de estas versión del z88dk... No compila :-m
+
+
+17/04/2017
++ Para internarse en la parte inferior necesitamos una luz (antorcha, linterna)
++ La parte superior no necesita luz, de ese modo podemos hipnotizar a la serpiente aunque portemos
+sólo la linterna
++ Si nos quedamos a oscuras, después de tres turnos aparecemos de nuevo en la entrada
++ Si lanzamos la linterna se apaga y perdemos el aceite
+
+Y me he quedado sin memoria en 48Kb U_U. Mirando el mapa de memoria veo un hueco realmente grande,
+voy a preguntar que puede ser por si puedo ganar algunos Kb más.
+
+> Vuelvo al compilador antiguo y recupero 2Kb de memoria :-D
+Tengo que recalcular el budget de nuevo...
+> Menú inicial, créditos y texto de intro añadidos
+
+De nuevo estamos casi sin memoria, ha llegado el momento de segmentar y paginar... :-m
+
+ > Eliminando todo el código de las tablas de respuestas, pero manteniendo las definiciones se queda en 23299bytes por debajo de los 24Kb del umbral de paginación. Bastante justito...
+
+ Organizamos la memoria de la siguiente forma:
+    Página 0: Zona exterior y superior de la pirámide y todo el código de objetos
+    Página 1: Zona inferior de la pirámide.
+
+    Páginas 3 y 4: Gráficos de localidades
+
+ > Problema con el compresor de textos, está pensado para crear el diccionario a partir de un
+    fichero único. Ahora me enfrento a múltiples ficheros...
+ > He actualizado el script de compresión para generar y cargar diccionarios. En nuestro caso
+usamos juego.c para genera un diccionario, y luego lo aplicamos a juego_pagina0.c
+
+> ¿Cómo compilo a juego_pagina0.c sin generar un binario de 48Kb?. Lo único que quiero es que
+las funciones externas apunten a la compilación del parser...
+
+
+
+16/04/2017
++ El título de las localidades aparece descrito con mayúsculas/minúsculas
++ Puzzle de empujar la roca:
+    + Al empujar la roca se va al 'oeste' en el Largo Corredor
+    + La roca queda finalmente encajada y se puede conseguir la barra
+	+ Se puede coger la barra de forma infinita...
+
+Antesala
+	+ No se pueden coger objetos delante de la serpiente. Fixed
+    + Falta descripción de la brecha. Added
+    + Algunas ideas para el puzzle de la serpiente
+        + Destacar que la cobra fija la mirada en la linterna/antorcha. Se queda hipnotizada...
+        + Añadir: Atacar serpiente, asustar serpiente, iluminar serpiente, lanzar linterna a serpiente, lanzar antorcha, quemar serpiente, espantar serpiente, hipnotizar serpiente.
+        +Si llevamos antorcha y linterna, al dejar una u otra en el suelo la serpiente queda
+        hipnotizada por la luz y nos deja pasar.
+        +Un vez asustamos a la serpiente no aparece de nuevo, el puzzle ha sido completado.
+		+Lanzar la antorcha asusta a la serpiente y nos permite recuperarla la antorcha.
+		+Dejar la linterna hiptoniza a la serpiente, si la lanzamos se sale el aceite y se apaga.
+
+    > La protagonista de la aventura es la hija de Howard Carter que quiere impresionar a su mentor, el célebre arqueólogo que está buscando la tumba de Tuthankamon.
+    > La aventura toma un tono Lovecraftiano, y nos interna en el valle de los Reyes.
+
+15/04/2017
+> Descarto RZX como formato de replay, por lo visto necesita un snapshot en todos los emuladores
+que he encontrado (ZXSPIN, FUSE, SPECTACULATOR). Supongo que tendremos que introducir vectores
+de test, pero no tengo tanta memoria... :-/
++ En el Largo Corredor hay un pasaje al este que no funciona
+    + Eliminar el pasaje al este para no romper la inmersión...
++ Al final del corredor no se puede ir al oeste por la apertura
++ Llendo al sur desde el fdc te envía al pasadizo estrecho
++ Repasar las conexiones del mapa en el cuaderno (muchas conexiones erróneas)
++ Las descripciones del final del corredor y del pasadizo estrecho se solapan.
++ He pasado todo el trabajo a la nueva librería, al final no me ha costado tanto. La principal
+ventaja es que ahora tengo un mapa de memoria legible con el que antes no podia contar.
+  A priori parece que contamos todavía con 13Kb de memoria libre.
+  Datos en parser_profile.ods (17.04.2017 esto se confirma que no es correcto)
+    Parser 13Kb
+    Aventura 10Kb (ya comprimida)
+    Libre 13Kb
+    Overhead aprox 4Kb. Tengo que ver las opciones para limar un poco.
+
+  Si es cierto, podré meter los 5-6 pantallas que quería para la versión de 48Kb y todo lo que quiero a nivel de descripciones y textos :-m
+
+14/04/2017
++ Examinar un objeto presente nos dice que deberíamos cogerlo antes
++ Textos corregidos hasta la entrada de Cafax y algunas descripciones nuevas
+> He tomado la decisión de que la versión principal sea la de 128Kb. Voy a hacer todo lo posible
+porque la versión de 48Kb sea completa pero sin gráficos.
+> Una primera prueba de .rzx para ayudar con la depuración...
+    test00 se mueve por las primeras localidades. No sirve, parece que el rzx es un snapshot
+    completo de la memoria U_U.
+    LA descripción del formato no es esa sino que sólo se debería usar para almacenar pulsaciones
+    http://www.worldofspectrum.org/RZXformat.html
+
+13/04/2017
+> He jugado 'Bajo Cero' una aventura reciente para CPC. La verdad es que no me ha gustado mucho, han capado cosas tan importantes como el examinar, y apenas tiene interacción con los escenarios. Cosas a destacar: La pantalla de carga, la música una vez termina de cargar, tiene dibujos en
+cada localidad.
+
+Jugando...
++ Leer carta no devuelve descripción
++ ¿Cómo funciona la linterna?. ¿Se puede abrir?. Mensaje al abrir la linterna.
++ Examinar roca no funciona
++ Los comandos no reconocidos devuelve un error de dirección. Cambiar a un 'no entiendo...'.
+- En el Largo Corredor hay un pasaje al este que no funciona
+    + Eliminar el pasaje al este para no romper la inmersión...
+    - Al empujar la roca se va al 'oeste' ?
+- Al final del corredor no se puede ir al oeste por la apertura
+- Yendo al sur desde el fdc te envía al pasadizo estrecho
+- Las descripciones del final del corredor y del pasadizo estrecho se solapan.
+- Repasar las conexiones del mapa en el cuaderno
+
+Antesala
+    - Falta descripción de la brecha
+    - Repasar descripción
+    - Algunas ideas para el puzzle de la serpiente
+        - Destacar que la cobra fija la mirada en la linterna. Se queda hipnotizada...
+        - Añadir: Atacar serpiente, asustar serpiente, iluminar serpiente, lanzar linterna a serpiente, lanzar antorcha, quemar serpiente, espantar serpiente, hipnotizar serpiente
+
+            Si llevamos antorcha y linterna, al dejar una u otra en el suelo la serpiente queda
+            hipnotizada por la luz y nos deja pasar.
+
+Repasar textos
+    + Descripción de la roca
+    - TODAS LAS DESCRIPCIONES!
+
+11/04/2017
+> De nuevo en Madrid por un par de semanas de vacaciones :-)
+> He compilado la librería zx7 para empezar a trabajar con los gráficos
+> He cargado el juego en mi +3 y funciona de maravilla :-D. Las fuentes son legibles, incluso las pequeñas
+según se escribe. También he visto el parpadeo como en el emulador. ¡La primera prueba en HW real! :-D
+
+09/04/2017
++ Inventario/Listado/Coger/Dejar ya funciona.
+ Me ha llevado una semana (a golpes de 1h eso sí), desentramar todo el lío que había tejido con los id y las posiciones. Pero... ¡ya funciona! :D
+
+Creo que puedo volver a centrarme, al fin, en el código de la aventura :D
++ CNDcarried devuelve true aunque no llevemos el objeto...
+- No aparecen las herramientas al examinarlas varias veces...
+
+08/04/2017
++ Armonizar el uso de ids en localidades y objetos
++ Ha dejado de funcionar el inventario y las conexiones en el mapa...
++ Funciona de nuevo el listado de objetos en la localidad actual
++ Dejar ya funciona...
+- Coger ya funciona...
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Criterio: Si un objeto tiene el atributo de contenedor, su objid se usa también como el identificador de localidad que contiene los objetos.
+Por lo tanto los identificador de objetos de contenedores usan las localidades con su mismo identificador para almacenar los objetos. Hay que tenerlo en cuenta
+al definir los id de las localidades del mapa y dejar libres los identificadores que coincidan con los contenedores.
+
+La posición en el array de un objeto contenedor NO es igual que la posición de la localidad correspondiente. Hay que buscar la localidad usando siempre
+su identificador para obtener la posición correcta.
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+07/04/2017
++ Tengo que armonizar todas las funciones de objeto, unas usan el id y otras la posición U_U
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Criterio: El programador trabaja con identificadores, internamente el parser trabaja con posiciones
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
++ Misma armonización para las localidades...
+- Coger/Dejar ya funciona...
+
+05/04/2017
++ Inicializar la capacidad máxima del jugador en peso(10) y número de objetos (8)...
+- Depurando Coger/Dejar
+    - Coger un objeto
+        - Falla en reconocer los nombres
+        - Por ejemplo la linterna aparece dos veces una vez cogida
+    - Coger un objeto llevado
+    - Coger un objeto desconocido
+    - Dejar un objeto llevado
+    - Dejar un objeto no llevado
+    - Dejar un objeto desconocido
+
+- Mejorar los mensajes de coger/dejar para que mencionen el objeto
+
+04/04/2017
+- Coger/Dejar, todas las funciones implementadas pero no termina de funcionar
+
+
+
+03/04/2017
++ Al listar objetos si lleva tilde al escribir el mensaje falla, cambiar el codigo ascii del nombre
++ Inventario ya funciona
++ Nueva función para imprimir números
++ Formateado de inventario al modo clásico de columna
++ Redefino la estructura de objetos para incluir el vocabulario. ¡Se me había olvidado!
+- Coger/Dejar
+
+02/04/2017
+> Trabajando en optimizar el código...
+    - Identificar las funciones que ocupan más espacio y optimizar (objetivo ganar 7Kb para meter 7 pantallas en 48Kb)
+        ¿Cuál es el budget?
+            Sin Tabla de respuestas 21Kb - 3.7Kb (Texto Comprimido) -> 13.5Kb de Parser + 2Kb de librerías gráficas
+
+            13.5Kb de Parser+Definiciones básicas -> 7Kb en Parser.c y 6Kb en Definiciones base (PAWS en torno a 10Kb)
+            629bytes de librería gráfica
+            5719bytes con Parser.c vacío (juego.c + libgfx.c)
+
+            5090bytes en juego.c+Parser.c con las definiciones básicas+libgfx vacío
+
+            Pelando todo el código aún ocupa 2896bytes, es increíble...
+
+            Eliminando Parser y libgfx de la compilación (aunque están vacios...) pesa 110bytes (ok!)
+
+            juego + libgfx -> 125bytes (ok!)
+
+            juego + parser + libgfx -> 2896bytes !!!!!
+
+            juego + parser.h + libgfx -> 127bytes (ok!!)
+
+            La tabla de símbolos pesa unos 600bytes
+            Las definiciones de vocabulario en juego.c son 1.4Kb
+
+            Los 2.8Kb que pesa parser.c son debidos a:
+                    - Los Buffer definidos que ocupan unos 680bytes
+                    - La tabla de símbolos otros 600bytes
+                    - Los mensajes y el vocabulario inicial que pesa otro 1.6Kb (Los mensajes del sistema ocupan 1.2Kb)
+
+            juego.c (definiciones básicas) + parser (completo) + libgfx (vacío) -> 12904bytes
+            juego.c + parser con funciones vacías pero con defs (2.8Kb) + libgfx vacio -> 5196bytes -> 2300bytes en juego.c
+            juego.c + parser.c vacio + libgfx vacio -> 1.804bytes
+
+            Tenemos 4604bytes(1804+2800) en deficiones de vocabulario y mensajes de base.
+
+            4604bytes datos + 8300bytes de código en Parser + 600bytes en juego.c de código básico = 13504bytes
+
+            5186bytes en juego.c defs + juego.c codigo básico + parser.c defs + libgfx vacio. Antes de meter una sóla línea de código del parser ya estamos
+            ocupando 5Kb de memoria.
+
+            Hay que optimizar bastante el código, la función de respuestas post que apenas realiza unas comparaciones ya ocupa 700bytes.
+
+            Estudiar el asm de salida para ver que es lo mejor para la traducción de .c a .asm...
+
+            Optimizaciones en llamada a funciones
+
+            // SCCZ80, https://www.z88dk.org/wiki/doku.php?id=temp:front
+
+            int    __FASTCALL__ abs(int i);                                 // sccz80 fastcall linkage, Funciones con un parámetro
+            double __CALLEE__   strtod(const char *nptr, char **endptr);    // sccz80 callee linkage, No reconstruye la pila, ideal para funciones en ASM
+            int                 printf(const char *format, ...);            // sccz80 standard linkage (note: vararg! see below), Standard
+
+
+            Código de la aventura: 20Kb (con textos comprimidos) -> 12Kb Texto Comprimido + 8Kb Código
+            Objetivo: Reducir el Parser desde 17Kb a 7Kb.
+
+    > Tamaño actual: 36308 bytes después de limpiar *todos* los warning :D
+    Voy aplicando optimizaciones...
+    -clib=new no funciona a pesar de haber eliminado todos los warning. Por algún motivo genera una salida de unos pocos bytes pero no da errores :-?
+
+    +Con __FASTCALL__  en las funciones de un parámetro a 35699bytes
+    +Pasando los mensajes del sistema a juego.c y comprimidos a 35291bytes
+    +Pasando la mayor parte del texto a minúsculas y añadiendo el vocabulario de la aventura...  34902bytes
+    - Simplifico todos los accessos a flags[verbo, nombre,etc] de modo que se toman de variables globales al comienzo de las rutinas de respuestas
+        De 35291bytes a 35449bytes, ha sido una peora... Revertir... 35291bytes
+            ! El acceso a elementos de un array es más eficiente que el uso de variables globales
+    - En respuestas_2 elimino la cláusula switch y la sustituyo por construcciones de tipo IF ... 35340bytes revierto a 35291bytes
+        Lo que penaliza no son las construcciones switch sino el acceso a las escructuras...
+        Sustituir el flags[const] por una variable es peor, pues para extraer el valor del vector de flags es una carga directa, pero tanto si se usa
+        una variable local como un parámetro se almacenan en la pila. Por lo que tiene que usar más instrucciones, sobre todo si se usa muchas veces
+        dentro de la misma función en el código.
+
+        Tanto las variables locales como los parámetros se almacenan en pila y necesitan más instrucciones que el uso de una variable global a la que
+        se accede directamente. De este modo el compilador nonecesita reservar memoria para todas las variables locales, lo importante es que haya
+        bastante memoria de pila disponible.
+
+        En respuestas_2 sustituyo la variable local por una global, pasamos de 35291 bytes a 35241bytes con el cambio.
+        Elimino la fuente tinytexan ahora baja a 34528bytes
+    + Elimino operaciones con punteros locales en getInput -> 34503bytes
+
+01/04/2017
++ Añado algunos verbos más y sinónimos
+- Los títulos de las localidades se solapan con las descripciones al hacer scroll...
+- La rutina de scroll no termina de funcionar como se espera. Revisar...
+ Por ejemplo, el resultado final de estas dos líneas debería ser equivalente...
+ scrollArriba2 (TextWindow.y<<3, 8 ,1); // Línea de inicio, Repeticiones, Líneas por Repetición
+ scrollArriba2 (TextWindow.y<<3, 1 ,8); // Línea de inicio, Repeticiones, Líneas por Repetición
+
+El error consite en que si el step es mayor de 7, la línea de inicio se calcula de forma incorrecta.
+
+ Lo voy a dejar para más adelante, ahora hacemos un clear de la pantalla al entrar en una nueva localidad. :-)
+
++ Mejora en el parsing para que identifique Examinar Entrada, sin confundir Entrada con el verbo Entrar. Tenemos una regla ahora que sólo admite
+1 Verbo, 2 Nomber, 1 Adjetivo y 1 Adverbio por frase. Más adelante añadiremos conjunciones...
+
+Parece que por fin podemos centrarnos en la aventura :-D
+
++ Error al pulsar la tecla 'g' se imprimía una 'u'
++ En la Escalera, las herramientas aparecen listadas dos veces
++ Ex herramientas no devuelve TRUE
++ En la fuente SFLOWER a algunas fuentes les faltaban píxel, he añadido ya el juego completo de caracteres en español
+- Implementar comando de inventario
+- Implementar comando de coger/dejar
+
+- Ex linterna y pedernal en la misma localidad no funciona, implementa un coger automático
+
+
+31/03/2017
++ Comando redescribir 'm'
++ Todos los caracteres que faltaban añadido a handpress. Los mensajes del parser ya salen correctamente formateados.
++ Scroll deja rastro.... Sigue sucediendo con las fuentes grandes que tocan las últimas líneas de la pantalla, simplemente he puesto que haga
+scroll una línea de caracteres antes.
+- Los títulos de las localidades se solapan con las descripciones al hacer scroll...
+
+29/03/2017
++ Los comandos no funcionaban debido a un error de parsing.
++ No puedes hacer eso aparece incluso después de completar un comando con éxito.
++ Mejoras en la impresión, se usa el código de escape ^ para indicar cambio de línea. Se respeta el espacio después del punto.
++ Simplifico las llamadas de procesos y respuestas. Ahora sólo son dos por tipo. El del usuario y el del parser a continuación.
++ La lista de objetos en la localidad sale en una columna, Pasar a fila.
+
+- Comando de redescribir 'm'
+- Comando de inventario 'i'
+- En la Escalera se repite la descripción de las herramientas abandonadas.
+
+28/03/2017
+- No funcionan los comandos
+
+26/03/2017
+> Es imposible estimar en una rejilla de 32x24 como borrar una línea en el caso de usar fuentes de distinto tamaño. No queda más remedido que
+añadir una rutina de pintado de rectángulos o bien modificar la rutina de impresión de texto para que haga un XOR con el contenido de la pantalla.
+> He cambiado la rutina de impresión de caracteres para un xor de los bits, ya tenemos escribir y borrar en pantalla :-D
+
+25/03/2017
++ Caracteres acentuados y con ñ...
++ Scroll Vertical funciona sin errores...
+
+24.03.2017
+> Finalmente tengo la impresión por palabras de forma correcta :D.
+
+22.03.2017
+
+- No se parten palabras al imprimir texto en pantalla...
+- Scroll Vertical funciona sin errores...
+- Caracteres acentuados y con ñ se muestran correctamente
+
+21.03.2017
++ algunos códigos comprimidos no se mostraban. Tengo que meter caracteres especiales al final de la tabla de compresión para evitar que los códigos
+se solapen con los de compresión. -> Finalmente lo hago desde python, he cambiado los símbolos que no usamos habitualmente por caracteres acentuados
+y ñ en la definición del juego de caracteres con el fzx editor.
+
+
+13.03.2017
++ La tecla de borrar no funciona en el input del jugador. Ya tenemos borrar, pero no se borran los caracteres :-m, la fzx no imprime nada cuando hay
+un espacio.¿Cómo puedo borrar la línea?
+- El scroll Vertical funciona, pero el cursor se posiciona fuera de pantalla y se dejan de imprimir textos.
+
+12.03.2017
+
++ Depurado la función de write_text para que funcione.
++ Se muestran textos descomprimidos por pantalla
++ Función de new line tiene en cuenta las dimensiones de la fuente. fzx.x y fzx.y funcionan en píxel!.
++ Ya tenemos el menú de inicio del juego :D
++ Impresión centrada, aunque no sale bien del todo :-m.
++ Códigos de escape para nueva línea.
++ La primera descripción se muestra correctamente y se listan las salidas.
++ Faltan algunos caracteres en las descripciones. Estaba usando un símbolo de más al comprimir.
++ Se muestra el input del jugador. Si añado las librerías standard para el teclado esto supone +1.6Kb.
+    > Imprimir con la ROM del Spectrum usa la fuente por defecto, queda bastant feo. Lo descarto.
+    > Al final he añadido tres fuentes, quizá luego lo simplifique para ahorrar memoria pero me gusta como queda :D
++ Los comandos no funcionan... Faltaba añadir un espacio al final y el código 13 al pulsar ENTER.
+
+Algunas rutinas interesantes:
+    https://github.com/juhovh/spectrum/blob/master/simple_screen_example.asm
+
+36.163bytes
+
+11.03.2017
+> Vuelta a Cafax, vamos a intentar poner en marcha el juego. Objetivo: que aparezca de nuevo la pantalla inicial.
++ La llamada a imprimir un texto cuelga el ordenador :-m. Usando fzx_puts funciona sin problemas. No hay cuelgue...
++ Ya tenemos la función de borrado de la ventana de texto funcionando y una dedicada para toda la pantalla.
+
+
+05.03.2017
+> Sigo penando el cambio a sdcc, no funciona nada. Las librerías al compilar arrojan más y más errores, el C no funciona, el ASM usa distintas
+directivas, es un infierno...
+
+"
+How can I retrieve parameters in a C function from inlined assembly code ?
+Let's say we want to recreate the classical C's memcpy routine. The parameters can be retrieved using the IX register (starting from index 4). It would be implemented like this :
+
+void memcpy( void *dst, void *src, short len )
+{
+__asm
+    ld e, ( ix + 4 )
+    ld d, ( ix + 5 )
+    ld l, ( ix + 6 )
+    ld h, ( ix + 7 )
+    ld c, ( ix + 8 )
+    ld b, ( ix + 9 )
+    ldir
+__endasm;
+}
+
+"
+> Abandono el intento de pasar a SDCC, creo que es lo más adecuado pero soy incapaz de adaptar todo el código a las manias particulares de este compilador y ensamblador.
+> Regreso a z88dk 1.9. Pero no compila pues he estado modificando el código y no he sacado copia de seguridad U_U
+> Ya compila todo de nuevo '':), he tenido incluso que desinstalar el sdcc pues creaba conflicto al crear el fichero .tap.
+
+Me voy a centrar en terminar la versión de 48K, en este momento el código ocupa 34Kb. Si sólo tenemos que hacer un poco de bugfixing hay memoria suficiente.
+
+04.03.2017
+> Ya estamos en Marzo. Como pasa el tiempo.
+> No tengo la librería de fzx disponible para sdcc, asi que voy a intentar portarla
+
+- Los ficheros ihx, bin y tap ocupan demasiado. Un hola mundo crea un tap de 16Kb de memoria!. Creo que el problema tiene que ver con la dirección
+inicial de compilación.
+
+26.02.2017
+ > Una temporada difícil en el trabajo, no es que se avecinen tiempos mejores pero quiero completar la aventura.
+ > Objetivo a corto plazo:
+        - Entender como funciona el mapa de memoria al compilar. Esto es vital para desarrollar la aventura, pues en el momento
+        en que introduzca gráficos necesito paginar la memoria y tengo que tener determinadas funciones en la parte baja para
+        evitar que se cuelgue.
+
+>zcc +zx juego_compressed.c parser.c ..\libgfx\libgfx.c -o juego.o -zorg=25425 -vn -O3 -startup=31 -lfzx -lfzxfonts_utz -lndos -create-app -cleanup -s
+
+ En 1.99B usando sccz80 el código compilado ocupa 36082bytes
+ En la versión anterior el código compilado ocupa 34709byes
+
+ Ya investigaré las diferencias, en la 1.99b se puede compilar con un compilador nuevo que en teoría es más óptimo.
+ zcc +zx juego_compressed.c parser.c ..\libgfx\libgfx.c -o juego.o -zorg=25425 -vn -O3 -startup=31 -lfzx -lfzxfonts_utz -lndos -create-app -cleanup -s -compiler=sdcc
+
+ He tenido que recortar el código, luego tocará ir reponiendo parte a parte. Parece que el SDCC es realmente quisquilloso con el ANS-IC. De momento:
+
+     SDCC:   15803bytes   juego.o
+     SCCz80: 17500bytes juego.o (mismo código recortado)
+
+Un ahorro en torno a 2Kb. Si tomo la siguiente línea de compilación:
+
+    D:\devel\Cafax\parser>zcc +zx -SO3 --max-allocs-per-node200000 --reserve-regs-iy juego_compressed.c parser.c ..\libgfx\libgfx.c -o juego.o -zorg=25425 -vn -O3 -startup=31 -lfzx -lfzxfonts_utz -lndos -create-app -cleanup -s -compiler=sdcc
+
+    Tarda bastante más en compilar...
+
+    SDCC: 15791bytes juego.o
+
+¿Qué mejoras aporta SDCC aparte de un código más compacto?. ¿Me permite un mejor control del mapa de memoria?
+
+
+ Se puede separar código y datos en la compilación, lo que debe ayudar bastante para la parte de 128Kb. Supongo que con cada compilación
+ puedo indicar las zonas de memoria, asi que con cuidado puedo definir un mapa de memoria a medida.
+
+> Juego.c ya compila y puedo llamar ala función de clear screen. ¡Tiene bastantes manías, pero parece que funciona! :)
+
+
+
+
+07.01.2017
+	- Compresión de textos...
+			http://foro.speccy.org/viewtopic.php?f=6&t=2997&p=33001&hilit=digraph#p33001
+			http://www.simonsingh.net/The_Black_Chamber/hintsandtips.html
+			SPANISH
+				Order Of Frequency Of Single Letters
+				E A O S R I N L D C T U P M Y Q G B H F V J Z K W X
+				Most Common Digraphs
+				es en el de la os ar ue ra re er as on st ad ai or ta co se ac ec ci ia
+				Most Common Trigraphs
+				que est ara ado aqu del cio nte osa ede per ist nei res sde
+				Most Frequent Doubles
+				ee ll rr aa ss cc dd nn
+				One-Letter Words
+				a, e, o, u, y
+				Most Common Two-Letter Words:
+				en, la, de, Io, el, se
+				Ahorro memoria en torno a un 30%
+
+ > He pasado estas dos semanas trabajando en la compresión de textos (python y z80). Finalmene he conseguido en torno a un 42% de compresión, que está realmente bien.
+ > Eso deja el código en torno a 36Kb. Asi que ahora toca eliminar librerías y pulir el código pues ya no cabe más.
+
+29.12.2016
+ > Sigo adelante implementando código de juego para Cafax. Espero terminar hoy todo.
+ - Sortear la sala de la trampa con la copa, la espada y bloqueando la trampa.
+ - Puzzle de coger la barra
+ - Encender Antorcha
+ - Coger cuerda
+ - Bajar al pozo con la cuerda
+ - Las pilas de la linterna se gastan
+ - Empujar roca
+
+ En este punto tenemos todo el código implementado de la versión Cafax que se encuentra online. El principal
+ problema es que necesitamos 43Kb de memoria en total, y todavía faltará por añadir alguna descripción extra o mejorar algunas cosas del parser.
+
+ El principal problema es la gran cantidad de texto, asi que antes de seguir adelante hay que buscar la forma de comprimir el texto en tiempo de compilación
+
+ Al final pasar toda la lógica del juego (sin contar depuración) me ha llevado en torno a 16h de trabajo.
+
+ Parece un esfuerzo razonable para escribir una aventura, para mi todo lo que sea menos de 30h es admisible. Dos-tres semanas trabajando en mi tiempo libre.
+
+ Asi que toca remangarse y empezar a limar bytes de donde sea.
+
+28.12.2016
+  - Imprimir frases sin partir palabras.
+  - Scroll vertical (de momento de toda la pantalla) cuando el texto se sale de la ventana
+  + Nuevos textos para todas las localidades basados en la versión online de Baltasar
+  - Atravesar el puente colgante
+  - Encontrar linterna y pedernal
+  - Asustar Serpiente
+  - Ofrenda a la momia
+  - Abrir Cofre con Espada
+  - Poner anillo a la momia
+  - Conseguir la llave de plata de la momia (ofrenda)
+
+15/12/2016
+> Funciones para borrar la ventana de texto y posicionar el cursor.
+
+12/12/2016
+> Ahora al escribir un mensaje se parsean todos los caracteres. De momento los acentuados y ñ se sustituyen por caracteres normales.
+> Nueva función para definir el tamaño de la ventana de texto y gráficos de forma dinámica. En TC simplemente superponía la parte de gráficos sobre el texto y quedaba bien, seguramente aquí seguiré la misma solución. No voy a redefinir
+de forma dinámica las ventanas.
+
+
+11/12/2016
+> Añado la librería gráfica al código principal de cafax. He separado la librería de modo que pueda seguir trabajando
+en ella de forma independiente.
+> Reemplazo todos los printf por la rutina nueva WriteText y WriteTextln
+> Ya tenemos las nuevas fuentes funcionando, un bonito clr_screen después de la intro.
+
+09/12/2016
+
+ > Estos dos meses anteriores han sido un poco duros a nivel profesional y personal. Pero creo que ya puedo
+ seguir adelante con otras cosas, hemos tomado la decisión de volver a Madrid el próximo año. Asi que ahora busco
+ trabajo todos los días.
+
+ > Retomando un poco de CAFAX, tengo que volver al hábito y retomar el código. No le queda demasiado, con un poco
+ de suerte estará lista para vacaciones de Navidad.
+
+ > En paralelo en libgfx\main.c he estado trabajando en algunos efectos gráficos (clear, scroll, fuentes) para la
+ aventura.
+
+
+09/10/2016
+ Llevo toda la semana pachucho con fiebre, pero bueno ya va mejor la cosa. Empiezo a rescatar todo el trabajo
+relativo al año pasado, las herramientas de extracción de texto y todas las pantallas compiladas.
+
+Al extraer texto del juego nos encontramos en torno a 13451bytes (12558bytes del juego +893bytes del parser).
+Estamos en 26761bytes de juego. Todos los objetos y localidades ya están dentro, faltán sólo añadir descripciones
+y la lógica de los puzzles. El tamaño máximo es en torno a 40Kb.
+
+26761 - 13451 = 13310 bytes de código. Tendría que intentar rebajar el código a unos 7Kb.
+
+zx7 puede comprimir juego.txt desde 12558bytes a 5802bytes. Lo cual está bastante bien.
+
+03/10/2016
+ + Arreglo todas las funciones de objetos para que funcionen con el identificador, no con la posición del objeto
+ en el array.
+ + Los nombres de los objetos se imprimen con género, número, determinado/indeterminado y propio.
+ + El listado de objetos en la localidad sólo muestra el primer objeto. Fixed. El problema esperado de trabajar
+ con obj-id en lugar de con la posición de array.
+
+
+
+02/10/2016
+ + Vocabulario completo para los objetos
+ + Implemento condactos de objetos y comprobación de atributos
+ + Varios errores con la tabla de símbolos, de momento los he arreglado incluyendo algunas funciones como extern
+ en juego.c
+ + Se listan los objetos que se pueden coger en la localidad...
+ + Un buen montón de condactos nuevos para listado de objetos, atributos, localización de objetos, pesos y tipos.
+
+ Quiero hacer un pequeño alto en el parser y comenzar a trabajar la parte gráfica, de este modo será
+ más fácil empezar a distribuir demos.
+
+01/10/2016
+ Qué difícil es mantener un avance constante, espero poder avanzar un poco más estos días.
+
+ > Primer objeto, por supuesto... una lámpara
+ + Declaración de todos los objetos (incluyendo sus localidades de inicio) (y atributos)
+ + Se puede navegar por el mapa y se van mostrando las descripciones...
+ + Falla la búsqueda de sinónimos. Olvidé pasar a mayúscular el vocabulario U_U
+
+17/09/2016
+	> Todo el vocabulario de la aventura 15791bytes
+	> Todos los examinar... 20192bytes. Calculo que debo llevar unos 10Kb en texto.
+	- Listado completo de objetos de la aventura
+     Aceite
+     Antorcha
+     Barra de metal
+     Copa
+     Cuerda
+     Espada
+     Linterna
+     Pedernal
+     Sandalia
+     Tabla, Madera
+     Roca
+     La Carta
+     Brujula
+
+
+	- Declaración de todos los objetos (incluyendo sus localidades de inicio) (y atributos)
+
+
+12/09/2016
+
+> He movido las funciones del juego (proceso1, proceso2 y respuestas), y el vocabulario
+a juego.c. La verdad es que tiene más sentido, ahora la separación entre parser y juego
+está más clara.
+> Aunque el parsing funciona sin problemas, el valor que obtengo de la función es 0 o 1. No
+consigo que devuelva otro valor, he probado también a meter el valor en un flag pero tampoco
+parece funcionar. Supongo que necesito descansar un poco...
++ Todo arreglado, estaba asignando la variable dentro del IF y estaba tomando la condición
+en lugar del retorno de la función.
+
+Ya tenemos nuestro primer examinar funcionando :D
+
+
+11/09/2016
+> Volvemos al compilador de ZX Spectrum :)
+> Finalmente Baltasar sacó antes la versión en javascript. De todos modos, todavía sigo adelante
+con el proyecto. Creo que puedo terminarlo en unas pocas semanas.
+
+> Ya tenemos la intro. Pero fallan acentos y el espaciado de textos. Asi que ambos puntos al 'TODO'
+
+> He añadido la librería de fuentes fzx:
+http://www.worldofspectrum.org/forums/discussion/45612/
+
+Muy chulas todas las fuentes, pero le faltan opciones para hacer scroll de pantalla :-?
+
+	+ Declaramos todas las localidades...
+	+ Se muestra la primera descripción...
+	+ Declaración de todas las conexiones.
+	+ Se listan conexiones
+
+De momento al escribir un comando se queda bloqueado :-?, he añadido la primera condición al examinar la arena. Quizá mañana
+tenga un ratillo para depurar el error. Estamos en torno a 15Kb y todavía queda todo el desarrollo, de todos modos yo espero
+que quepa la aventura en 48Kb en modo texto una vez elimine las rutinas de terminal ANSI y las sustituya por algo más óptimo.
+
+Aunque la BBDD de cafax que me pasó Balta no está completa, he bajado el código javascrip de la aventura para poder extraer
+mensajes, objetos y código. No va a ser un camino fácil, y al final me toca reescribir todo el código pero al menos toda la parte
+creativa ya la tengo resuelta.
+
+ El objetivo está definido: 48Kb sólo texto (Como Carvalho en su día), y 128Kb con todas las pantallas. Si finalmente queda algo de memoria
+libre podemos añadir algunos gráficos en 48Kb, pero tengo que ver como tratar las pantallas sin gráficos.
+
++ Poder cambiar el tipo de letra desde el código... Usando FZX
++ Espaciado dinámico entre caracteres... Usando FZX
+
+
+25/07/2016
+> Jugando a la versión online de Cafax. Algunos cambios respecto al guión:
+	- Hay que portar la antorcha para pasar por la serpiente. Mejorar esto dando pistas y permitiendo más verbos como espantar la serpiente.
+	- No está claro el tema de la ofrenda a la momia. Necesitamos más pistas que indiquen que la momia espera una ofrenda en vasijas.
+	- Más descripciones de grabados, al fin y al cabo somos un arqueólogo famoso.
+	- Cuidado con el puzzle de la linterna/antorcha para evitar efectos raros.
+	- Problema raros con las vasijas y las ofrendas. Las vasijas no se pueden mover pero son necesarias para la ofrenda.
+	- salvar/cargar partida a cinta/disco. En 128K a lo mejor podemos permitir un ramsave/ramload.
+	- La cuerda en la rampa se puede desatar para conseguirla.
+
+03/07/2016
+
+Ha sido un año bastante interesante. Ahora tenemos en casa un nuevo peque: Guillermo :). Dani ha
+terminado el kindrgarten, comienza el colegio, la semana que viene empiezan las vacaciones.
+
+Aprovechando que Balta me ha enviado una actualización del guión, me pongo de nuevo con ello. Ahora
+tengo las ideas más claras acerca de la aventura, y algún que otra rutina de compresión de textos
+que deberían darnos bastante margen para meter gráficos.
+
+> El parser está basado en NgPAWS Beta9. La idea es poder reciclar tanto código como sea posible, para
+luego facilitar conversiones.
+> Actualizando el parser, trabajo tedioso de añadir verbos, constantes, etc.
+> Ahora intentando factorizar el código para separar el código del juego, del código del parser. De esta forma debería ser más sencillo sacar nuevos juegos...
+
+> Bueno, ya compila. Ahora toca empezar a programar la aventura y ver que condactos
+son realmente necesarios para no malgastar memoria.
+
+20/09/2015
+
+ He terminado de convertir *TODOS* los gráficos a Spectrum. La lista final con el tamaño
+ se encuentra en el excel: pantallas.xls (en total unos 27Kb para 31 pantallas).
+
+ La secuencia de conversión ha sido la siguiente:
+
+    - Capturas de pantalla de CPC o de PC. Sin comprimir, y sin deformar del emulador.
+	- Escalar la captura para que un píxel de la pantalla sea un píxel de la imagen. El escalado
+	lo he realizado en Photoshop sin filtros de suavizado.
+	- Recortar para dejar sólo el área que se va a ver en el Spectrum. En el caso del CAFAX, es
+	el área interior unos 226x92 píxeles.
+	- En PSD, pasar la imagen a grises y luego auto-level para luego poder distinguir bien los distintos
+	tonos.
+	- Salvar en formato .png
+	- Abrir las herramientas RETROX. Cargar el PNG y probar con distintos filtros hasta dar con uno
+	que quede bien y no suponga pérdida de información. Cuidado con los grises intermedios.
+	- Salvar como fichero .SCR
+	- Estos dos pasos anteriores se pueden realizar también con el ZX-PAINTBRUSH, pero en mi experiencia
+	el acabado no es tan bueno.
+	- Abrir en ZX PAINTBRUSH el fichero .SCR. Editar el gráfico, los atributos, posicionar, etc.
+	- Salvar el .SCR final
+	- ejecutar rcs fichero.scr
+	- ejecutar zx7 fichero.scr.rcs
+	- El fichero.scr.rcs.zx7 es el fichero final que debemos usar desde el juego.
+
+ De momento lo dejo en 'hold', pues el siguiente paso es afinar las pantallas para mejorar el resultado
+actual que diría que es sólo 'pasable'. Seguramente trabajaré de vez en cuando en las pantallas a medida
+que Baltasar se vaya reactivando.
+
+Correo de Baltasar...
+
+ Seguramente tendré que hacer una selección.
+        Por cierto, en cuanto a ahorrar, lo del marco del gráfico en plan papiro es un buen candidato.
+
+        Vamos a ver... para que no te lleves demasiado trabajo, te puedo decir aquellas de las que puedo prescindir sin problema:
+
+        aceps_autores, aceps_portada, aceps_presenta:
+                En todo caso, la última para pantalla de carga, el resto nada de nada.
+
+
+
+
+
+
+
+
+
+		L01 sala_trampa.png:        no
+			"Acceso a la trampa^
+			^Hacia el sur ves algo inquietante... parece una trampa de afilados pinchos...";
+
+		L02 sala_altar_ofrendas.png:sí
+			"Altar de ofrendas^
+			^En el recipiente arde la llama eterna, gracias al aceite en su interior.";
+
+
+		L03 antesala.png:           sí
+			"Antesala^
+			^^El gran grosor de los muros transmite un fuerte sentimiento de solidez y seguridad. Una breve brecha sobre ti proporciona algo de luz, aunque no puedes identificar su procedencia exacta.";
+
+		L04 desierto.png:           sí
+			Entre arenas abrasadoras y un sol implacable se elevan majestuosas los sepulcros de Cafax y Aceps.
+
+        L05 sala_peque.png:         no
+			"Diminuta sala^
+			^Un reducido recinto permite avanzar de este a oeste. La altura del techo es la normal, pero en este espacio apenas cabe una persona.";
+
+        L06 cafax.png:              sí
+			"Entrada^
+			^Ante la entrada de Cafax. La aventura comienza...";
+
+        L07 escaleras.png:          no
+			"Escaleras^
+			^Ante ti, las escaleras que conducen al oscuro interior de Cafax.";
+
+        L08 estancia.png:           no
+			"Estancia^
+			^^Dos vasijas policromadas flanquean una de las puertas de la estancia.";
+
+		L09 pasadizo_estrecho.png:  sí
+			"Estrecho pasadizo^
+			^Este estrecho pasadizo conduce a una zona superior.";
+
+        L10 fin_corredor.png:       sí
+			"Final del corredor^
+			^El final del corredor revela nuevos detalles de grandeza y majestuosidad.";
+
+        L11 gran_pasaje.png:        no
+			"Gran pasaje^
+			^De esta sala parten pasajes en todas direcciones. Al este y al sur, los pasajes son guardados por sendas puertas.";
+
+		L12 sala_grandeza.png:      no
+			"Gran sala^
+			^Te sientes insignificante ante la grandeza de las salas que se presentan ante tus ojos.";
+
+        L13 corredor.png:           sí
+        	"Largo corredor^
+			^El largo corredor te adentra en la oscuridad.";
+
+        L14 pasadizo_bajo.png:      no
+        	"Pasadizo bajo^
+			^^Un pasillo bajo y estrecho comunica con otra sala.";
+
+        L15 pasaje_grabados.png:    sí
+			"Pasaje de los grabados^
+			^^Vestigios de antiguos grabados en la piedra, parece advertirte de algo.";
+
+		L16 sala_pasarela.png:      sí
+			"Pasarela^
+			^^La gran sala permite avanzar de este a oeste, atravesando una pasarela hecha con cuerdas y madera. El abismo no parece tener fin, es realmente insondable.";
+
+		L17 pasillo_profundo.png:   sí
+			"Pasillo profundo^
+			^Parece enterrarse en las profundidades de la oscuridad.";
+
+		L18 pozo.png				no
+			"Pozo de las almas^
+			^Este lugar resulta realmente triste y desolado. Algunos pictogramas decoran las paredes.";
+
+        L19 sala_rampa.png:         no
+			"Rampa^
+			^^La pronunciada rampa que asciende hacia el sur, parece haber sido hecha para arrastrar pesados objetos.";
+
+        L20 sala_alargada.png:      no
+			"Sala alargada^
+			^Las paredes de una alta y alargada sala parecen cernirse sobre ti.";
+
+        L21 sala_luminaria.png:     no
+			"Sala de la luminaria^
+			^Una gran sala que tiene en el centro de su pared norte un hueco que probablemente se usaba para iluminar la estancia.";
+
+        L22 sala_momia.png:         sí
+			"Sala de la momia^
+			^^En una tumba en la pared, una momia duerme eternamente.";
+
+		L23 sala_funeraria.png:     no
+			"Sala de la vida eterna^
+			^Animales momificados escoltan a la momia en su eterno viaje. Innumerables grabados te rodean.";
+
+        L24 sala_anubis.png:        no
+			"Sala de los vivos^
+			^Anubis, dios del reino de los muertos, guarda esta sala de los vivos. Se trata de un recinto cotidiano en los sepulcros de los faraones, en el que se alaba y recrea el goce de la vida, como antesala de la muerte.";
+
+		L25	sala_altar_piedra.png:  no
+			"Sala del altar de piedra^
+			^^El suelo se halla encharcado alrededor del altar de piedra.";
+
+        L26 sala_cofre.png:         sí
+			"Sala del cofre^
+			^^Recipientes con aceite sagrado iluminan un cofre con muchos grabados.";
+
+        L27 sala_dios_path_.png:    sí
+			"Sala del dios rey^
+			^Esta sala parece completamente dedicada a la vida del rey Aceps I. En la imagen, parece querer ponerse un anillo, pesando sobre su cabeza una espada con... una copa.";
+
+
+        L28 sala_hueco_pared.png:   no
+			"Sala del espacio^
+			^Gracias a un boquete en la pared, se aprecia la sala hacia el sur. Es como si se hubiera hecho aposta, un ventanal para que la imagen del rey pudiese contemplar el altar.";
+
+        L29 sala_sepulcro.png:      no
+			"Sala del sepulcro^
+			^^Un inmenso sepulcro de piedra se encuentra en el medio de esta gran sala,^presidiendo majestuosamente el lugar.";
+
+        L30 sala_papiro_funerario   no
+			"Sala funeraria^
+			^En las paredes se aprecian los grabados de un papiro.";
+
+        L31 trampa.png:             sí
+			"Trampa^
+			^^Alrededor de la trampa aparecen grabados de todo tipo. Una abertura de forma oblonga rompe la uniformidad de una de las paredes.";
+
+        Bueno, lo he dejado en 14 pantallas... si acaso, sería buena idea crear una especia de pantalla genérica extra para aquellas pantallas que no tienen gráfico, algo así como sala_alargada.png, pero sin que se vea nada al final, es decir, con el final del pasillo en negro, por ejemplo.
+
+
+		Tamaño: 128 x 96
+
+		27 Julio 2014
+		- Jugueteando un poco con el InPaws. Soporta extraer gráficos desde un snapshot
+		de 48K de una aventura escrita en PAWS para Spectrum.
+		- Formato del fichero de datos de gráficos:
+
+
+GRAPHICS
+{
+	33,  					// Número de gráficos
+	1,1,1,1,1,1,1,1,1,1,	// Tamaños de gráficos
+	1,1,1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,1,1,
+	1,1,1,                  // Total: 33 gráficos de 1byte
+	7,7,7,7,7,7,7,7,7,7,    // Atributos
+	7,7,7,7,7,7,7,7,7,7,
+	7,7,7,7,7,7,7,7,7,7,
+	7,7,7,                  // Total: 33 atributos de 1byte
+	7,7,7,7,7,7,7,7,7,7,    // Datos
+	7,7,7,7,7,7,7,7,7,7,
+	7,7,7,7,7,7,7,7,7,7,
+	7,7,7                   // 33 Bloques de datos
+}
+
+Significado de los datos:
+
+	 7:
+
+Alguna pista:
+
+http://foro.caad.es/viewtopic.php?f=10&t=5623&hilit=paws
+
+Se puede pasar de z80 con UNPAWS a una descripción tipo texto plano, pero esta definición
+no es compatible con INPAWS. Cosas de la vida supongo...
+
+Desde UnPAWS podemos obtener un volcado de los gráficos en un formato legible para humanos:
+
+> unpaws32 -I cafax.z80 -O ucafax.txt -G
+
+GRAPHICS DATA
+-------------
+Location   0 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location   1 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location   2 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location   3 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location   4 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location   5 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location   6 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location   7 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location   8 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location   9 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  10 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  11 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  12 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  13 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  14 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  15 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  16 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  17 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  18 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  19 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  20 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  21 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  22 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  23 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  24 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  25 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  26 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  27 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  28 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  29 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  30 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  31 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+Location  32 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+
+He estado mirando el hilo anterior sobre los gráficos y los fuentes de UnPAWS e InPaws. La cosa no tiene mala pinta:
+
+- En el fuente de UNPAWS viene la descripción de todos los opcodes de PAWS. UnPAWS convierte
+estos opcodes es una descripción legible para humanos.
+- InPAWS trabaja directamente con los códigos en binario, es decir no hace ningún tipo de interpretación. Simplemente vuelca en decimal los bytes de los bloques gráficos a un fichero ASCII.
+- Si usas InPAWS y quieres meter gráficos en tu aventura sólo tienes que volcar desde un snapshop y luego cortar y pegar el bloque de texto en tu fuente Inpaws. Esto lo puedes hacer poco a poco o al final cuando hayas terminado de escribir tu aventura.
+- InPAWS no soporta snapshots de 128K.
+- UnPAWS sí soporta snapshopts de 128K.
+
+Asi que:
+
+1) A partir del fuente de UnPaws conocemos el significado de los opcodes de gráficos y atributos. 2) Con esta información podemos escribir un conversor desde un formato vectorial en xml, tipo DIA, o hacer un editor muy sencillito para crear gráficos vectoriales en Spectrum.
+3) La salida del conversor/editor será un fichero de texto plano con los códigos de InPAWS.
+4) El programador de la aventura toma este bloque de código de gráficos y lo mete en su fuente InPAWS.
+
+Ya tengo mi editor gráfico en marcha:
+Vamos a hacer un ejemplo, una pantalla con una sóla línea desde la 0,0 hasta la 255,175
+
+En InPAWS:
+inpaws eg cafax.z80 -o graficos.txt
+GRAPHICS
+{
+	33,
+	1,4,1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,1,1,
+	1,1,1,
+	7,7,7,7,7,7,7,7,7,7,
+	7,7,7,7,7,7,7,7,7,7,
+	7,7,7,7,7,7,7,7,7,7,
+	7,7,7,
+	7,1,255,175,7,7,7,7,7,7,
+	7,7,7,7,7,7,7,7,7,7,
+	7,7,7,7,7,7,7,7,7,7,
+	7,7,7,7,7,7
+}
+En UnPAWS:
+> unpaws32 -I cafax.z80 -O ucafax.txt -G
+Location   0 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+
+Location   1 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+     LINE        255  175
+     END
+
+Por ejemplo la primera pantalla del abracabra
+
+PAPER 000
+INK 003
+BLOCK 021 031 000 000
+PLOT 038 169
+LINE 000 -107
+LINE 137 000
+PLOT 200 062
+LINE 017 000
+LINE 000 107
+LINE -179 000
+PLOT 166 062
+LINE 040 000
+PLOT 219 060
+LINE 000 111
+LINE -183 000
+LINE 000 -111
+LINE 183 000
+PLOT 038 169
+INK  000
+LINE 000 000
+LINE 000  000
+INK  000
+PLOT 072  064
+LINE 143  034
+PLOT 041  071
+LINE 174  032
+PLOT 046  081
+     LINE        004 -002
+     LINE        004 -001
+     LINE        006 -001
+     LINE        006  002
+     LINE        003  003
+     LINE       -001  008
+     LINE       -004 -002
+     LINE       -006 -001
+     LINE       -005  001
+     LINE       -005  001
+     LINE       -002 -007
+     PLOT        048  089
+     LINE        002  002
+     LINE        007 -002
+     LINE        008  001
+     LINE        001  001
+     LINE        001 -001
+     PLOT        066  091
+     LINE       -001  006
+     LINE       -006 -001
+     LINE       -007  001
+     LINE       -001 -006
+     PLOT        053  098
+     LINE        001  001
+     LINE        005 -001
+     LINE        005  001
+     LINE        001 -002
+     PLOT        054  100
+     LINE        000  058
+     LINE        005  001
+     LINE        005 -001
+     LINE        000 -058
+     PLOT        054  158
+     LINE       -002  001
+     LINE       -002  003
+     LINE        000  002
+     PLOT        048  164
+     LINE        006  001
+     LINE        007  000
+     LINE        007 -001
+     LINE       -004 -005
+     PLOT        069  164
+     LINE        001  002
+     LINE       -006  001
+     LINE       -009  000
+     LINE       -008 -001
+     LINE        001 -002
+     PLOT        047  167
+     LINE       -003  000
+     PLOT        060  096
+     LINE        001 -006
+     PLOT        061  088
+     LINE        001 -010
+     PLOT        056  096
+     LINE       -002 -006
+     PLOT        054  088
+     LINE       -002 -009
+     PLOT        068  167
+     PLOT        087  087
+     LINE        008 -002
+     LINE        004 -001
+     LINE        002 -001
+     LINE        001 -011
+     PLOT        110  089
+     LINE        003 -001
+     LINE        002 -001
+     LINE        007  001
+     LINE        003  001
+     LINE       -001  006
+     LINE       -006 -001
+     LINE       -003  000
+     LINE       -004  001
+     LINE       -001 -004
+     PLOT        111  095
+     LINE        002  002
+     LINE        004 -001
+     LINE        006  001
+     LINE        000 -001
+     PLOT        122  097
+     LINE        000  003
+     LINE       -004 -001
+     LINE       -003  001
+     LINE       -001 -003
+     PLOT        115  100
+     LINE        000  051
+     PLOT        122  100
+     LINE        000  051
+     LINE       -004  001
+     LINE       -003 -001
+     LINE       -002  003
+     LINE       -001  004
+     LINE        007  001
+     LINE        006 -001
+     LINE       -003 -007
+     PLOT        112  158
+     LINE       -001  002
+     PLOT        151  095
+     LINE        002 -001
+     LINE        002 -001
+     LINE        006  001
+     LINE       -001  006
+     LINE       -004 -001
+     LINE       -004  001
+     LINE       -001 -005
+     PLOT        152  100
+     LINE        002  002
+     LINE        003 -001
+     LINE        002  001
+     LINE        001 -002
+     PLOT        159  103
+     LINE        000  044
+     PLOT        154  103
+     LINE        000  045
+     LINE        003  001
+     LINE        002 -001
+     LINE        002  003
+     LINE        001  002
+     PLOT        153  148
+     LINE       -002  007
+     PLOT        178  099
+     LINE        000  000
+     LINE        003 -001
+     LINE        005  001
+     LINE       -001  005
+     LINE       -003 -001
+     ABS MOVE    182  103
+     LINE       -003  001
+     LINE       -001 -005
+     PLOT        180  105
+     LINE        000  040
+     PLOT        185  105
+     LINE        000  040
+     PLOT        179  151
+     LINE        001 -006
+     LINE        003 -001
+     LINE        003  001
+     LINE        001  004
+     PLOT        201  147
+     LINE        001 -004
+     LINE        002 -001
+     LINE        003  001
+     LINE        001  004
+     PLOT        206  142
+     LINE        000 -035
+     LINE        001 -004
+     LINE       -003 -001
+     LINE       -003  000
+     LINE       -002  001
+     LINE        002  004
+     LINE        002 -001
+     LINE        003  001
+     PLOT        202  107
+     LINE        000  037
+     PLOT        156  153
+     ABS MOVE    156  153
+     LINE       -006  001
+     PLOT        142  095
+     LINE        005 -001
+     LINE        004 -002
+     LINE        001 -008
+     PLOT        184  097
+     LINE        001 -006
+     PLOT        208  104
+     LINE        001 -002
+     LINE        001 -005
+     PLOT        197  103
+     LINE       -011  000
+     PLOT        179  103
+     ABS MOVE    179  103
+     LINE       -020  000
+     PLOT        154  103
+     LINE       -031  000
+     PLOT        115  103
+     LINE       -051  000
+     PLOT        054  103
+     LINE       -014  000
+     PLOT        215  106
+     LINE       -007 -001
+     PLOT        200  103
+     LINE       -015 -001
+     PLOT        178  101
+     LINE       -017 -002
+     PLOT        152  098
+     LINE       -029 -004
+     PLOT        110  092
+     LINE       -041 -005
+     PLOT        046  085
+     LINE       -006 -001
+     PLOT        087  087
+     LINE       -006  001
+     PLOT        111  160
+     LINE       -002  005
+     LINE       -004  002
+     PLOT        117  160
+     LINE       -001  004
+     LINE       -003  003
+     PLOT        125  159
+     LINE        001  004
+     LINE        003  003
+     LINE        004  001
+     PLOT        156  155
+     LINE       -002  006
+     LINE       -003  004
+     LINE       -004  002
+     PLOT        151  155
+     LINE       -002  005
+     LINE       -003  004
+     LINE       -005  003
+     PLOT        157  153
+     LINE        005  001
+     LINE       -001  001
+     LINE        001  006
+     LINE        004  004
+     LINE        007  001
+     LINE        005 -003
+     LINE        003 -004
+     LINE        002 -008
+     LINE       -004  000
+     LINE       -001  007
+     LINE       -002  003
+     LINE       -003  003
+     LINE       -005  001
+     PLOT        183  150
+     LINE        005  000
+     LINE        000  006
+     LINE        004  004
+     LINE        005  001
+     LINE        004 -002
+     LINE        002 -004
+     LINE        001 -006
+     LINE       -003 -001
+     LINE        000  005
+     LINE       -002  006
+     PLOT        204  147
+     LINE        005  001
+     PLOT        207  149
+     LINE        001  005
+     LINE        003  003
+     LINE        004  001
+     PLOT        215  098
+     LINE        000 -034
+     LINE       -143  000
+     PLOT        135  065
+     LINE       -020  002
+     LINE        038  009
+     LINE        062 -009
+     PLOT        165  080
+     LINE        050 -007
+     PLOT        167  080
+     LINE        029  006
+     LINE        019 -002
+     PLOT        215  093
+     LINE       -004  000
+     LINE       -009 -003
+     LINE        013 -002
+     FILL       -024  000
+     SHADE      -003  003  067
+     SHADE      -008 -008  067
+     SHADE      -040 -019  067
+     PLOT        096  070
+     LINE        119  000
+     PLOT        132  078
+     LINE        083  000
+     PLOT        166  086
+     LINE        049  000
+     PLOT        195  092
+     LINE        020  000
+     PLOT        145  064
+     LINE        020  005
+     PLOT        190  078
+     LINE        025  007
+     PLOT        135  070
+     LINE        025  008
+     PLOT        207  070
+     LINE        008  003
+     PLOT        197  086
+     LINE        016  005
+     PLOT        071  064
+     ABS MOVE    071  064
+     LINE       -031  000
+     LINE        000  007
+     SHADE       024  000  033
+     SHADE       071  008  018
+     SHADE       120  016  018
+     SHADE       152  024  018
+     PLOT        215  103
+     LINE        000 -005
+     PLOT        114  167
+     LINE        018  000
+     SHADE      -008 -006  018
+     PLOT        148  167
+     LINE        067  000
+     LINE        000 -008
+     PLOT        203  147
+     SHADE       003  001  018
+     SHADE      -017  008  018
+     SHADE      -048  016  018
+     FILL       -138 -064
+     FILL       -140 -052
+     PLOT        060  099
+     LINE        002  032
+     LINE       -001  028
+     LINE        001  006
+     FILL        001 -003
+     FILL        001 -012
+     SHADE      -006 -085  066
+     SHADE      -004 -072  066
+     PLOT        057  099
+     LINE        001  036
+     LINE        000  024
+     LINE       -001  006
+     SHADE       002 -001  066
+     SHADE       002 -007  066
+     PLOT        059  166
+     LINE        010 -001
+     PLOT        119  099
+     LINE        000 -002
+     PLOT        119  094
+     LINE        002 -006
+     PLOT        115  088
+     LINE        001  006
+     PLOT        116  096
+     LINE        001  002
+     PLOT        119  099
+     LINE        001  029
+     LINE       -001  023
+     FILL        001 -001
+     FILL        002 -052
+     FILL        004 -060
+     LINE        002  008
+     FILL        000 -005
+     PLOT        156  153
+     LINE        001 -004
+     LINE        001 -031
+     LINE       -001 -017
+     FILL        001  003
+     FILL        001  035
+     FILL        001  051
+     LINE       -001 -008
+     FILL        002  003
+     SHADE      -038 -002  036
+     PLOT        179  146
+     PLOT        179  147
+     PLOT        183  150
+     LINE        000 -005
+     LINE        001 -030
+     LINE       -001 -016
+     FILL        001  002
+     FILL        001  006
+     FILL        001  040
+     FILL        001  048
+     PLOT        205  147
+     LINE       -001 -045
+     FILL        001  002
+     FILL        001  007
+     PLOT        040  102
+     LINE        000 -018
+     SHADE       002  002  057
+     SHADE       030  006  057
+     LINE        000  000
+     SHADE       089  016  057
+     SHADE       123  018  057
+     SHADE       174  016  050
+     PLOT        165  164
+     LINE        008 -012
+     LINE        005 -017
+     LINE        002 -017
+     SHADE      -002  023  003
+     SHADE       009  000  003
+     PLOT        215  107
+     LINE        000  056
+     SHADE      -002 -009  003
+     PAPER       003
+     REL MOVE   -002 -072
+     BLOCK       003  001  025  010
+     REL MOVE   -014 -007
+     BLOCK       002  002  022  011
+     REL MOVE   -025 -008
+     BLOCK       001  004  017  012
+     REL MOVE   -040 -008
+     BLOCK       000  001  015  013
+     BRIGHT      001
+     REL MOVE   -090  010
+     BLOCK       001  008  005  012
+     REL MOVE    026  004
+     BLOCK       001  008  008  011
+     REL MOVE    053  007
+     BLOCK       001  004  015  010
+     REL MOVE    041  005
+     BLOCK       000  002  020  010
+     REL MOVE    024  006
+     BLOCK       000  003  023  009
+     ABS MOVE    215  163
+     PAPER       005
+     BRIGHT      000
+     BLOCK       007  021  005  001
+     REL MOVE   -173 -062
+     BRIGHT      001
+     BLOCK       002  002  005  009
+     REL MOVE    025  000
+     BLOCK       001  006  008  009
+     REL MOVE    058 -001
+     BLOCK       000  007  015  009
+     END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
