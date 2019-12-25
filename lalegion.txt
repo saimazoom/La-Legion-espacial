@@ -1,24 +1,30 @@
 
  La Legión Espacial
-=======================
+======================
+Links:
+ https://chuntey.wordpress.com/2012/12/18/how-to-write-zx-spectrum-games-chapter-1/
+ https://www.z88dk.org/wiki/doku.php?id=optimization
+ https://damieng.com/typography/zx-origins/
+ http://www.worldofspectrum.org/ZXBasicManual/
+ http://www.breakintoprogram.co.uk/programming/assembly-language/z80/z80-library-routines/output-asm
 
 TODO: 
+Versión 48K
   - Hablar con el ordenador
-  - En el listado de objetos de la localidad no se muestran aquellos con atributos Concealed	o Scenery
-  - Recordar como se cambian las fuentes y elegir un buen tipo para ZHL
-  - Colores en la fuente cuando habla el ordenador (toda la frase)
-  - SAVE/LOAD 
-  - RAMSAVE/RAMLOAD 
-  - UNDO para el último movimiento 
-  - FIN permite terminar la partida y regresar al menú principal 
-  - Autocompletar basado en el texto de la localidad y el inventario 
-
-  Versión 128K
   - Pantallas por cada localidad 
+  - Menú de juego 
+  - FIN permite terminar la partida y resetea el ordenador.
+  
+Versión 128K
   - Música en el menú principal
    
 Optimizar el código:
- - Implementar atrezzo:
+  - SAVE/LOAD 
+  - RAMSAVE/RAMLOAD 
+  - UNDO para el último movimiento 
+  - Autocompletar basado en el texto de la localidad y el inventario 
+  - Colores en la fuente cuando habla el ordenador (toda la frase)
+  - Implementar atrezzo:
     Object atrezzo_blaus_porche blaus_porche
     class decorado
     with describir 
@@ -32,6 +38,87 @@ Optimizar el código:
         'ventanas' "Mosaico multicolor en la primera planta y sencillas en el desván." G_FEMENINO+G_PLURAL
         'ventanal' "Mosaico multicolor en la primera planta y sencillas en el desván." G_MASCULINO
         'ventanales' "Mosaico multicolor en la primera planta y sencillas en el desván." G_MASCULINO+G_PLURAL;
+
+25 Diciembre 2019 
++ Bug del scroll que deja de vez en cuando una línea en blanco.
++ Bug con el espaciado, aparecen espacios en blanco no esperados...
+
+Optimizando el código de imprimir hemos bajado a 34003bytes.
+
+> He probado con el sevenUP a exportar a bin la localidad del exterior y al comprimir el bin sólo baja de 1301 (pantalla completa) a 1291bytes (pantalla recortada). No merece la pena recortar la imagen.
+
+35338bytes y ya tenemos la primera pantalla funcionando :)
+
+
+24 Diciembre 2019
+> Transición a rutinas en ASM para caracteres monoespaciados. Las rutinas en asm de http://www.breakintoprogram.co.uk/programming/assembly-language/z80/z80-library-routines/output-asm, pero tengo que adaptarlas a mi caso en particular. 
+
+File size: 33320bytes y sólo falta adaptar el ASM. Hemos ganado en torno 2KB. 
+
+Ya tengo las rutinas de impresión funionando, no ha sido tan complicado como esperaba. El cambio más importante ha sido eliminar los ajustes al píxel que tenía para pasarlos a filas y columnas de Spectrum. 
++ El input del jugador sale descolocado en la pantalla
+
+Pues todo funcionando, ha sido cuestión de una par de horas. Cuando lo integré con las fzx tuve muchos problemas con los márgenes y parpadeos de las rutinas de dibujado, ahora ha sido suave :-). Ahora a buscar un juego chulo de caracteres de 8x8 que además nos va a permitir fácilmente añadir colores a los textos. 
+
+En cuestión de segundos he podido reemplazar la fuente por una de 8bit, nada que ver con las complicaciones de las fzx. ¡Mil gracias damienG por las fuentes!
+
++ He añadido los caracteres en castellano usando el FZX FONT EDITOR que funciona directamente con los ficheros .chr 
+
+https://damieng.com/typography/zx-origins/reynolds
+Con las fuentes incrustadas el código está en 34156bytes
+Todavía tengo que adelgazar el juegos unos pocos Kb. 
+
++ Salen algunas letras corruptas. He encontrado un bug en la librería que estoy usando para las fuentes, al incrementar L si llega a 00 no incrementa H. 
+
++ Se cuelga si cambio el tamaño de la ventana de texto y me salgo de la zona de pantalla. -> Estaba llamando con un tamaño demasiado grande a la rutina de creación de la ventana de texto. 
+
+Ahora sólo queda dibujar las pantallas y buscar la manera de optimizar el código para ganar algunos Kb y meter las 7/8 pantallas en memoria.
+
+No hay mejora al juntar varios IFs bajo un switch. Raspo algunos bytes al declarar funciones como __FASTCALL__.
+
+Añado CNDverb para para ver si es menos costoso que comparar cada vez en el IF el flag con el id del verbo. De momento 34155bytes.
+
+Veo que el compilador funciona distinto en respuestas y respuestas_post para una simple comparación de un valor:
+
+respuestas:
+	ld	a,(_flags+33)
+	cp	#(44 % 256)
+	jp	nz,i_59
+
+pero en respuestas_post:
+	ld	a,(_flags+33)
+	ld	e,a
+	ld	d,0
+	ld	hl,23	;const
+	call	l_eq
+	jp	nc,i_240
+
+
+por eso una llamada a función en respuestas_post es más ecómomica pero no en respuestas:
+con función en respuestas_post:
+	ld	hl,23 % 256	;const
+	call	_CNDverb
+	ld	a,h
+	or	l
+	jp	z,i_240
+
+34108bytes antes depasar respuestas_post a respuestas.
+
+Al mover el bloque y eliminar las llamadas a la función ha empeorado hasta 34194bytes
+
+De nuevo aparece esto en las comparaciones:
+
+	ld	a,(_flags+33)
+	ld	e,a
+	ld	d,0
+	ld	hl,23	;const
+	call	l_eq
+	jp	nc,i_240
+
+El compilar toma deficiones en función del contenido del if, he visto que por ejemplo si se llama a ACCmessage toma laopción corta pero si se llama a ACCautor toma la solución de más bytes.
+
+Esto no son sino miserias del compilador, hay que buscar el ahorro por otro lado.
+Vuelvo al código tal y como estaba antes y ahora por un misterioso motivo ha bajado a 34096bytes. Hay que admitir +-100bytes debido a las optimizaciones del compilador. 
 
 23 Diciembre 2019
  Casi Navidad y los niños están super nerviosos por los regalos :-D 
@@ -65,6 +152,16 @@ Tenemos 40960bytes - 35396 = 5564bytes
 Hay que conseguir unos 5Kb más mediante optimización del código. 
 
 Eliminando la librería FZX de fuentes baja a 32873bytes ->  2523bytes
+
+Voy a prescindir de FZX realmente nunca ha funcionado demasiado bien, y me ha dado gran cantidad de problemas el ajustar los tamaños y el borrar las fuentes. Voy a pasar de momento a fuente mono-espaciada. 
+
+Por compatibilidad paso las funciones y las estructuras a libgfx.
+
+Ahora 33208bytes, una bajada de 2Kb pero todavía no he metido las rutinas de impresión ni los caracteres. Pero bueno, la diferencia es que ahora las rutinas van a ser mucho más simples al no considerar el ancho variable de la antigua librería. 
+
+Por compatibilidad he mantenido las estructuras de fzx, de ese modo no hay que cambiar mucho el código del parser. 
+
+Pero de momento he vuelto a una bonita pantalla en negro...
 
 
 22 Diciembre 2019

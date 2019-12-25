@@ -45,7 +45,17 @@ extern BYTE CNDonotzero(BYTE objno, unsigned long int attrno);
 extern BYTE CNDweight();
 extern BYTE CNDisat(BYTE objid, BYTE locid);
 extern BYTE CNDisnotat(BYTE objid, BYTE locid);
-extern BYTE CNDat(unsigned char locid);
+extern BYTE __FASTCALL__ CNDat(unsigned char locid);
+extern BYTE CNDisat(BYTE objid, unsigned char locid);
+extern BYTE CNDisnotat(BYTE objid, BYTE locid);
+extern BYTE CNDnotat(BYTE locid);
+extern BYTE __FASTCALL__ CNDatgt(BYTE locid);
+extern BYTE __FASTCALL__ CNDatlt(BYTE locid);
+//extern BYTE __FASTCALL__ CNDverb(BYTE verbid);
+//extern BYTE __FASTCALL__ CNDnoun1(BYTE nounid);
+//extern BYTE __FASTCALL__ CNDnoun2(BYTE nounid);
+//extern BYTE __FASTCALL__ CNDadj1(BYTE adjid);
+//extern BYTE __FASTCALL__ CNDadj2(BYTE adjid);
 
 extern void  ACCdesc();
 extern void  ACCdone();
@@ -74,11 +84,16 @@ extern void ACCputin(BYTE objid, BYTE obj2id);
 extern void ACCtakeout(BYTE objid, BYTE obj2id);
 extern void ACCautop();
 extern void ACCautot();
+extern void ACCautor(); // Auto-remove an object
+extern void ACCautow(); // Auto-wear an object
 extern void ACCclearexit(BYTE locid, BYTE value);
 extern BYTE ACCgetexit(BYTE locid, BYTE value);
 extern BYTE ACCsetexit(BYTE loc_orig, BYTE value, BYTE loc_dest);
 extern void __FASTCALL__ ACCmessage(BYTE mesid);
 extern void __FASTCALL__ ACCmes (BYTE mesid);
+extern void __FASTCALL__ ACCwrite (unsigned char *texto);
+extern void __FASTCALL__ ACCwriteln (unsigned char *texto);
+
 
 // Librería de funciones del parser...
 void writeValue (unsigned int value);

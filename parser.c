@@ -39,13 +39,13 @@ Comandos de depuración
 
 */
 
-#define DEBUG       // DEBUG=1 incluye funciones y mensajes de depuración
+//#define DEBUG       // DEBUG=1 incluye funciones y mensajes de depuración
 #define GRAPHICS    // GRAPHICS=1 Incluye gráficos
 
 #include <string.h>
 
-#include "fzx.h"
-#include "fzxfonts_utz.h"
+//#include "fzx.h"
+//#include "fzxfonts_utz.h"
 
 #include "symbol_list.h"
 #include "parser_defs.h"
@@ -63,6 +63,8 @@ unsigned char flags[255];
 unsigned char playerInput[80];
 unsigned char playerWord[25];
 unsigned char *playerPrompt = "> ";
+extern struct fzx_state fzx;   // active fzx state
+
 
 textwin_t TextWindow;
 textwin_t GraphWindow;
@@ -283,7 +285,7 @@ void  initParser (void) // 212bytes
         gNUM_IMG++;
     }
     // Inicializa la pantalla
-    fzx.font = ff_utz_Handpress;
+    //fzx.font = ff_utz_Handpress;
     fzx.y=0;
     fzx.x=0;
 }
@@ -316,8 +318,8 @@ void ParserLoop (void) // 664 bytes
 
 		    if (flags[flight]==1)
             {
-                fzx.x=TextWindow.x*8;
-                fzx.y=TextWindow.y*8;
+                fzx.x=TextWindow.x;
+                fzx.y=TextWindow.y;
                 loc_temp = get_loc_pos (flags[flocation]); // La posición en el array no tiene por que coincidir con su id
 
                 //fontStyle(TITLE);
@@ -340,15 +342,15 @@ void ParserLoop (void) // 664 bytes
                 // Si están activas, describe las salidas
                 if (flags[fsalidas])
                 {
-                    writeText ("Salidas visibles: ");
+                    writeText ("Salidas visibles:");
                     for (i=0;i<10;i++)
                     {
                         j = conexiones_t[loc_temp].con[i];
-                            if (j<NO_EXIT && j>0)
-                                {
-                                    writeText (" ");
-                                    writeText (nombres_t[i<<1].word);
-                            }
+                        if (j<NO_EXIT && j>0)
+                        {
+                            writeText (" ");
+                            writeText (nombres_t[i<<1].word);
+                        }
                     }
                     /*
                     800bytes!
@@ -375,7 +377,7 @@ void ParserLoop (void) // 664 bytes
 
 		// Espera el input del jugador
         fontStyle (PLAYER);
-		writeText (playerPrompt);
+		//writeText (playerPrompt);
 		getInput ();
 		newLine();
 		parse(); // Extrae los tokens...
@@ -789,8 +791,32 @@ BYTE CNDadverb(BYTE wordno)
 {
 	return (getFlag(fadverb) == wordno);
 }
-*/
 
+BYTE CNDadj2(BYTE adjid)
+{
+    return (flags[fadject2]==adjid);
+}
+
+BYTE CNDadj1(BYTE adjid)
+{
+    return (flags[fadject1]==adjid);
+}
+
+BYTE CNDnoun2(BYTE nounid)
+{
+    return (flags[fnoun2]==nounid);
+}
+
+BYTE CNDnoun1(BYTE nounid)
+{
+    return (flags[fnoun1]==nounid);
+}
+
+BYTE CNDverb(BYTE verbid)
+{
+    return (flags[fverb]==verbid);
+}
+*/
 BYTE  CNDtimeout()
 {
 	// return bittest(getFlag(FLAG_TIMEOUT_SETTINGS),7);
@@ -815,16 +841,6 @@ BYTE  CNDprep(BYTE wordno)
 	return (getFlag(fprep) == wordno);
 }
 
-BYTE  CNDnoun2(BYTE wordno)
-{
-	return (getFlag(fnoun2) == wordno);
-}
-
-BYTE  CNDadject2(BYTE wordno)
-{
-	return (getFlag(fadject2) == wordno);
-}
-
 BYTE CNDsame(BYTE flagno1,BYTE flagno2)
 {
 	return (getFlag(flagno1) == getFlag(flagno2));
@@ -846,6 +862,12 @@ void ACCinven()
 	BYTE count = 0;
     BYTE objscount =  getObjectCountAt(LOCATION_CARRIED)+getObjectCountAt(LOCATION_WORN);
 
+    if (!flags[fobjects_carried_count]) 
+    {
+        writeSysMessage (SYSMESS_CARRYNOTHING);
+        return;
+    }
+
 	writeSysMessage(SYSMESS_YOUARECARRYING);
 	for (i=0;i<gNUM_OBJECTS;i++)
 	{
@@ -866,17 +888,12 @@ void ACCinven()
 		}
         if (getObjectLocation(i)==LOCATION_WORN || getObjectLocation(i)==LOCATION_CARRIED)
         {
-            if (count<(objscount-1)) writeText(", ");
-            if (count==(objscount-1)) writeText (" y ");
+            if (count<(objscount-1)) writeText(",");
+            if (count==(objscount-1)) writeText ("y");
         }
 	}
-
-	if (!count)
-	{
-		 writeSysMessage(SYSMESS_CARRYING_NOTHING);
-		 writeText("^");
-		 // ACCnewline();
-	} else writeText (".^");
+    
+    writeText (".^");
 
 	gDONE_FLAG = TRUE;
 }
@@ -993,8 +1010,8 @@ void  ACCscore()
 void  ACCcls()
 {
 	clear_screen (INK_YELLOW|PAPER_BLACK);
-	fzx.x = TextWindow.x*8;
-	fzx.y = TextWindow.y*8;
+	fzx.x = TextWindow.x;
+	fzx.y = TextWindow.y;
 }
 
 
@@ -1246,10 +1263,27 @@ void ACCnewline()
     newLine();
 }
 
+// ACCwriteText
+// Input: Flag number indicating the message to be printed
+// Outpput: Outputs message into screen.
+// Description: Prints the message pointed by flagno.
+
 void  ACCwriteText(BYTE flagno)
 {
    writeMessage(get_msg_pos(flags[flagno]));
 }
+
+void ACCwrite (unsigned char *texto)
+{
+    writeText (texto);
+}
+
+void ACCwriteln (unsigned char *texto)
+{
+    writeText (texto);
+    newLine();
+}
+
 
 void  ACCsysmess(BYTE sysno)
 {
@@ -1305,7 +1339,7 @@ void ACClistat(BYTE locid, BYTE container_id)   // objno is a container/supporte
             // Formato de lista contínua
             if (objscount>1 && (progresscount <= objscount - 2))
             {
-                writeText("  ");
+                //writeText("  ");
                 writeSysMessage(SYSMESS_LISTSEPARATOR);
             }
   			if (progresscount == objscount - 1) writeSysMessage(SYSMESS_LISTLASTSEPARATOR);
@@ -1585,9 +1619,9 @@ void  ACCpicture(BYTE picid)
 {
 	BYTE picpos;
 	picpos = get_img_pos(picid);
-    setRAMPage (imagenes_t[picpos].page);
+    if (imagenes_t[picpos].page!=0) setRAMPage (imagenes_t[picpos].page);
     dzx7AgileRCS(imagenes_t[picpos].paddr, ((unsigned char*) 16384));
-    setRAMBack();
+    if (imagenes_t[picpos].page!=0) setRAMBack();
 }
 
 void  ACCgraphic(BYTE option)
@@ -1676,17 +1710,6 @@ BYTE  CNDisnotlight()
 void  ACCversion()
 {
 	// writeText(STR_RUNTIME_VERSION);
-}
-
-void  ACCwrite(BYTE writeno)
-{
-	writeMessage(writeno);
-}
-
-void  ACCwriteln(BYTE writeno)
-{
-	writeMessage(writeno);
-	ACCnewline();
 }
 
 void  ACCrestart()
@@ -1919,7 +1942,8 @@ void  desc()
 	gDESCRIBE_LOCATION_FLAG = TRUE;
 }
 
-
+// loc_here
+// Returns the current location ID
 BYTE  loc_here ()
 {
     return flags[flocation]; // flocation contiene el ID de la localidad
@@ -2142,7 +2166,7 @@ void writeObject(BYTE objno)
 //    writeText ("%u %u %u",objno,j,isMale);
     if (objno==EMPTY_OBJECT)
     {
-        writeText ("ninguno ");
+        writeText ("ninguno");
         return;
     }
     if (!isPropio)
@@ -2176,6 +2200,7 @@ void writeObject(BYTE objno)
             }
         }
     }
+    //writeText (" ");
     writeText (objetos_t[objno].nombre_corto);
 }
 
@@ -2188,14 +2213,13 @@ void newLine ()
 
     //writeValue(fzx.y);
     // Spectrum: 256 x 192 
-    fzx.x = TextWindow.x*8;
-    fzx.y+=9; // Coordenada estimada para la siguiente línea
-    if ( (fzx.y)>179) // Si hemos llegado al final de la ventana de texto...
+    fzx.x = TextWindow.x;
+    fzx.y+=1; // Coordenada estimada para la siguiente línea
+    if ( (fzx.y)>(TextWindow.y+TextWindow.height-2)) // Si hemos llegado al final de la ventana de texto...
     {
        scrollVTextWindow (1); // Scroll Vertical de la ventana de texto
-       fzx.y=174;
+       fzx.y-=1;
     }
-
     //writeValue(fzx.y);
 }
 
@@ -2220,19 +2244,30 @@ void  writeTextCenter (BYTE *texto)
     //newLine();
 }
 
-void  writeText (BYTE *texto) //694bytes
+// writeText
+// Description: Prints a long string splitting the string in words and creating new lines when needed. It adds a blank space at the end of each word.
+/*
+ The python compressor performs the following replacements:
+    content = [w.replace('á', '#') for w in content]
+    content = [w.replace('é', '$') for w in content]
+    content = [w.replace('í', '%') for w in content]
+    content = [w.replace('ó', '&') for w in content]
+    content = [w.replace('ú', '\'') for w in content]
+    content = [w.replace('ñ', '+') for w in content]
+    content = [w.replace('¿', '/') for w in content]
+    content = [w.replace('¡', '<') for w in content]
+*/
+    
+void  writeText (BYTE *texto) 
 {
+    BYTE texto_buffer[256];
+    BYTE buffer[20]; // Buffer de palabras
     BYTE counter=0;
     BYTE texto_counter=0;
     BYTE caracter=0;
-    BYTE ongoing=0;
-    BYTE texto_buffer[256];
-    BYTE buffer[20]; // Buffer de palabras
     BYTE simbol_counter=0;
     BYTE salir=0;
-    fcounter=0;
-    fcaracter=0;
-
+ 
    // 1. Descomprime la cadena
    memset(texto_buffer,0,256);
    caracter = texto[0];
@@ -2255,62 +2290,42 @@ void  writeText (BYTE *texto) //694bytes
            counter++;
        }
        texto_counter++;
-   }
+    }
 
    // 2. Imprime la cadena palabra a palabra
    counter=0;
-   caracter = texto_buffer[0];
+   //caracter = texto_buffer[0];
    texto_counter=0;
 
-   while (salir==0)
-   {
-       if (ongoing==1)
-           {
-               if (caracter==' ' || caracter=='.' || caracter=='^' || caracter==0) // Fin de una palabra
-               {
-                   ongoing=0;
-                   if (caracter!='^')  // No imprime códigos de escape
-                    {
-                        counter++;
-                        buffer[counter]=caracter;
-                    }
-                   buffer[counter+1]=0;
-                   // Calcula el tamaño de la palabra en píxel y crea una nueva línea si es necesario
-                   if ((fzx.x+counter*7)>=8*(TextWindow.width+TextWindow.x))
-                        {
-                        //fzx_putc('L');
-                        newLine();
-                        }
-                   else if (fzx.y>179)
-                   {
-                  //   scrollVTextWindow(1);
-                  //   fzx.y=178; // Fuerza a no salir de la pantalla
-                   }
+    while (salir==0)
+    {
+        caracter = texto_buffer[texto_counter];
+        buffer[counter] = caracter;
 
-                   fzx_puts(buffer);
-                   counter=0;
-                   if (caracter==0) salir=1; // Fin de cadena
-               }
-               else
-               {
-                   counter++;
-                   buffer[counter]=caracter;
-               }
-           }
-           else if (caracter!='.' && caracter!='^') // Comienzo de palabra
+        // word terminators
+        if (caracter==' ' || caracter=='.' || caracter=='^' || !caracter)
+        {
+            if (caracter==0) salir = 1;
+            counter++;
+            if (caracter=='^' || !caracter) counter--; // Steps backs over the escape char                
+            buffer[counter]=0; // String terminator
+            // New Line...
+            // Each character fixed at 8pixel
+            if (caracter=='^' || (fzx.x+counter)>(TextWindow.width+TextWindow.x))
             {
-                ongoing=1;
-                counter=0;
-                buffer[counter]=caracter;
+                newLine();
             }
+            fzx_puts(buffer);
+            fzx.x+=counter;            
+            counter=0;
+        }  
+        else 
+        {
+            counter++;
+        }
 
-       if (caracter=='^')
-        newLine();
-
-       texto_counter++;
-       caracter = texto_buffer[texto_counter];
-   }
-
+        texto_counter++;
+       }
 }
 
 void  writeSysMessage (BYTE messno)
@@ -2363,8 +2378,8 @@ void  clearTextWindow (BYTE color)
 {
     unsigned char a,b;
     // Posiciona el cursor en la esquina superior-izquierda
-    fzx.x = TextWindow.x*8;
-    fzx.y = TextWindow.y*8;
+    fzx.x = TextWindow.x;
+    fzx.y = TextWindow.y;
 
     // Borra la ventana de texto en pantalla.
     for (b=TextWindow.y;b<TextWindow.height;b++)
@@ -2384,44 +2399,44 @@ void clearTextLine (BYTE x, BYTE y, BYTE color)
         clearchar (a, y, color);
 }
 
+// GOTOXY 
+// Input: X = COLUMN (0-31)
+//        Y = ROW (0-24)
+// Description: Moves the cursor to the specified column and row 
+
 void gotoxy (BYTE x, BYTE y)
 {
-    fzx.x = x;
-    fzx.y = y;
+    fzx_setat (x,y);
 }
 
 void getInput ()
 {
    BYTE contador=0;
    BYTE caracter=0;
-   //fcontador=0;
-   //fcaracter=0;
- //   BYTE ancho=0;
-  // fzx_font *puntero;
-// Espera a que el jugador presione enter...
+   // Iterates until the player press ENTER
    memset(playerInput,0,80); // Limpia el buffer
-   gotoxy(TextWindow.x+8,fzx.y);  // Borra la pantalla...
-   while (caracter!=13)
+   gotoxy(TextWindow.x,fzx.y);
+   writeText (playerPrompt);
+   //writeText("_");
+   while (caracter!=13 && contador<80)
    {
         caracter = getKey();
         if (caracter!=4) { // Código devuelto al borrar
             playerInput[contador]=caracter;
             contador++;
-            if (caracter!=13) fzx_putc(caracter);
         }
         else  // Borrar
             {
+            playerInput[contador]=0;            
             if (contador>0) contador--;
-            // Retrocede el último caracter...
-
-            gotoxy(TextWindow.x+8,fzx.y);
-            writeText(playerInput);
-            playerInput[contador]=0;
-            gotoxy(TextWindow.x+8,fzx.y);
-            writeText(playerInput);
+            playerInput[contador]=' ';            
             }
+        gotoxy(TextWindow.x+1,fzx.y);
+        writeText(playerInput);
+     //   writeText("_");
         waitForNoKey();
    }
+   
    playerInput[contador-1]=' ';
    playerInput[contador]='0';
    //playerInput[contador+1]=0;
@@ -2432,13 +2447,13 @@ void fontStyle (BYTE style)
     switch (style)
     {
         case NORMAL:
-        fzx.font = ff_utz_Handpress;
+       // fzx.font = ff_utz_Handpress;
         break;
         case TITLE:
-        fzx.font = ff_utz_ShadowFlower;
+       // fzx.font = ff_utz_ShadowFlower;
         break;
         case PLAYER:
-        fzx.font = ff_utz_ShadowFlower;
+       // fzx.font = ff_utz_ShadowFlower;
         break;
     }
 }
@@ -2462,8 +2477,6 @@ BYTE getConnection (BYTE loc_orig, BYTE value)
     if (value>NUM_CONNECTION_VERBS) return NO_EXIT;
     return get_loc_pos(conexiones_t[loc_orig].con[value-1]);
 }
-
-
 
 void  ACCautow()
 {

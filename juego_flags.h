@@ -332,3 +332,6 @@ typedef struct {
 } tema_t;
 
 unsigned char buscador_tema (tema_t *tabla, unsigned char *word);
+
+// Gráficos
+//unsigned char *L05_img;

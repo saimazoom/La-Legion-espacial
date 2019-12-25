@@ -48,9 +48,12 @@
 
 #define BRIGHT         0x40
 #define FLASH          0x80
+#define SCREEN_WIDTH 	256
+#define SCREEN_HEIGHT 	192 
+#define COLS_WIDTH		32
+#define ROWS_HEIGHT 	24
 
 // C64 colors
-
 
 // Parser Structures
 typedef struct {
@@ -94,6 +97,7 @@ typedef struct
     } obj_t;
 
 // Propiedades de la ventana
+// Valores en columnas/filas no en píxel
 typedef struct
     {
         BYTE x;
@@ -309,3 +313,4 @@ typedef struct
 #define SYSMESS_YOUPUTOBJECTON 70
 #define SYSMESS_YOUCANNOTTAKE 71
 #define SYSMESS_CANNOTMOVE 72
+#define SYSMESS_CARRYNOTHING 73

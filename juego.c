@@ -44,8 +44,22 @@ char proceso2_post();
 extern unsigned char flags[255]; // Flags 60...250 Disponibles para el usuario
 
 // Tabla de imágenes del juego
-img_t imagenes_t [] =
-    {   
+extern unsigned char *L05_img;
+#asm
+_L05_img:
+BINARY "./res/lExterior.scr.rcs.zx7"
+#endasm
+
+// id, page, memory pointer
+img_t imagenes_t [] = {
+    { 1,0, L05_img},   
+    { 2,0, L05_img},   
+    { 3,0, L05_img},   
+ 	{ 4,0, L05_img},   
+    { 5,0, L05_img},   
+    { 6,0, L05_img},   
+    { 7,0, L05_img},   
+    { 8,0, L05_img},   
     { 0,0,0}
     };
 
@@ -69,14 +83,14 @@ img_t imagenes_t [] =
 
 loc_t localidades_t [] =
 {
-	{"Puente de mando","Una luz ambarina tiñe los instrumentos de un color cálido mientras en el exterior se abate una tormenta de hielo. El nodo central de la nave se encuentra bajando un tramo de escaleras. ",lPuente, FALSE, 0x00000000},
-	{"Nodo central ","La nave ha sido diseñada de forma modular. El nodo central conecta el puente de mando con la esclusa al exterior al oeste, y la bodega al sur. Una tenue iluminación proviene de las escaleras del puente del mando. ",lNodo, FALSE, 0x00000000},
+	{"Puente de mando","En el exterior de la nave se abate una tormenta de hielo. El nodo central se encuentra bajando un tramo de escaleras. ",lPuente, FALSE, 0x00000000},
+	{"Nodo central ","La nave ha sido diseñada de forma modular. El nodo central conecta el puente de mando con la esclusa al oeste y la bodega al sur. Una tenue iluminación proviene de las escaleras del puente del mando. ",lNodo, FALSE, 0x00000000},
 	{"Esclusa","La esclusa es el sistema de intercambio de presión entre el exterior y la zona habitable de la nave.",lEsclusa, FALSE, 0x00000000},
-	{"Bodega de carga","La zona de carga de la nave justifica la existencia de esta nave. Tiene espacio suficiente para atender los típicos envíos entre particulares en un sistema. Hay varios paquetes que esperan su entrega. ", lBodega, FALSE, 0x00000000},
+	{"Bodega de carga","La zona de carga tiene espacio suficiente para atender pequeños envíos entre particulares. Hay varios paquetes que esperan su entrega. ", lBodega, FALSE, 0x00000000},
 	{"Exterior","El cielo es un borrón de nieve y cristales de hielo. La tormenta castiga la superficie en la zona oscura de Europa. La nave flota a pocos centímetros de la superficie congelada. Al oeste se distingue una mole de metal que podría ser la entrada del almacén.",lExterior, FALSE, 0x00000000},
     {"Entrada al almacén","Una mole de metal se encuentra enclavada en la superficie helada de Europa. ",lAlmacen, FALSE, 0x00000000},
-    {"Zona A1","Las estanterías repletas de contenedores blancos crean una atmósfera opresiva. Un pasillo negro al oeste da acceso a otra sala del almacén.",lZonaA1, FALSE, 0x00000000},
-    {"Zona A2","El almacén termina en una sala abovedada pintada de blanco. Aquí hay aun más contenedores perfectamente ordenados en estanterías.",lZonaA2, FALSE, 0x00000000},
+    {"Zona A1","Las estanterías repletas de contenedores blancos crean una atmósfera impersonal. Un pasillo negro al oeste da acceso a otra sala del almacén.",lZonaA1, FALSE, 0x00000000},
+    {"Zona A2","El almacén termina en una sala abovedada pintada de blanco. Aquí hay aun más contenedores blancos perfectamente ordenados en estanterías.",lZonaA2, FALSE, 0x00000000},
     {"","",0, FALSE, 0x00000000}
 };
 
@@ -119,7 +133,7 @@ token_t mensajes_t [] =
 	{"Nieve y hielo a 150 Celsius bajo cero.",11},
 	{"El sistema térmico apenas puede evitar la formación de cristales en el exterior del parabrisas.",12},
 	{"Se forman en los gradientes térmicos del parabrisas de la nave.",13},
-	{"La nave de reparto donde recorres la galaxia. ",14},
+	{"La nave de reparto donde haces tu ruta. ",14},
 	{"-Controla la temperatura en el interior y en los instrumentos para evitar su deterioro -informa el ordenador.",15},
 	{"Es uno de los dos trajes de supervivencia necesario para realizar EVA. El traje es completamente automático y tiene una autonomía de ocho horas. ",16},
 	{"Paquetes a entregar en la Tierra.",17},
@@ -129,9 +143,9 @@ token_t mensajes_t [] =
 	{"La esclusa sirve para igualar la presión entre el exterior y el interior de la nave. Se controla con el bóton rojo para cerrar y el botón verde para abrir. ",21},
 	{"Está cerrada.",22},
 	{"Está abierta.",23},
-	{"-La esclusa se abre con los controles manuales de la esclusa -informa el ordenador.",24}, 
-	{"-La esclusa se cierra con los controles manuales de la esclusa -informa el ordenador. ",25},
-	{"Pulsar para abrir la esclusa. ADVERTENCIA: USAR EL TRAJE DE SUPERVIVENCIA EN ENTORNOS HOSTILES.",26},
+	{"-La esclusa se abre con los controles manuales -informa el ordenador.",24}, 
+	{"-La esclusa se cierra con los controles manuales -informa el ordenador. ",25},
+	{"Pulsar para abrir la esclusa. ^ADVERTENCIA: ANTES DE ABRIR USAR EL TRAJE DE SUPERVIVENCIA EN ENTORNOS HOSTILES.",26},
 	{"Pulsar para cerrar la esclusa.",27},
 	{"-La esclusa ya está abierta.",28},
 	{"-Abriendo compuerta exterior y aislando el interior -dice el ordenador. La compuerta exterior se abre con un siseo mientras se igualan las presiones.",29},
@@ -164,7 +178,7 @@ token_t mensajes_t [] =
 	{"Nada que destacar.",54},
 	{"No es especialmente interesante.",55},
 	{"No sucede nada inesperado.",56},
-	{"El aullido del viento se infiltra por el fuselaje.",57},
+	{"El aullido del viento resuena en el fuselaje.",57},
 	{"-Buen trabajo -aprueba la voz satisfecha del ordenador.  ",58},
 	{"-Ahora es momento de poner rumbo a Marte. Baja a la bodega de carga mientras reinicio los sistemas de la nave -dice el ordenador premura. ",59},
 	{"Desciendo los escalones a la bodega y deposito el paquete junto a los demás pendientes de entrega. Al regresar descubro que la sala se ha cerrado.",60},
@@ -236,15 +250,15 @@ token_t mensajesSistema_t [] =
 	{"> ",33},
 	{"",34},
 	{"El tiempo pasa...^",35},
-	{"He cogido ",36},
+	{"Ahora tengo ",36},
 	{"Me pongo ",37},
 	{"Me quito ",38},
 	{"Dejo ",39},
 	{"No puedo ponerme ",40},
 	{"No puedo quitarme ",41},
 	{"¡Tengo demasiadas cosas en las manos!",42},
-	{"Desgraciadamente pesa demasiado",43},
-	{"Meto ",44},
+	{"Desgraciadamente pesa demasiado.",43},
+	{"Meto",44},
 	{"Ahora no está en ",45},
 	{",",46},
 	{" y ",47},
@@ -273,6 +287,7 @@ token_t mensajesSistema_t [] =
 	{"Pongo ",SYSMESS_YOUPUTOBJECTON },
     {"No es algo que pueda cogerse.^",SYSMESS_YOUCANNOTTAKE},
 	{"No parece que pueda moverse.^", SYSMESS_CANNOTMOVE},
+	{"Llevo las manos vacías.^", SYSMESS_CARRYNOTHING},
 	{"",0}	
 };
 
@@ -928,10 +943,7 @@ if (fnombre1==nOrdenador) {
 	// Comandos al ordenador
 	if (fverbo==vAbrir)
 	{
-		if (fnombre2==nEsclusa)
-		{
-			ACCmessage (132); DONE;
-		}
+		if (fnombre2==nEsclusa) { ACCmessage (132); DONE;}
 	}
 
 	if (fverbo==vApagar) { ACCmessage (192); DONE; }
@@ -1069,11 +1081,14 @@ if (flocalidad == lNodo)
 	{
 		if (fverbo==vExaminar) 
 		{
-			if (fnombre1==nEscaleras) 
+			if (fnombre1==nBodega) { ACCwriteln ("Al sur."); DONE;}
+			if (fnombre1==nEsclusa) { ACCwriteln ("Al oeste."); DONE;}
+			if (fnombre1==nEscaleras || fnombre1==nPuente) 
 			{
 				ACCmessage(5);
 				DONE;
 			}
+			if (fnombre1==nLuz) { ACCwriteln ("Proviene del puente de mando."); DONE; }
 		}
 		if (fverbo==vIr) 
 		{			
@@ -1463,7 +1478,7 @@ char respuestas_post()
 	if (fverbo==vPoner) { ACCautow(); DONE; }
 	
 	// En este punto el examinar no ha sido cubierto por las respuestas
-    if (flags[fverb]==vExaminar)
+    if (fverbo==vExaminar)
     {
         if (findMatchingObject(get_loc_pos(loc_here()))!=EMPTY_OBJECT)
             writeText ("Deberías coger eso antes.^");
@@ -1472,22 +1487,23 @@ char respuestas_post()
 		DONE;
     }
 
-    if(flags[fverb]==nInventario)
+    if(fverbo==nInventario)
     {
         ACCinven();
         ACCnewline();
         DONE;
     }
 
-    if (flags[fverb]==vCoger)  { ACCautog(); DONE; }
+    if (fverbo==vCoger)  { ACCautog(); DONE; }
 
-    if (flags[fverb]==vDejar) { ACCautod(); DONE; }
+    if (fverbo==vDejar) { ACCautod(); DONE; }
 
-    if (flags[fverb]==vMeter) { DONE; }
+    if (fverbo==vMeter) { DONE; }
 
-    if (flags[fverb]==vSacar) { DONE; }
+    if (fverbo==vSacar) { DONE; }
 
     // Si es un nombre/verbo de conexión...
+	
     if (flags[fverb]>0 && flags[fverb]<NUM_CONNECTION_VERBS)
         {
             i=0;
@@ -1504,20 +1520,19 @@ char respuestas_post()
             }
 
         }
-
+	
     // Comandos típicos...
-    if (flags[fverb]==vMirar)
+    if (fverbo==vMirar)
     {
         ACCgoto( flags[flocation]);
         DONE;
     }
-	if (flags[fverb]==vEmpujar || flags[fverb]==vTirar)
+	if (fverbo==vEmpujar || fverbo==vTirar)
 	{
 		ACCsysmess (SYSMESS_CANNOTMOVE);
 		DONE;
 	}
-
-    // Si ninguna acción es válida...
+	// Si ninguna acción es válida...
     ACCsysmess(SYSMESS_IDONTUNDERSTAND);
     newLine();
 }
@@ -1525,7 +1540,7 @@ char respuestas_post()
 char proceso1() // Antes de la descripción de la localidad...
 {
  // Muestra la pantalla...
- //ACCpicture(flags[flocation]);
+ ACCpicture(flags[flocation]);
  //setRAMPage(0);
  //proceso1_pagina0();
  //setRAMPage(1);
@@ -1567,15 +1582,21 @@ void main (void)
 
 // Inicializar variables
     initParser ();                // Inicializa el parser y la pantalla
-    defineTextWindow (0,0,32,23); // Pantalla reducida en 128Kb, Gráficos + Texto
-    ACCgoto(lPuente); // Localidad inicial, en el puente de mando
+    defineTextWindow (0,11,32,14); // Pantalla reducida en 128Kb, Gráficos + Texto
     flags[LOCATION_MAX] = 8; // Número más alto de localidad
     ACCability(10,20); // 10 objetos, 20 piedras
-
+    ACCgoto(lPuente); // Localidad inicial, en el puente de mando
+	//ACCpicture(5);
 	ParserLoop (); // Pone en marcha el bucle principal
+	//ACCwrite ("Ahora tengo ");
+	//ACCwrite("el traje presurizado");
+	//while (1) {
+	//}
 }
 
+// ------------------------------------------------------------
 // Funciones propias del juego
+// ------------------------------------------------------------
 
 // Función para buscar en tablas a partir de una palabra clave
 unsigned char buscador_tema (tema_t *tabla, unsigned char *word) 

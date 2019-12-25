@@ -3,6 +3,8 @@
 #include <string.h>
 
 
+struct fzx_state fzx;   // active fzx state
+
 void setRAMPage (BYTE banco)
 {
     #asm
@@ -283,13 +285,16 @@ inicio:     ld 		(hl), $FF		; Pone el Caracter actual a todo 1
 	}
 }
 
-void drawGFX (BYTE gfxnum, BYTE xorig, BYTE yorig)
+void drawGFX (BYTE *pointer, BYTE xorig, BYTE yorig)
 {
-// Cambia de banco
 // Vuelca la pantalla
 // Vuelve al banco 0
 }
 
+void drawSprite (BYTE *pointer, BYTE xorig, BYTE yorig, BYTE width, BYTE height)
+{
+
+}
 
 void waitForAnyKey()
 {
@@ -376,7 +381,7 @@ void clearchar (BYTE x, BYTE y, BYTE color)
    // http://www.animatez.co.uk/computers/zx-spectrum/screen-memory-layout/
    // Input: x 0 to 31 0000 0000 to 0001 1111
    //        y 0 to 23 0000 0000 to 0001 0111
-   // Formato de memoria de vï¿½deo: 010xxYYY ZZZCCCCC
+   // Formato de memoria de vídeo: 010xxYYY ZZZCCCCC
    // xx: Tercio
    // YYY: Scan Line 0-7
    // ZZZ: Fila 0-7 del tercio
@@ -405,6 +410,7 @@ void clear_screen (BYTE color)
 // Pasar esto a asm...
  memset(16384, 0, 6144);    // Pï¿½xeles...
  memset(22528, color, 768); // Atributos
+ // The quickest and simplest way to set the border colour is to write to port 254. The 3 least significant bits of the byte we send determine the colour.
  #asm
  ;; Set border colour to black
 	ld a,0x00
@@ -432,3 +438,21 @@ void putpixel (BYTE x, BYTE y, BYTE value)
    // CCCC: Columna 0-31
 
 }
+
+int  fzx_setat(unsigned char x, unsigned char y)
+{
+     fzx.x = x;
+     fzx.y = y;
+}
+
+int fzx_putc(unsigned char c)
+{
+    print_char (fzx.x, fzx.y, c);
+}
+
+int fzx_puts(char *s)
+{
+     print_string (fzx.x, fzx.y, s);
+}
+
+
