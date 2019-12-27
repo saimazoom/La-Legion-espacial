@@ -1615,6 +1615,11 @@ BYTE CNDmove(BYTE flagno)
 	return FALSE;
 }
 
+// ACCpicture
+// Input: Picture id declared in imagenes_t structure
+// Output: Direct decompress using zx7 to screen.
+// Pagination is disabled in 48K for Page 0.
+
 void  ACCpicture(BYTE picid)
 {
 	BYTE picpos;

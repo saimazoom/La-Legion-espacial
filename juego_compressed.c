@@ -44,22 +44,33 @@ char proceso2_post();
 extern unsigned char flags[255]; // Flags 60...250 Disponibles para el usuario
 
 // Tabla de imágenes del juego
+extern unsigned char *L01_img;
 extern unsigned char *L05_img;
+extern unsigned char *L06_img;
+extern unsigned char *Europa_img;
+
 #asm
+_L01_img:
+BINARY "./res/lPuente07.scr.rcs.zx7"
 _L05_img:
 BINARY "./res/lExterior.scr.rcs.zx7"
+_L06_img:
+BINARY "./res/lEntrada.scr.rcs.zx7"
+_Europa_img:
+BINARY "./res/Europa.scr.rcs.zx7"
 #endasm
 
 // id, page, memory pointer
 img_t imagenes_t [] = {
-    { 1,0, L05_img},   
-    { 2,0, L05_img},   
-    { 3,0, L05_img},   
- 	{ 4,0, L05_img},   
+    { 1,0, L01_img},   
+    { 2,0, Europa_img},   
+    { 3,0, Europa_img},   
+ 	{ 4,0, Europa_img},   
     { 5,0, L05_img},   
-    { 6,0, L05_img},   
-    { 7,0, L05_img},   
-    { 8,0, L05_img},   
+    { 6,0, L06_img},   
+    { 7,0, Europa_img},   
+    { 8,0, Europa_img},   
+	{ 9,0, Europa_img},
     { 0,0,0}
     };
 

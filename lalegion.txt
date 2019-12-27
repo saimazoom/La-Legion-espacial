@@ -11,7 +11,6 @@ Links:
 TODO: 
 Versión 48K
   - Hablar con el ordenador
-  - Pantallas por cada localidad 
   - Menú de juego 
   - FIN permite terminar la partida y resetea el ordenador.
   
@@ -49,6 +48,17 @@ Optimizando el código de imprimir hemos bajado a 34003bytes.
 
 35338bytes y ya tenemos la primera pantalla funcionando :)
 
+> Ya tenemos pantallas!. 
+rcs fichero.scr 
+zx7 fichero.scr.rcs produce fichero.scr.rcs.zx7 que luego puede incluirse
+directamente en el fuente. 
+#asm
+_L05_img:
+BINARY "./res/lExterior.scr.rcs.zx7"
+#endasm
+
+> El juego tarda en cargar unos 3minutos.
+> Comprimiendo el bin con zx7 baja hasta 21Kb, me pregunto cuanto tarda el Spectrum en descomprimir los 21Kb. Casi cabe en un cartucho de 16Kb :-m.
 
 24 Diciembre 2019
 > Transición a rutinas en ASM para caracteres monoespaciados. Las rutinas en asm de http://www.breakintoprogram.co.uk/programming/assembly-language/z80/z80-library-routines/output-asm, pero tengo que adaptarlas a mi caso en particular. 
