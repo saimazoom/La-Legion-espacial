@@ -372,7 +372,6 @@ void ParserLoop (void) // 664 bytes
                 gDESCRIBE_LOCATION_FLAG=FALSE; // Evita describir la localidad en cada turno
             }
             else writeSysMessage(SYSMESS_ISDARK);
-
 		}
 
 		// Espera el input del jugador
@@ -393,12 +392,10 @@ void ParserLoop (void) // 664 bytes
         else
             debugger();
 #endif
-
-
     }
 }
 
-void parse() // 670bytes
+void parse() // 727bytes
 {
 // Input: Cadena de texto -> playerInput
 // Output: tokens -> verbo, nombre1, nombre2, adjetivo1, adjetivo2
@@ -435,6 +432,7 @@ while (salir==0) // Recorre la cadena hasta el final
 
             if (gDEBUGGER==FALSE)
             {
+                // Try to match a VERB
                 if (flags[fverb]==EMPTY_WORD && (i = buscador(verbos_t, playerWord))>0)
                 {
                     flags[fverb]=i;
@@ -443,7 +441,7 @@ while (salir==0) // Recorre la cadena hasta el final
                    writeValue (flags[fverb]);
                    #endif
                 }
-                else
+                else // Try to match a noun1/noun2
                 if ((flags[fnoun1]==EMPTY_WORD || flags[fnoun2]==EMPTY_WORD) && (i = buscador(nombres_t, playerWord))>0) // Busca si es un nombre...
                 {
                     #ifdef DEBUG
@@ -468,7 +466,7 @@ while (salir==0) // Recorre la cadena hasta el final
                                 #endif                            
                             }
                 }
-                else
+                else // Try to match adjective1/2
                 if (flags[fadject1]==EMPTY_WORD && (i = buscador(adjetivos_t, playerWord))>0) // Adjetivo...?
                 {
                     #ifdef DEBUG
@@ -477,7 +475,7 @@ while (salir==0) // Recorre la cadena hasta el final
                     if (flags[fadject1]==0) flags[fadject1]=i;
                         else flags[fadject2]=i;
                 }
-                else
+                else // Try to match adverb
                 if (flags[fadverb]==EMPTY_WORD && (i = buscador(adverbios_t, playerWord))>0) // Adverbio?
                 {
                     #ifdef DEBUG
@@ -485,8 +483,8 @@ while (salir==0) // Recorre la cadena hasta el final
                     #endif
                     flags[fadverb]=i;
                 }
-                else
-                if (flags[fprep]==EMPTY_WORD && (i = buscador(preposiciones_t, playerWord))>0) // Adverbio?
+                else // Try to match preposition
+                if (flags[fprep]==EMPTY_WORD && (i = buscador(preposiciones_t, playerWord))>0) 
                 {
                     #ifdef DEBUG
                     writeText ("P");

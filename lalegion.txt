@@ -17,7 +17,8 @@ Versión 48K
 Versión 128K
   - Música en el menú principal
    
-Optimizar el código:
+  - Versión UK 
+  - Versión C64 
   - SAVE/LOAD 
   - RAMSAVE/RAMLOAD 
   - UNDO para el último movimiento 
@@ -37,6 +38,13 @@ Optimizar el código:
         'ventanas' "Mosaico multicolor en la primera planta y sencillas en el desván." G_FEMENINO+G_PLURAL
         'ventanal' "Mosaico multicolor en la primera planta y sencillas en el desván." G_MASCULINO
         'ventanales' "Mosaico multicolor en la primera planta y sencillas en el desván." G_MASCULINO+G_PLURAL;
+
+28 Diciembre de 2019 
++ Más gráficos añadidos al juego 
+
+37794bytes 
+
+
 
 25 Diciembre 2019 
 + Bug del scroll que deja de vez en cuando una línea en blanco.

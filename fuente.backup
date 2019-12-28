@@ -858,7 +858,7 @@ tema_t ordenador_t[]=
 	{"nombre",	"-Mi nombre es TOD. Si lo prefieres, puedes usar este nombre al hablar conmigo.  "},
 	{"modelo/ordenador", "-Soy un modelo Cyberdine 1997.  Mi programador original fue el Dr. Guillermo Han de la Mega Corporation. Me enseñó a cantar una canción, ¿quieres oírla?"},
 	{"mega/megacorp/corporacion/ciberdine/cyberdine","-La empresa responsable de que tú y yo estemos conversando en Europa."},
-	{"aventuras/conversacionales","-Me encantan las aventuras conversacionales."},
+	{"aventuras/conversacionales/ac","-Me encantan las aventuras conversacionales."},
 	{"if/fi/ficcion/interactiva","-Desconozco ese término, ¿te refieres a las conversacionales?"},
 	{"graficas","-No están mal, pero no creo que puedas jugar a una mientras conduces."},
 	{"transilvania","-No está mal, pero es un poco corta para mi gusto. Prefiero 'la noche más larga', que dura unas 12h de juego de tiempo real."},

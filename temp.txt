@@ -858,7 +858,7 @@ tema_t ordenador_t[]=
 	{"nombre",	"-MiËomb»• TODÇSi°¡p»fi¨¥,­²d›us¯ŒŸİmbrŸa¬híªrƒÚgoÇ "},
 	{"modelo/ordenador", "-SoyÔ§é¤l¡Cyb¨dÓŸ1997Ç Mi­Äg«mÀ± ±igiµ¬f²DrÇGuill¨m¡Ha§¤€Meó C±ê«ti¹ÇMe–ß+&³®a´¯Ôµ®ÆÎãç/Íi¨›o%rª?"},
 	{"mega/megacorp/corporacion/ciberdine/cyberdine","-Lmpr¥aŞ¥p¹Ñbl …t' îyoŒemÁƒv¨sÆ¸‚EuÄÅ."},
-	{"aventuras/conversacionales","-Me–ä´Æ”¢avœu«sƒv¨ÑÎoµl¥."},
+	{"aventuras/conversacionales/ac","-Me–ä´Æ”¢avœu«sƒv¨ÑÎoµl¥."},
 	{"if/fi/ficcion/interactiva","-D¥c¹ozº•Ÿt$rmÓoç/tŸ»fi¨›a”sƒv¨ÑÎoµl¥?"},
 	{"graficas","-NoŒ#§m½,­¨¡n¡c»¡…p²d™jug¯³Ôµ¿iŠ¼ƒduc¥."},
 	{"transilvania","-NoŒ#¿½,­¨o•Ô§êº˜rÃa¿i guÂoÇP»fi¨¡'—İchŸm#s”ró'ç…du« Ì™12h ’j²g‹ÈÏmp¡»½."},
