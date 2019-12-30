@@ -7,23 +7,19 @@ Links:
  https://damieng.com/typography/zx-origins/
  http://www.worldofspectrum.org/ZXBasicManual/
  http://www.breakintoprogram.co.uk/programming/assembly-language/z80/z80-library-routines/output-asm
+ https://github.com/Fabrizio-Caruso/8bitC/blob/master/8bitC_ENG.md
+
+Spectrum memory map:
+http://www.breakintoprogram.co.uk/computers/zx-spectrum/memory-map
+
 
 TODO: 
 Versión 48K
-  - Hablar con el ordenador
-  - Menú de juego 
-  - FIN permite terminar la partida y resetea el ordenador.
-  
-Versión 128K
-  - Música en el menú principal
-   
-  - Versión UK 
-  - Versión C64 
-  - SAVE/LOAD 
-  - RAMSAVE/RAMLOAD 
   - UNDO para el último movimiento 
   - Autocompletar basado en el texto de la localidad y el inventario 
   - Colores en la fuente cuando habla el ordenador (toda la frase)
+  - Scroll vertical con atributos 
+  - Funciones de dibujador de líneas para añadir efectos gráficos o implementar un formato similar a PAWS de dibujado.
   - Implementar atrezzo:
     Object atrezzo_blaus_porche blaus_porche
     class decorado
@@ -39,12 +35,49 @@ Versión 128K
         'ventanal' "Mosaico multicolor en la primera planta y sencillas en el desván." G_MASCULINO
         'ventanales' "Mosaico multicolor en la primera planta y sencillas en el desván." G_MASCULINO+G_PLURAL;
 
+30 Diciembre 2019 
+> 39199bytes y necesito meter todavía 3 dibujos (aprox 3Kb)...
+Sólo cambiando todos los a++ por ++a: 39143bytes 
++ Añadidos comandos de turnos y puntos. 
++ Textos revisados
+
+Prueba de juego con Dani:
+- x panel no examina el panel de control en el puente de mando.
+- Introducir antes que podemos hablar con el ordenador 
+En la esclusa:
+-x controles no da elmensaje correcto sobre los botones
+-x controles devuelve el mismo mensaje que abrir esclusa 
+- ir edificio funciona pero falta el DONE
+- activar teclado no explica como funciona.
+- Al teclear la contraseña correcta no da tiempo a ver el mensaje
+- Texto duplicado en zonaA1 
+- Al listar inventario "y" no tiene espacios.
+- Esperar no funciona. 
+
+29 Diciembre 2019
+> Reorganizo las estructuras para los mensajes del ordenador. 
++ Hablar con el ordenador
++ Más pantallas :-) 
+> En caso de comprimir las tablas de vocabulario se puede ganar 600bytes, pero hay que tener en cuenta que luego habría que añadir código para comprimir el input del jugador...
+
+Al borde: 38827bytes. Faltan pantallas para el interior de la nave: Esclusa, nodo central y bodega. Va a ir justo..., la verdad es que el estilo gráfico que estoy empleando con muchas tramas no le sienta demasiado bien al compresor y las pantallas están ocupando más de lo esperado (1.3KB).
+
+> He aprendido a definir brushes en aseprite, a partir de ahora puedo limitar el uso del zxpaintbrush a importar y dar los retoques finales. 
++ FIN permite terminar la partida y resetea el ordenador.
++ Menú de juego 
++ Añadida función para setear atributos, resultará muy útil para cambiar el estado
+de gráficos en el juego. 
++ En la ZonaA2 cambio de atributos y borra la puerta del fondo. 
++ Durante la descompresión de la pantalla no se muestra la ilustración.
+
+Estoy 39081bytes, casi no queda memoria... 
+
 28 Diciembre de 2019 
 + Más gráficos añadidos al juego 
-
-37794bytes 
-
-
+ > Optimizando parse():
+ Antes: 37794bytes 
+ Después de optimizar: 37502bytes
+ + Eliminar condiciones e ifs anidados, pasar a las funciones la variable a devolver en lugar de setear una variable con el valor de retorno.
 
 25 Diciembre 2019 
 + Bug del scroll que deja de vez en cuando una línea en blanco.

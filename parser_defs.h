@@ -55,57 +55,6 @@
 
 // C64 colors
 
-// Parser Structures
-typedef struct {
-        unsigned char id;
-        unsigned char page; // Página de RAM
-        unsigned char *paddr; // Puntero a la memoria
-} img_t;
-
-typedef struct {
-		unsigned char *word;
-		unsigned char id;
-		} token_t;
-
-// Tabla de Localidades
-
-typedef struct
-	{
-	unsigned char *name;
-	unsigned char *descripcion;
-	unsigned char id;
-	unsigned char visited;
-	unsigned long int atributos; // 32bit
-	} loc_t;
-
-typedef struct
-	{
-	unsigned char id;
-	unsigned char con[12];
-	} cnx_t;
-
-// Tabla de Objetos
-typedef struct
-    {
-        unsigned char id;
-		unsigned char locid;
-		unsigned char *nombre_corto; // Texto que muestra el nombre
-		BYTE vnombre; // Nombre de Vocabulario
-		BYTE vadj1;   // Adjetivo de Vocabulario
-		unsigned char peso;
-		unsigned long int atributos; // 32bit
-    } obj_t;
-
-// Propiedades de la ventana
-// Valores en columnas/filas no en píxel
-typedef struct
-    {
-        BYTE x;
-        BYTE y;
-        BYTE width;
-        BYTE height;
-    } textwin_t;
-
 // Global definitions
 // Aux
 #define SET_VALUE  255 // Value assigned by SET condact

@@ -1,5 +1,3 @@
-
-//
 // ZHL. Escrita por KMBR.
 // 2016-2019 KMBR
 // This code is licensed under a Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)  license.
@@ -37,16 +35,20 @@ char proceso1_post();
 char proceso2();
 char proceso2_post();
 
-
 // Variables que necesitamos del parser...
 // Se pueden declarar más tablas de flags para el juego pero el parser
 // sólo trabaja con esta. 
 extern unsigned char flags[255]; // Flags 60...250 Disponibles para el usuario
+extern unsigned char playerInput[80];
+extern unsigned char playerWord[25];
+extern BYTE gWord_number; // Marker for current word, 1st word is 1
+extern BYTE gChar_number; // Marker for current char, 1st char is 0
 
 // Tabla de imágenes del juego
 extern unsigned char *L01_img;
 extern unsigned char *L05_img;
 extern unsigned char *L06_img;
+extern unsigned char *L07_img;
 extern unsigned char *Europa_img;
 
 #asm
@@ -56,6 +58,8 @@ _L05_img:
 BINARY "./res/lExterior.scr.rcs.zx7"
 _L06_img:
 BINARY "./res/lEntrada.scr.rcs.zx7"
+_L07_img:
+BINARY "./res/lzonaA1.scr.rcs.zx7"
 _Europa_img:
 BINARY "./res/Europa.scr.rcs.zx7"
 #endasm
@@ -68,8 +72,8 @@ img_t imagenes_t [] = {
  	{ 4,0, Europa_img},   
     { 5,0, L05_img},   
     { 6,0, L06_img},   
-    { 7,0, Europa_img},   
-    { 8,0, Europa_img},   
+    { 7,0, L07_img},   
+    { 8,0, L07_img},   
 	{ 9,0, Europa_img},
     { 0,0,0}
     };
@@ -94,14 +98,14 @@ img_t imagenes_t [] = {
 
 loc_t localidades_t [] =
 {
-	{"Puente de mando","En el exterior de la nave se abate una tormenta de hielo. El nodo central se encuentra bajando un tramo de escaleras. ",lPuente, FALSE, 0x00000000},
-	{"Nodo central ","La nave ha sido diseñada de forma modular. El nodo central conecta el puente de mando con la esclusa al oeste y la bodega al sur. Una tenue iluminación proviene de las escaleras del puente del mando. ",lNodo, FALSE, 0x00000000},
-	{"Esclusa","La esclusa es el sistema de intercambio de presión entre el exterior y la zona habitable de la nave.",lEsclusa, FALSE, 0x00000000},
-	{"Bodega de carga","La zona de carga tiene espacio suficiente para atender pequeños envíos entre particulares. Hay varios paquetes que esperan su entrega. ", lBodega, FALSE, 0x00000000},
-	{"Exterior","El cielo es un borrón de nieve y cristales de hielo. La tormenta castiga la superficie en la zona oscura de Europa. La nave flota a pocos centímetros de la superficie congelada. Al oeste se distingue una mole de metal que podría ser la entrada del almacén.",lExterior, FALSE, 0x00000000},
+	{"Puente de mando","Los instrumentos de navegación iluminan el puente de mando de la nave. En el exterior, una tormenta de hielo se abate sobre la superficie de Europa. ",lPuente, FALSE, 0x00000000},
+	{"Nodo central ","Los módulos de la nave están en penumbra. El nodo central conecta con el puente de mando, la esclusa al oeste y la bodega al sur. ",lNodo, FALSE, 0x00000000},
+	{"Esclusa","En la esclusa se escucha con intensidad la tormenta golpeando contra el fuselaje. Las sombras crean formas siniestras en los trajes de exploración. ",lEsclusa, FALSE, 0x00000000},
+	{"Bodega de carga","La zona de carga tiene espacio suficiente para atender pequeños envíos entre particulares. En la sombras hay varios paquetes que esperan su entrega. ", lBodega, FALSE, 0x00000000},
+	{"Exterior","Me envuelve una tormenta de nieve y cristales de hielo que me impide ver en la distancia. Al oeste se distingue un edificio que podría ser la entrada del almacén.",lExterior, FALSE, 0x00000000},
     {"Entrada al almacén","Una mole de metal se encuentra enclavada en la superficie helada de Europa. ",lAlmacen, FALSE, 0x00000000},
-    {"Zona A1","Las estanterías repletas de contenedores blancos crean una atmósfera impersonal. Un pasillo negro al oeste da acceso a otra sala del almacén.",lZonaA1, FALSE, 0x00000000},
-    {"Zona A2","El almacén termina en una sala abovedada pintada de blanco. Aquí hay aun más contenedores blancos perfectamente ordenados en estanterías.",lZonaA2, FALSE, 0x00000000},
+    {"Zona A1","Las monótonas estanterías repletas de contenedores blancos crean una atmósfera impersonal. Al oeste un oscuro pasillo da acceso al oeste da acceso a una sala roja.",lZonaA1, FALSE, 0x00000000},
+    {"Zona A2","El pasillo termina en una sala abovedada iluminada en rojo. Las monótonas estanterías prosiguen su curso con más contenedores blancos perfectamente ordenados.",lZonaA2, FALSE, 0x00000000},
     {"","",0, FALSE, 0x00000000}
 };
 
@@ -138,19 +142,19 @@ token_t mensajes_t [] =
 	{"Ascienden al puente de mando.",5},
 	{"El módulo para comandar la nave.",6},
 	{"La vía láctea en nuestro caso.",7},
-	{"La consola de mandos de la nave. Es un modelo bastante nuevo, el ordenador de abordo se encarga de la navegación y todos los comandos se realizan por voz. En este momento la pantalla de la consola está en negro.",8},
+	{"La consola de navegación de la nave. Es un modelo bastante nuevo, el ordenador de abordo se encarga de la navegación y todos los comandos se realizan por voz. En este momento la pantalla de la consola está en negro.",8},
 	{"-Funcionamos en modo de bajo consumo. La consola debe permanecer apagada -responde el ordenador.",9},
 	{"Proviene de la consola de mandos. La consola está en modo de bajo consumo. ",10},
 	{"Nieve y hielo a 150 Celsius bajo cero.",11},
 	{"El sistema térmico apenas puede evitar la formación de cristales en el exterior del parabrisas.",12},
 	{"Se forman en los gradientes térmicos del parabrisas de la nave.",13},
-	{"La nave de reparto donde haces tu ruta. ",14},
+	{"La nave de reparto donde hago la ruta. Es un modelo industrial construido con módulos estándar. Hace su trabajo y no se avería demasiadas veces.",14},
 	{"-Controla la temperatura en el interior y en los instrumentos para evitar su deterioro -informa el ordenador.",15},
 	{"Es uno de los dos trajes de supervivencia necesario para realizar EVA. El traje es completamente automático y tiene una autonomía de ocho horas. ",16},
-	{"Paquetes a entregar en la Tierra.",17},
+	{"Paquetes a entregar por el sistema solar.",17},
 	{"Está apagada.",18},
-	{"-No sobreviviré en Europa sin el traje protector.",19},
-	{"-Debido a la contaminación deja el traje antes de pasar al nodo central -te recuerda el ordenador.",20},
+	{"No sobreviviré en Europa sin el traje protector.",19},
+	{"-Para evitar contaminación deja el traje antes de pasar al nodo central -te recuerda el ordenador.",20},
 	{"La esclusa sirve para igualar la presión entre el exterior y el interior de la nave. Se controla con el bóton rojo para cerrar y el botón verde para abrir. ",21},
 	{"Está cerrada.",22},
 	{"Está abierta.",23},
@@ -166,21 +170,21 @@ token_t mensajes_t [] =
 	{"-La esclusa ya está cerrada -reporta el computador de abordo.",32},
 	{"Apenas unos milímetros de plástico y metal te separan del exterior.",33},
 	{"-Frío al tacto.",34},
-	{"Total oscuridad salvo por el brillo esquivo de los trozos de hielo que están cayendo.",35},
+	{"Como en una noche oscura salvo por el brillo esquivo de los trozos de hielo que están cayendo.",35},
 	{"La nave modular estándar de ZHL. Pintada de amarillo y con el logo de la compañía en grandes letras rojas.",36},
 	{"ZHL 24h",37},
-	{"Con dificultad distingues el perfil de un edificio de metal recortado contra el cielo. ",38},
-	{"En un lateral de la entrada un teclado numérico ilumina levemente la oscuridad.",39},
+	{"Con dificultad distino el perfil de un edificio de metal en la tormenta. ",38},
+	{"En un lateral de la entrada brilla un teclado numérico.",39},
 	{"Por una abertura se desliza un cañón láser que te apunta: TECLEE EL CóDIGO DE ACCESO. TIENE UNA OPORTUNIDAD ANTES DE SER DESINTEGRADO.",40},
-	{"Un cañón de aspecto peligroso sigue tus movimientos.",41},
+	{"Un cañón de aspecto peligroso sigue mis movimientos.",41},
 	{"Todo son cajas blancas de tamaño similar. Las más grandes se encuentran en los estantes más bajos.",42},
 	{"Alojan decenas de pequeños contenedores blancos.",43},
 	{"Todo funcional. El espacio suficiente para mantener las condiciones necesarias para preservar materiales biológicos.",44},
-	{"Una bóveda no muy alta forma el techo de esta sala.",45},
+	{"Una elevada bóveda forma el techo de esta sala.",45},
 	{"Un paquete azul con un gran indicador de peligro biológico en el frontal. ",46},
 	{"-Este es el paquete -susurra el ordenador en tu oído.",47},
 	{"-No puedo, las directivas de la empresa me lo impiden. ",48},
-	{"Peligro biológico. Conservar a menos de 100 celsius bajo cero. No manipular sin protección. No abrir. No golpear. Material frágil.",49},
+	{"Peligro biológico. Conservar a menos de 15 celsius bajo cero. No manipular sin protección. No abrir. No golpear. Material frágil.",49},
 	// Textos relativos al ordenador
 	{"-Coordino todos los sistemas de la nave. Para hablar conmigo emplea: ordenador palabra clave. Algunas sugerencias de palabras clave son: ordenador ayuda, ordenador nombre, ordenador misión... -te responde servicial el ordenador de navegación.",50},
 	{"-Oh, vaya como no pensé en leer eso -dice el computador con falsa admiración.",51},
@@ -191,10 +195,10 @@ token_t mensajes_t [] =
 	{"No sucede nada inesperado.",56},
 	{"El aullido del viento resuena en el fuselaje.",57},
 	{"-Buen trabajo -aprueba la voz satisfecha del ordenador.  ",58},
-	{"-Ahora es momento de poner rumbo a Marte. Baja a la bodega de carga mientras reinicio los sistemas de la nave -dice el ordenador premura. ",59},
+	{"-Ahora es momento de poner rumbo a Marte. Baja a la bodega de carga mientras reinicio los sistemas de la nave -dice el ordenador con premura. ",59},
 	{"Desciendo los escalones a la bodega y deposito el paquete junto a los demás pendientes de entrega. Al regresar descubro que la sala se ha cerrado.",60},
-	{"-No es nada personal pero es momento de reciclar -dice la voz del ordenador- mientras un gas inunda la bodega y caes en un profundo sueño.",61}, 
-	{"Lo más duro es tener que reciclar sus piezas para la siguiente misión. Llegan a creerse humanos. En fin... -suspira el ordenador mientras recoge los restos de tu cuerpo con una robofregona.",62},
+	{"-No es nada personal pero es momento de reciclar -dice la voz del ordenador- mientras te fallan las piernas y golpeas con la cabeza contra el suelo.",61}, 
+	{"-Lo más duro es tener que reciclar sus piezas para la siguiente misión. Llegan a creerse humanos. En fin... -suspira el ordenador mientras recoge los restos de tu cuerpo con una robofregona.",62},
 	{"-Central, aquí Tod Connor -dice la voz- Volvemos a Marte con el paquete. Repito volvemos con el paquete. ",63},
 	{"Hay dos botones: rojo y verde. Se utilizan para cerrar y abrir la esclusa al exterior. ",172},
 	{"Los siguientes paquetes para entregar.",173},
@@ -206,7 +210,7 @@ token_t mensajes_t [] =
 	{"Satélite helado e inhóspito.",179}, 
 	{"La entrada al almacén. ",180},
 	{"Funciona con comandos de voz al ordenador: ordenador clave.",181}, 
-	{"Es un bloque metálico rectangular que se interna bajo tierra.",182}, 
+	{"Es una construcción metálica y rectangular que se interna bajo tierra.",182}, 
 	{"(en el teclado)",183},
 	{"La puerta del almacén ya está abierta.",184},
 	{"El teclado se ilumina en rojo. CODIGO INCORRECTO.",185}, 
@@ -217,7 +221,7 @@ token_t mensajes_t [] =
 	{"Pero nada sucede. Una voluta de humo y algunas chispas surgen del cañón.",190},
 	{"Son contenedores de transporte.",191}, 
 	{"(cogiendo antes el traje)",192},
-	{"-Entonces te quedarías a solas en este lugar inhóspito -te recuerda el ordenador.",193},
+	{"-Los sistemas ya están en modo de bajo consummo -te recuerda el ordenador.",193},
 	{"-Sólo necesito un paquete azul. ",194},
 	{"La superficie es lisa, sólo se activa con el teclado.", 195},
 	{"E U R O P A",196},
@@ -413,6 +417,7 @@ token_t nombres_t [] =
 	{"compu", 	nOrdenador},
 	{"ia", 		nOrdenador},
 	{"dot", 	nOrdenador},
+	{"tod",		nOrdenador},	
 	{"navi", 	nOrdenador}, 
 	{"gps", 	nOrdenador},  
 	{"galileo", nOrdenador},
@@ -446,6 +451,7 @@ token_t nombres_t [] =
 
 // Verbos
 // VOCABULARIO
+// Verbos < 20 son iguales a nombres < 20
 token_t verbos_t [] =
 {
     {"coger",	vCoger},
@@ -472,18 +478,18 @@ token_t verbos_t [] =
     {"m",		vMirar},
     {"mirar",	vMirar},
     {"mira",	24},
-    {"quit",	25},
-    {"fin",		25},
-    {"save",	26},
-    {"graba",	26},
-    {"salva",	26},
-	{"guard",	26},
-	{"load",	27},
-	{"carga",	27},
-	{"ramsa",	28},
-	{"graba",	28},
-	{"ramlo",	29},
-	{"carga",	29},
+    {"quit",	vFin},
+    {"fin",		vFin},
+    {"save",	vSave},
+    {"graba",	vSave},
+    {"salva",	vSave},
+	{"guard",	vSave},
+	{"load",	vLoad},
+	{"carga",	vLoad},
+	{"ramsa",	vRamsave},
+	{"graba",	vSave},
+	{"ramlo",	vRamload},
+	{"carga",	vLoad},
 	{"x",       vExaminar},
 	{"exami",	vExaminar},
 	{"ex",		vExaminar},
@@ -787,6 +793,9 @@ token_t verbos_t [] =
 */
 	{"tecle", vTeclear},
 	{"escri", vEscribir},
+	{"punto", vPuntos},
+	{"score", vPuntos},
+	{"turno", vTurnos},
     {"",0}
 };
 
@@ -840,88 +849,217 @@ obj_t objetos_t[]=
     {0,0,"",                EMPTY_WORD,EMPTY_WORD,            0,0x0000}
 }; // Tabla de objetos de la aventura
 
-// Una tabla para hablar con el ordenador, se puede usar la misma técnica para definir listas de atrezzo y ahorrarse cientos de 'examinar objeto'.
+// Para no usar las tablas de nombres y mensajes podemos añadir una a medida
+// para las conversaciones con PNJs. 
 
 // Tabla de conversación con el ordenador 
-tema_t ordenador_t[]= 
+// El link entre la tabla de temas y los mensajes es el ID. 
+token_t ordenador_topics_t[] = 
 {
-	{"Hola","-Hola, soy el ordenador de navegación -responde una voz metálica."},
-	{"Adios","-Hasta pronto."},
-	{"trabajo","-Soy el sistema de navegación de la nave. "},
-	{"yo/piloto/conductor/transportista","-Eres Tod Connor, el piloto de la nave. "},
-	{"tormenta/parabrisas", "-La tormenta es moderada. No debería ser un problema para acceder al almacén usando el traje de protección."},
-	{"Europa/luna",	"-Estamos en el satélite Joviano. -responde el ordenador."},
-	{"Joviano/Jupiter",	"-Europa es un satélite de Jupiter. En la cara iluminada por Júpiter el espectáculo es soberbio. Por desgracia nuestro encargo es en la cara oculta. "},
-	{"cara/lado", "-Europa tiene una cara siempre orientada hacia Júpiter."},
-	{"donde", "-Está en un almacén, en el exterior. Tendrás que salir con esta tormenta. "},
-	{"Mision","-Tenemos que recoger un paquete en Europa y entregarlo en Marte antes de 24h -responde."},
-	{"nombre",	"-Mi nombre es TOD. Si lo prefieres, puedes usar este nombre al hablar conmigo.  "},
-	{"modelo/ordenador", "-Soy un modelo Cyberdine 1997.  Mi programador original fue el Dr. Guillermo Han de la Mega Corporation. Me enseñó a cantar una canción, ¿quieres oírla?"},
-	{"mega/megacorp/corporacion/ciberdine/cyberdine","-La empresa responsable de que tú y yo estemos conversando en Europa."},
-	{"aventuras/conversacionales/ac","-Me encantan las aventuras conversacionales."},
-	{"if/fi/ficcion/interactiva","-Desconozco ese término, ¿te refieres a las conversacionales?"},
-	{"graficas","-No están mal, pero no creo que puedas jugar a una mientras conduces."},
-	{"transilvania","-No está mal, pero es un poco corta para mi gusto. Prefiero 'la noche más larga', que dura unas 12h de juego de tiempo real."},
-	{"isla",	"-Pero bueno, ¡si esa nunca la terminaron!. Recuerdo que uno de los autores, un tal UTO le hizo una visita al programador que terminó tan mal que destruyeron todo un bloque de oficinas. Pero esa es otra historia."},
-	{"uto",	"-Realmente no tengo más datos sobre esta persona. Sin duda era una mente maestra para escapar a mis registros."},
-	{"kmbr","-Un misterio, se rumorea que era un arenque rojo mutante. "},
-	{"kno",	"-Un celebrado autor de cómic que vivió más de doscientos años. Tenía un callo en el dedo tan descomunal que finalmente murió aplastado por él. Es un clásico, deberías leer toda su obra varias veces."},
-	{"dela/dla","-Un escriba del siglo XV, gracias a él tenemos disponibles maravillas como 'Cuando comí queso negro' en francés."},
-	{"frances/ingles/italiano/aleman",	"-Lenguas muertas, hoy en día todo el universo habla tecnollano."},
-	{"tecnollano/castellano/espanol/mexicano", "-La lengua franca de nuestros días."},
-	{"comic", "-Arte secuencial muy popular a finales del siglo XX. "},
-	{"daniel/danixi", "-El responsable de la mega corporation."},
-	{"obra", "-Hablemos de ello cuando termines tu misión."},
-	{"aventura favorita", "-Es difícil elegir, se volvieron realmente populares a raíz de la proliferación de sistemas de navegación en automóviles, barcos y naves espaciales. "},
-	{"jugar aventura", "-Te buscaré una realmente interesante una vez termines la misión."},
-	{"cancion/oir/canta/tararea", "-Daisy... -Comienza a entonar sin demasiada fortuna."},
-	{"guillermo", "-El ingeniero responsable de la interfaz humana de los sistemas de navegación de la Mega corporation"},
-	{"interfa",	"-Lo que usas para hablar conmigo."},
-	{"viajar", "-Primero hay que recoger el paquete, luego pondré rumbo a Marte. -te recuerda el ordenador."},
-	{"entrada", "-La entrada está hay fuera. Es posible que necesites algún código de acceso para entrar."},
-	{"codigo", "-No tengo ningún dato en la orden de la central acerca del código."},
-	{"central", "-La central de ZEUR está en la Tierra."},
-	{"ZEUR", "-Es la empresa de reparto de paquetes en 24h que nos paga el sueldo y las piezas para seguir recorriendo el Universo."},
-	{"Tierra", "-Salvo en las zonas protegidas se ha convertido en un conglomerado de mega-urbes. Un sitio peligroso, pero lleno de oportunidades." },
-	{"almacen", "-Hemos aterrizado cerca de la entrada. Debes salir al exterior, entrar en el almacén y volver con el paquete para que puedas terminar la misión. "},
-	{"temperatura", "-En torno a 150ºC bajo cero en el exterior. Te recomiendo que lleves el traje de superviviencia."},
-	{"consola", "-La consola de mando muestra el estado de la nave y los controles manuales. Actualmente está desactivada para ahorrar energía. "},
-	{"activar consola", "-Es mejor esperar a completar la misión. Estamos en modo de bajo consumo."},
-	{"desactivar consola", "-Ya está desactivada. "},
-	{"memoria", "-Es normal que no recuerdes mucho al comienzo de una misión. Pero no te preocupes de eso ahora, después de unas jornadas de relax todo volverá a la normalidad."},
-	{ "relax/jornadas/vacaciones","-Después de este trabajo podrás pasar unos días de relax en Marte."},
-	{"marte","-Ya sabes, el planeta rojo. Bueno, anaranjado desde que dio comienzo la terraformación."},
-	{"venus/saturno/pluton/lunas/urano/neptuno/mercurio","-Es mejor que no salirse del tema de la misión. -responde"},
-	{"terraformacion","-Hace unos años comenzaron la extracción de minerales, abrieron varias minas y comenzaron los trabajos de terraformación."},
-	{"minas","-Después de la recogida debemos entregar el paquete en El Tenedor. Una de las mayores minas de Hierro y Níquel del Sistema Solar."},
-	{"Tenedor","-También se le conoce como el Tenedor del diablo. Es una mina gobernada por el sindicato unificado de minería de Marte. "},
-	{"Hierro/Niquel","-Es un metal abundante pero muy preciado. Lo difícil es su transporte, pues es muy denso y cuesta bastante dinero extraerlo de la atmósfera en la Tierra. "},
-	{"sindicato","-Gobiernan con mano dura los precios de venta y los acuerdos de suministros. "},
-	{"humanidad","-Se ha extendido por la galaxia. Pero le tenéis bastante apego al sistema Solar, que se mantiene como el centro de todas las operaciones."},
-	{"operaciones","-Ya sabes suministros, paquetería, ocio..."},
-	{"ocio", "-Aquí nada de ocio, hay que terminar el trabajo."},
-	{"paqueteria", "-Nuestro trabajo en ZEUR es entregar los paquetes en 24h"},
-	{"suministros", "-Se han abierto varias minas en Marte con el objetivo de abaratar el precio de poner algunas materias primas en el espacio."},
-	{"paquete", "-Según la descripción del mensaje se trata de un paquete de 27cm x 29cm x 30cm que pesa 10Kg. "},
-	{"recoger/recogida", "-Hemos aterrizado en la entrada del almacén. Sugiero que salgas ahí fuera, llames a la puerta y recojas el paquete."},
-	{"nave", "-Volamos en una nave de reparto de tipo Tesla. Es completamente eléctrica, así que mientras tengamos una estrella cerca podremos recargar las baterías."},
-	{"estrellas", "-La más cercana es Sol."},
-	{"Sol", "-Es la estrella principal de este sistema. "},
-	{"Sistema Solar", "-Es el sistema al que pertenece la Tierra. "},
-	{"sistemas", "-Todos los sistemas en orden. Operamos en modo de bajo consumo."},
-	{"ayuda", "-Para eso estoy aquí, para ayudarte. Algunas palabras clave que puedes usar son: misión, Júpiter, nombre, modelo, mensaje..."},
-	{"mensaje/comanda/encargo/entrega"	"Tema: Envío urgente al Tenedor de Marte. Contenido: Recogida en almacén en coordenadas en Europa. Usar clave: 32768. Importante: Mantener a temperatura bajo cero. "},
-	{"clave", "-Quizá haya algo en el mensaje del encargo."},
-	{"radiacion", "-No es un problema con el traje de supervivencia. Sin el la radiación es tan elevada que no vivirías más de un día. "},
-	{"airlock/esclusa/boton/botones", "-La esclusa se opera manualmente. El botón verde cierra la esclusa y el rojo la abre.  Asegúrate de llevar el traje de supervivencia puesto. "},
-	{"comunicaciones", "-Debido a la fuerte radiación nuestras comunicaciones sólo funcionan en la nave. No estaré contigo ahí fuera. "},
-	{"eva", "-Son las siglas de actividad extra-vehicular. Es cuando sales en misión fuera de la nave. "},
-	{"traje/superviviencia/proteccion"	"-Lo encontrarás en la esclusa listo para su uso. Recuerda no salir de la nave sin llevarlo puesto."},
-	{"mierda/tacos/culo/joder/hija/puta/puton/hijo/comemierda", "-Esa acepción no forma parte de mi base de datos. -responde el ordenador con elegancia. "},
-	{"siglas", "-Ya sabes, para acortar palabras demasiado largas. "},
-	{"calla", "-Sin problemas, ya no tarareo mas. -responde un poco dolido."},
-	{"bodega", "-Donde almacenamos los paquetes para su distribución."},
-	{"temperatura/frigo/congelador/frigorifico/enfriar", "-Tenemos un frigorífico dedicado a este tipo de paquetes. -responde después de un breve silencio"},
+	{"hola",1},
+	{"adios",2},
+	{"traba",3},
+	{"yo",4},
+	{"pilot",4},
+	{"condu",4},
+	{"trans",4},
+	{"torme", 5},
+	{"parab", 5},
+	{"europ",7},
+	{"luna",7},
+	{"jovia",8},
+	{"jupit",8},
+	{"cara",9},
+	{"lado",9},
+	{"donde", 10},
+	{"misio", 11},
+	{"nombr",12},
+	{"model",13},
+	{"mega",14},
+	{"megac",14},
+	{"corpo",14},
+	{"ciber",14},
+	{"cyber",14},
+	{"ac",17},
+	{"avent",17},
+	{"conve",17},
+	{"if", 18},
+	{"fi",18},
+	{"ficci",18},
+	{"inter",18},
+	{"grafi",19},
+	{"transi",20},
+	{"isla", 21},
+	{"uto", 22},
+	{"csg",22},
+	{"kmbr",23},
+	{"kmbrkat",23},
+	{"kno",24},
+	{"dla",25},
+	{"dela",25},
+	{"franc",26},
+	{"ingle",26},
+	{"itali",26},
+	{"alema",26},
+	{"caste",26},
+	{"tecno",27},
+	{"comic",28},
+	{"daniel",29},
+	{"danixi", 29},
+	{"obra",30},
+	{"favor",31},
+	{"jugar",32},
+	{"canci", 33},
+	{"oir", 33},
+	{"tarar", 33},
+	{"canta",33},
+	{"guille",34},
+	{"inter",35},
+	{"viaja",36},
+	{"entra",37},
+	{"codig",38},
+	{"centr",39},
+	{"zeur", 40},
+	{"zhl", 40},
+	{"tierr",41},
+	{"almac",42},
+	{"tempe",43},
+	{"conso",44},
+	{"memoria", 45},
+	{"relax", 46},
+	{"jorna", 46},
+	{"vacac", 46},
+	{"marte", 47},
+	{"venus", 48},
+	{"satur", 48},
+	{"pluto", 48},
+	{"neptu", 48},
+	{"mercu", 48},
+	{"minas", 50},
+	{"tened", 51},
+	{"diabl", 51},
+	{"hierr", 52},
+	{"nique", 52},
+	{"sindi", 53},
+	{"human", 54},
+	{"opera", 55},
+	{"ocio", 56},
+	{"paque", 57},
+	{"sumin", 58},
+	{"paquet", 59},
+	{"recog", 60},
+	{"nave", 61},
+	{"estre", 62},
+	{"sol", 63},
+	{"solar", 64},
+	{"sistm", 65},
+	{"ayuda", 66},
+	{"mensa", 67},
+	{"coman", 67},
+	{"encar", 67},
+	{"entre", 67},
+	{"clave", 70},
+	{"radia", 71},
+	{"esclu", 72},
+	{"boton", 72},
+	{"airlo", 72},
+	{"comun", 68},
+	{"eva", 73},
+	{"traje", 74},
+	{"super", 75},
+	{"prote", 76},
+	{"sigla", 77},
+	{"mierd", 78},
+	{"culo", 78},
+	{"joder", 78},
+	{"puta", 78},
+	{"puton", 78},
+	{"calla", 79},
+	{"bodeg", 80},
+	{"enfri", 81},
+	{"frigo", 81},
+	{"conge", 81},
+	{"",0}
+};
+
+// Topic and mensaje linked by ID 
+// N:1 relationship
+token_t mensajes_ordenador_t[]= 
+{
+	{"-Hola, soy el ordenador de navegación -responde una voz metálica.",1},
+	{"-Hasta pronto.",2},
+	{"-Soy el sistema de navegación de la nave. ",3},
+	{"-Eres Tod Connor, el piloto de la nave. ",4},
+	{"-La tormenta es moderada. No debería ser un problema para acceder al almacén usando el traje de protección.",5},
+	{"-Estamos en el satélite Joviano. -responde el ordenador.",7},
+	{"-Europa es un satélite de Jupiter. En la cara iluminada por Júpiter el espectáculo es soberbio. Por desgracia nuestro encargo es en la cara oculta. ",8},
+	{"-Europa tiene una cara siempre orientada hacia Júpiter.",9},
+	{"-Está en un almacén, en el exterior. Tendrás que salir con esta tormenta. ",10},
+	{"-Tienes que recoger un paquete en Europa y entregarlo en Marte antes de 24h -responde.",11},
+	{"-Mi nombre es DOT. Si lo prefieres, puedes usar este nombre al hablar conmigo.  ",12},
+	{"-Soy un modelo Cyberdine 1997.  Mi programador original fue el Dr. Guillermo Han de la MegaCorp(tm). Me enseñó a cantar una canción, ¿quieres oírla?",13},
+	{"-La empresa responsable de que tú y yo estemos conversando en Europa.",14},
+	{"-Me encantan las aventuras conversacionales.",17},
+	{"-Desconozco ese término, ¿te refieres a las conversacionales?",18},
+	{"-No están mal, pero no creo que puedas jugar a una mientras conduces.",19},
+	{"-No está mal, pero es un poco corta para mi gusto. Prefiero 'la noche más larga', que dura unas 12h de juego de tiempo real.",20},
+	{"-Pero bueno, ¡si esa nunca la terminaron!. Recuerdo que uno de los autores, un tal UTO le hizo una visita al programador que terminó tan mal que destruyeron todo un bloque de oficinas. Pero esa es otra historia.",21},
+	{"-Realmente no tengo más datos sobre esta persona. Sin duda era una mente maestra para escapar a mis registros.",22},
+	{"-Un misterio, se rumorea que era un arenque rojo mutante. ",23},
+	{"-Un celebrado autor de cómic que vivió más de doscientos años. Tenía un callo en el dedo tan descomunal que finalmente murió aplastado por él. Es un clásico, deberías leer toda su obra varias veces.",24},
+	{"-Un escriba del siglo XV, gracias a él tenemos disponibles maravillas como 'Cuando comí queso negro' en francés.",25},
+	{"-Lenguas muertas, hoy en día todo el universo habla tecnollano.",26},
+	{"-La lengua franca de nuestros días.",27},
+	{"-Arte secuencial muy popular a finales del siglo XX. ",28},
+	{"-El responsable de la mega corporation.",29},
+	{ "-Hablemos de ello cuando termines tu misión.",30},
+	{"-Es difícil elegir, las aventuras de texto se volvieron realmente populares a raíz de la proliferación de sistemas de navegación en automóviles, barcos y naves espaciales. ",31},
+	{ "-Te buscaré una realmente interesante una vez termines la misión.",32},
+	{"-Daisy... -Comienza a entonar sin demasiada fortuna.",33},
+	{"-El ingeniero responsable de la interfaz humana de los sistemas de navegación de la Megacorp(tm)",34},
+	{"-Lo que usas para comunicarte conmigo.",35},
+	{"-Primero hay que recoger el paquete, luego pondré rumbo a Marte. -te recuerda el ordenador.",36},
+	{"-La entrada está hay fuera. Es posible que necesites algún código de acceso para entrar.",37},
+	{"-No tengo ningún dato en la orden de la central acerca del código.",38},
+	{"-La central de ZHL está en la Tierra.",39},
+	{"-Es la empresa de reparto de paquetes en 24h que nos paga el sueldo y las piezas para seguir recorriendo el Universo.",40},
+	{"-La Tierra fue devastada después de varios apocalipsis. Ahora es un lugar salvaje, peligroso e incomunicado.",41 },
+	{"-Hemos aterrizado cerca de la entrada. Debes salir al exterior, entrar en el almacén y volver con el paquete para que puedas terminar la misión. ",42},
+	{"-En torno a 150ºC bajo cero en el exterior. Te recomiendo que lleves el traje de superviviencia.",43},
+	{"-La consola de mando muestra el estado de la nave y los controles manuales. Actualmente está desactivada para ahorrar energía. ",44},
+	{"-Es normal que no recuerdes mucho al comienzo de una misión. Pero no te preocupes de eso ahora, después de unas jornadas de relax todo volverá a la normalidad.",45},
+	{ "-Después de este trabajo podrás pasar unos días de relax en Marte.",46},
+	{"-Ya sabes, el planeta rojo. Bueno, anaranjado desde que comenzó la terraformación.",47},
+	{"-Es mejor que no salirse del tema de la misión. -responde",48},
+	{"-Después de la recogida debemos entregar el paquete en el tenedor del diablo. Una de las mayores minas de Hierro y Níquel del Sistema Solar.",50},
+	{"-También se le conoce como el tenedor del diablo. Es una mina gobernada por el sindicato unificado de minería de Marte. ",51},
+	{"-Es un metal abundante pero muy preciado. Lo difícil es su transporte, pues es muy denso y cuesta bastante dinero extraerlo de la atmósfera en la Tierra. ",52},
+	{"-Gobiernan con mano dura los precios de venta y los acuerdos de suministros. ",53},
+	{"-Son tiempos difíciles. La humanidad tuvo que abandonar la Tierra debido a varias guerras nucleares y diseminarse por el sistema solar. ",54},
+	{"-Ya sabes suministros, paquetería, ocio...",55},
+	{"-Aquí nada de ocio, hay que terminar el trabajo.",56},
+	{"-Nuestro trabajo en ZHL es entregar los paquetes en 24h.",57},
+	{"-Se han abierto varias minas en Marte.",58},
+	{"-Según la descripción del mensaje se trata de un paquete de 27cm x 29cm x 30cm que pesa 10Kg. ",59},
+	{"-Hemos aterrizado en la entrada del almacén. Sugiero que salgas ahí fuera, llames a la puerta y recojas el paquete.",60},
+	{"-Volamos en una nave de reparto de tipo Tesla. Es completamente eléctrica salvo el motor principal.",61},
+	{"-La más cercana es Sol.",62},
+	{"-Es la estrella principal de este sistema. ",63},
+	{ "-Es el sistema al que pertenece la Tierra. ",64},
+	{"-Todos los sistemas en orden. Operamos en modo de bajo consumo.",65},
+	{"-Para eso estoy aquí, para ayudarte. Algunas palabras clave que puedes usar son: misión, Júpiter, nombre, modelo, mensaje...",66},
+	{"Tema: Envío urgente al Tenedor de Marte. Contenido: Recogida en almacén en coordenadas en Europa. Usar clave: 32768. Importante: Mantener a temperatura bajo cero. ",67},
+	{ "-Quizá haya algo en el mensaje del encargo.",70},
+	{"-No es un problema con el traje de supervivencia. Sin él la radiación es tan elevada que no vivirías más de un día. ",71},
+	{"-La esclusa se opera manualmente. El botón verde cierra la esclusa y el rojo la abre.  Asegúrate de llevar el traje de supervivencia puesto. ",72},
+	{"-Debido a la fuerte radiación nuestras comunicaciones sólo funcionan en la nave. No estaré contigo ahí fuera. ",68},
+	{ "-Son las siglas de actividad extra-vehicular. Es cuando sales en misión fuera de la nave. ",73},
+	{"-Lo encontrarás en la esclusa listo para su uso. Recuerda no salir de la nave sin llevarlo puesto.",74},
+	{ "-Esa acepción no forma parte de mi base de datos. -responde el ordenador con elegancia. ",78},
+	{"-Ya sabes, para acortar palabras demasiado largas. ",77},
+	{"-Sin problemas, ya no tarareo mas. -responde un poco dolido.",79},
+	{"-Donde almacenamos los paquetes para su distribución.",80},
+	{ "-Tenemos un frigorífico dedicado a este tipo de paquetes. -responde después de un breve silencio",81},
 	{0,0}
 };
 
@@ -949,26 +1087,40 @@ if (fnombre1==nOrdenador) {
 	// Llamar al procesado de la tabla por tema...
 	// ordenador encender consola -> encender ordenador consola -> encender consola
 	// ordenador palabra_clave
+	
 	// Fuera del alcance...
 	if (CNDatgt (lBodega)) { ACCmessage (177); DONE; }
+	
 	// Comandos al ordenador
-	if (fverbo==vAbrir)
-	{
-		if (fnombre2==nEsclusa) { ACCmessage (132); DONE;}
-	}
-
-	if (fverbo==vApagar) { ACCmessage (192); DONE; }
-	if (fverbo==vEncender && fnombre2==nConsola) { ACCmessage (105); DONE; }
-	if (fverbo==vCerrar)
-	{
-
-	}
+	if (fverbo==vAbrir && fnombre2==nEsclusa) { ACCmessage (24); DONE;}
+	if (fverbo==vCerrar && fnombre2==nEsclusa) { ACCmessage (25); DONE;}
+	
+	if (fverbo==vApagar) { ACCmessage (193); DONE; }
+	if (fverbo==vEncender && (fnombre1==nPantalla || fnombre2==nConsola)) { ACCmessage (9); DONE; }
 	// Preguntas al ordenador
+	// Parsea el input del jugador...
+	// From the beginning...
+    gChar_number = 0;
+    gWord_number = 0;
+	while (ACCNextWord())
+	{
+		//writeText (playerWord);
+		// Sólo admite una palabra clave
+		if (buscador (ordenador_topics_t, playerWord, &flags[fTemp])!=EMPTY_WORD)
+		{
+			// El ID del topic es el mismo que el mensaje
+			ACCwriteln (mensajes_ordenador_t[get_table_pos(mensajes_ordenador_t, flags[fTemp])].word);
+			//ACCmessage (flags[fTemp])
+			DONE;
+		}			
+	}
 	//if (aux=buscador_tema(ordenador_t, nombres_t[fnombre2]))
 	//{
 	//	writeText (ordenador_t[aux].respuesta);
 	//	DONE;
 	//}	
+
+	// Si no encaja con ningún tema...
 	ACCmessage (50);
 	DONE;
 	}
@@ -1073,7 +1225,8 @@ if (flocalidad==lPuente)
 
 			if (fnombre1==nCristales) { ACCmessage (13); DONE; }
 			if (fnombre1==nEscaleras) { ACCmessage (4); DONE; }
-			if (fnombre1==nPantalla || fnombre1==nInterior || fnombre1==nConsola || fnombre1==nControles) 
+			if (fnombre1==nPantalla) { ACCmessage(18); DONE; }
+			if (fnombre1==nInterior || fnombre1==nConsola || fnombre1==nControles) 
 			{
 				ACCmessage (8); DONE;
 			}	
@@ -1485,6 +1638,8 @@ char respuestas_post()
     BYTE i;
     BYTE loc_temp;
 
+	if (fverbo==vFin) { ACCend(); DONE; }
+
 	if (fverbo==vQuitar) {  ACCautor(); DONE; }
 	if (fverbo==vPoner) { ACCautow(); DONE; }
 	
@@ -1543,6 +1698,17 @@ char respuestas_post()
 		ACCsysmess (SYSMESS_CANNOTMOVE);
 		DONE;
 	}
+
+	if (fverbo==vSave || fverbo==vRamsave || fverbo==vLoad || fverbo==vRamload)
+	{
+		//ACCsave();
+		ACCwriteln ("No necesitas cargar o salvar en este viaje -dice el ordenador");
+		DONE;
+	}
+
+	if (fverbo==vPuntos) { ACCscore(); DONE; }
+	if (fverbo==vTurnos) { ACCturns(); DONE; }
+
 	// Si ninguna acción es válida...
     ACCsysmess(SYSMESS_IDONTUNDERSTAND);
     newLine();
@@ -1550,23 +1716,23 @@ char respuestas_post()
 
 char proceso1() // Antes de la descripción de la localidad...
 {
- // Muestra la pantalla...
- ACCpicture(flags[flocation]);
- //setRAMPage(0);
- //proceso1_pagina0();
- //setRAMPage(1);
- //proceso1_pagina1();
- //setRAMPage(0);
+	// Oculta el dibujado
+	defineTextWindow (1,1,30,10); 
+	clearTextWindow(INK_BLACK | PAPER_BLACK , FALSE);
 
-// Cálculo de luz
-// En ZHL todas las localidades tienen luz
-flags[flight]=1; // No está oscuro
+	// Muestra la pantalla..
+	ACCpicture(flags[flocation]);
+	if (CNDat(lZonaA2)) 
+	{
+		clearTextWindow(INK_BLACK | PAPER_RED | BRIGHT, FALSE);
+		defineTextWindow (15,4,3,3); 
+		clearTextWindow(INK_BLACK | PAPER_RED | BRIGHT, TRUE);
+	}
+	defineTextWindow (0,11,32,14); 
+	// Cálculo de luz
+	// En ZHL todas las localidades tienen luz
+	flags[flight]=1; // No está oscuro
 
-// Incrementa el contador de turnos
-if (flags[fturns_low]==255) {
-	flags[fturns_high]++;
-	flags[fturns_low]=0;	
-	} else flags[fturns_low]++;
 }
 
 char proceso1_post() // Después de la descripción
@@ -1588,48 +1754,77 @@ char proceso2() // Después de cada turno, haya tenido o no éxito la entrada en l
 
 void main (void)
 {
-	clear_screen(INK_YELLOW | PAPER_BLACK);
-// Añadir menú de juego
+	// Inicializar variables
+			
+	clear_screen(INK_BLACK | PAPER_BLACK);
+	initParser ();                // Inicializa el parser y la pantalla
+ 	defineTextWindow (0,11,32,14); // Pantalla reducida en 128Kb, Gráficos + Texto
 
-// Inicializar variables
-    initParser ();                // Inicializa el parser y la pantalla
-    defineTextWindow (0,11,32,14); // Pantalla reducida en 128Kb, Gráficos + Texto
-    flags[LOCATION_MAX] = 8; // Número más alto de localidad
-    ACCability(10,20); // 10 objetos, 20 piedras
-    ACCgoto(lPuente); // Localidad inicial, en el puente de mando
-	//ACCpicture(5);
-	ParserLoop (); // Pone en marcha el bucle principal
-	//ACCwrite ("Ahora tengo ");
-	//ACCwrite("el traje presurizado");
-	//while (1) {
-	//}
+	ACCpicture(9);
+
+// Añadir menú de juego
+     clearTextWindow(INK_GREEN | PAPER_BLACK  | BRIGHT, TRUE);
+	 gotoxy (13,12);
+     writeText (" Z H L ");
+     gotoxy (12,14);
+     writeText ("1 Jugar");
+     //gotoxy (100,80);
+     //writeText ("(J) Cargar Partida");
+     //gotoxy (100,96);
+     //writeText ("1 Tutorial");
+     gotoxy (12,15);
+     writeText ("2 Créditos");
+     //fontStyle (NORMAL);
+
+     gotoxy (9,20);
+     writeText ("(C) 2019 KMBR ");
+	 
+while (1) 
+{
+	switch (getKey())
+		{
+			//case 'j': // Cargar Partida
+			//break;
+			case '2': // Créditos
+				clearTextWindow(INK_YELLOW | PAPER_BLACK, TRUE);
+				gotoxy(0,13);
+				writeTextln ("Z H L");
+				writeTextln ("Creada por KMBR");
+				writeTextln ("Release 4 ^");
+				writeTextln ("Agradecimientos a aa@zdk.org y Carlos Sánchez (UTO)");
+				writeTextln ("Compresión de gráficos con ZX7 por Einar Saukas");
+				waitForAnyKey();
+				main();
+				break;
+			//case 't': // Jugar en modo Tutorial...
+			//     flags[fTutorial]=1;
+			case '1': // Jugar...
+				//clsScreen (0);
+				//clsScreen (1);
+				clear_screen(INK_YELLOW | PAPER_BLACK, TRUE);
+	//			defineTextWindow (0,11,32,14); // Pantalla reducida en 128Kb, Gráficos + Texto
+				flags[LOCATION_MAX] = 8; // Número más alto de localidad
+				ACCability(10,20); // 10 objetos, 20 piedras
+				ACCgoto(lPuente); // Localidad inicial, en el puente de mando
+				ParserLoop (); // Pone en marcha el bucle principal
+				// Parser gets out of the parserloop when the player ENDS the game 	
+				// The player wants to abandon the game
+				writeSysMessage(SYSMESS_PLAYAGAIN);
+				flags[fTemp] = getKey();
+				// Restart
+				if (flags[fTemp]=='y' || flags[fTemp]=='s' || flags[fTemp]=='S' || flags[fTemp]=='Y')
+				{
+					main();
+				}
+				// To the void...
+				#asm 
+					jp 0
+				#endasm 
+				break;
+		}
+	}
 }
 
 // ------------------------------------------------------------
 // Funciones propias del juego
 // ------------------------------------------------------------
-
-// Función para buscar en tablas a partir de una palabra clave
-unsigned char buscador_tema (tema_t *tabla, unsigned char *word) 
-{
-    // Input: Cadena de texto
-    unsigned char fin=0;
-    unsigned char counter=0;
-    //writeText ("Buscando...%s\n",word);
-    while (fin==0)
-    {
-		//writeText ("%s-%s ",tabla[counter].word,playerWord);
-        if (tabla[counter].topic==0) fin=1; // Fin de la tabla...
-        if (strncmp(word,tabla[counter].topic,MAX_WORD_LENGHT)==0)
-        {
-            // flags[ftemp]=tabla[counter].id;
-            //writeText ("found %u", flags[ftemp]);
-            return counter;
-        }
-        counter++;
-    }
-    return EMPTY_WORD;
-}
-
-
-

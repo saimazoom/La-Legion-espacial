@@ -214,6 +214,11 @@
 #define vMirar 24
 #define vFin 25
 #define vMirar 24
+#define vSave 26
+#define vLoad  27
+#define vRamsave 28
+#define vRamload 29
+
 #define vExaminar   30      
 #define vDecir  31      
 #define vMandar   31      
@@ -274,6 +279,8 @@
 #define vRomper 59 
 #define vVestir 60
 #define vDar 61
+#define vPuntos 62
+#define vTurnos 63
 
 // Adverbios
 #define adRapidamente 2
@@ -326,12 +333,4 @@
 #define aAmarillo 17   
  
 // Funciones adicionales
-typedef struct {
-	BYTE *topic;
-	BYTE *respuesta;
-} tema_t;
 
-unsigned char buscador_tema (tema_t *tabla, unsigned char *word);
-
-// Gráficos
-//unsigned char *L05_img;

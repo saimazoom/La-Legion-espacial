@@ -181,8 +181,10 @@ void drawRectangle (BYTE xorig, BYTE yorig, BYTE width, BYTE height)
    // ZZZ: Caracter 0-7 Fila
    // CCCC: Columna 0-31
 
+// 29.12.2019: La rutina no funciona correctamente y se queda bloqueada. 
 void clsScreen (BYTE effect)
 {
+     /*
 	switch (effect)
 	{
 		case 0: // Persiana arriba-abajo
@@ -283,6 +285,7 @@ inicio:     ld 		(hl), $FF		; Pone el Caracter actual a todo 1
         #endasm
         break;
 	}
+     */
 }
 
 void drawGFX (BYTE *pointer, BYTE xorig, BYTE yorig)
@@ -391,33 +394,22 @@ void clearchar (BYTE x, BYTE y, BYTE color)
    // Tercio 2 8-15-> 0x08 a 0x0F -> 0100 1000 a 0000 1111
    // Tercio 3 16-23->0x10 a 0x17 -> 0101 0000 a 0001 1111
 
-   // Pone a 0 los bits del caracter
-   BYTE i;
-   BYTE *video = (BYTE*)(0x4000|( (y&0x18)<<8) | ((y&0x07)<<5)| x); // Direcci�n base
-   BYTE *attr = (BYTE*)(0x5800+x+(y*32));  // Direcci�n base
-
-   for (i=0;i<8;i++)
-   {
-        *video = 0x00;
-        video+=256;
-   }
-   // Setea el atributo
-   *attr = color;
+    print_char (x,y,' ');
+    set_attr (x,y,color);
 }
 
 void clear_screen (BYTE color)
 {
 // Pasar esto a asm...
- memset(16384, 0, 6144);    // P�xeles...
- memset(22528, color, 768); // Atributos
- // The quickest and simplest way to set the border colour is to write to port 254. The 3 least significant bits of the byte we send determine the colour.
- #asm
- ;; Set border colour to black
-	ld a,0x00
-	out ($fe),a
- #endasm
+     memset(16384, 0, 6144);    // P�xeles...
+     memset(22528, color, 768); // Atributos
+     // The quickest and simplest way to set the border colour is to write to port 254. The 3 least significant bits of the byte we send determine the colour.
+     #asm
+     ;; Set border colour to black
+          ld a,0x00
+          out ($fe),a
+     #endasm
 }
-
 
 void putpixel (BYTE x, BYTE y, BYTE value)
 {

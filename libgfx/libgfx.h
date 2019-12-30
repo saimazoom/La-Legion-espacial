@@ -27,7 +27,7 @@ extern void __CALLEE__ putPixel (BYTE x, BYTE y);
 extern void __CALLEE__ scrollArriba (BYTE fila_inicial, BYTE columna_inicial);
 extern void __CALLEE__scrollArriba2 (BYTE linea_inicial, BYTE num, BYTE step);
 extern void __CALLEE__drawRectangle (BYTE xorig, BYTE yorig, BYTE width, BYTE height);
-extern void __CALLEE__ clsScreen (BYTE effect); // Distintos efectos para borrar la pantalla...
+extern void  clsScreen (BYTE effect); // Distintos efectos para borrar la pantalla...
 extern void __CALLEE__drawGFX (BYTE gfxnum, BYTE xorig, BYTE yorig);
 extern void __CALLEE__ waitForAnyKey();
 extern void __CALLEE__drawVline (BYTE x0, BYTE y0, BYTE len);
@@ -97,7 +97,7 @@ struct fzx_state
 ///////////////////////////////////////////////////////////
 //                      DRAW TEXT                        //
 ///////////////////////////////////////////////////////////
-
+// Functions in printlib.asm
 extern int               fzx_setat(unsigned char x, unsigned char y);
 extern int  fzx_putc(unsigned char c);
 
@@ -106,6 +106,6 @@ extern int               fzx_write(unsigned int *buf, unsigned int len);
 
 extern void __CALLEE__ print_string (BYTE x, BYTE y, unsigned char *texto);
 extern void __CALLEE__ print_char (BYTE x, BYTE y, unsigned char texto);
-
+extern void __CALLEE__ set_attr (BYTE x, BYTE Y, BYTE attr);
 
 

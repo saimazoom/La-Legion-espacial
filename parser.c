@@ -56,16 +56,19 @@ Comandos de depuración
 
 // Funciones externas
 //extern void scrollArriba2 (BYTE linea_inicial, BYTE num, BYTE step);
-//extern void clearchar (BYTE x, BYTE y, BYTE color);
+extern void clearchar (BYTE x, BYTE y, BYTE color);
 
-// Variables globales
 unsigned char flags[255];
+unsigned char *playerPrompt = "> ";
+extern struct fzx_state fzx;   // active fzx state defined in libgfx
+
+// Global variables exposed to the author for the parsing of the player input
 unsigned char playerInput[80];
 unsigned char playerWord[25];
-unsigned char *playerPrompt = "> ";
-extern struct fzx_state fzx;   // active fzx state
+BYTE gWord_number; // Marker for current word, 1st word is 1
+BYTE gChar_number; // Marker for current char, 1st char is 0
 
-
+// Windows declaration 
 textwin_t TextWindow;
 textwin_t GraphWindow;
 
@@ -290,7 +293,6 @@ void  initParser (void) // 212bytes
     fzx.x=0;
 }
 
-
 void ParserLoop (void) // 664 bytes
 {
 	BYTE loc_temp;
@@ -343,7 +345,7 @@ void ParserLoop (void) // 664 bytes
                 if (flags[fsalidas])
                 {
                     writeText ("Salidas visibles:");
-                    for (i=0;i<10;i++)
+                    for (i=0;i<10;++i)
                     {
                         j = conexiones_t[loc_temp].con[i];
                         if (j<NO_EXIT && j>0)
@@ -365,11 +367,10 @@ void ParserLoop (void) // 664 bytes
                     if (conexiones_t[loc_temp].con[nArriba]>0 && conexiones_t[loc_temp].con[nArriba]<NO_EXIT) writeText ("arriba ");
                     if (conexiones_t[loc_temp].con[nAbajo]>0 && conexiones_t[loc_temp].con[nAbajo]<NO_EXIT) writeText ("abajo ");
                     */
-                    // Si hemos estado en la localidad añade su nombre...
                     newLine();
                 }
                 localidades_t[loc_temp].visited=TRUE;
-                gDESCRIBE_LOCATION_FLAG=FALSE; // Evita describir la localidad en cada turno
+                gDESCRIBE_LOCATION_FLAG=FALSE; // To avoid describing the location each turn
             }
             else writeSysMessage(SYSMESS_ISDARK);
 		}
@@ -384,9 +385,11 @@ void ParserLoop (void) // 664 bytes
 
         if (gDEBUGGER==FALSE)
         {
-           if (respuestas()==FALSE)
+           if (respuestas()==FALSE) // Calls reply post function if not successful
                 respuestas_post();
-           proceso2(); // Tabla de proceso después de dar respuesta al jugador
+           proceso2(); // Calls the process after the responses tables
+        	// Increments the turns counter
+        	incr16bit (&flags[fturns_low]); 
         }
 #ifdef DEBUG
         else
@@ -395,11 +398,129 @@ void ParserLoop (void) // 664 bytes
     }
 }
 
-void parse() // 727bytes
+// ACCNextWord
+// Input: Global playerInput array.
+// Output: gWord_number is updated with the word number that was processed (1 first word)
+//          gChar_number is updated with the character number that ws processed (1 first char)
+// Description: Retrieves the next word from playerinput array.
+BYTE ACCNextWord ()
+{
+    BYTE salir=0;
+    BYTE i=0;
+    BYTE caracter=0;
+    //writeText ("NextWord:");
+    while (salir==0 && i<25)
+    {
+        caracter = playerInput[gChar_number];
+        playerWord[i]=caracter;
+        // word terminators...
+        if (caracter==' ' || caracter==13 || caracter==',' || caracter==';' || caracter=='.' || caracter==0)
+        {            
+            salir = 1;      
+        }
+        else {
+            ++i;
+        }        
+       gChar_number++;
+    }   
+    gWord_number++;
+    playerWord[i] = 0; // Terminator to help C functions
+    if (i==0) return FALSE; // Nothing was extracted...
+        else return TRUE;
+    //writeText(playerWord);    
+} 
+
+// ACCGetWord
+// Input: 
+//      wordnum: Requested word from the playerInput array (1 is first word)
+// Description: Retrieves in playerWord array the request word. Return 1 if succeed, 0 if failure.
+BYTE ACCGetWord (BYTE wordnum)
+{    
+    // From the beginning...
+    gChar_number = 0;
+    gWord_number = 0;
+    ACCNextWord();
+    while (gWord_number!=wordnum && playerWord[0]!=0) ACCNextWord();    
+}
+
+
+void parse() // 145bytes
 {
 // Input: Cadena de texto -> playerInput
 // Output: tokens -> verbo, nombre1, nombre2, adjetivo1, adjetivo2
 // Una frase tiene: sólo un verbo, un máximo de dos nombres, un máximo de dos adjetivos, un adverbio
+// Inicializa los flags de vocabulario...
+    flags[fverb]=EMPTY_WORD;
+    flags[fnoun1]=EMPTY_WORD;
+    flags[fnoun2]=EMPTY_WORD;
+    flags[fadject1]=EMPTY_WORD;
+    flags[fadject2]=EMPTY_WORD;
+    flags[fadverb]=EMPTY_WORD;
+    gDEBUGGER=FALSE;
+    // Procesa palabra por palabra
+    gChar_number = 0;
+    gWord_number = 0; 
+    playerWord[0]=255; // Initialize...
+    //writeText ("Parse");
+
+    while (playerWord[0]!=0) 
+    {
+        ACCNextWord();
+        //writeValue (playerWord[0]);
+        if (flags[fverb]==EMPTY_WORD && buscador(verbos_t, playerWord, &flags[fverb])!=EMPTY_WORD){
+            #ifdef DEBUG 
+                if (flags[fverb]>EMPTY_WORD) 
+                {
+                    writeText ("V");
+                    writeValue (flags[fverb]);
+                }
+            #endif                        
+        } else if ( flags[fnoun1]==EMPTY_WORD && buscador(nombres_t, playerWord, &flags[fnoun1])!=EMPTY_WORD)
+        {
+            #ifdef DEBUG 
+                if (flags[fverb]>EMPTY_WORD) 
+                {
+                    writeText ("N1_");
+                    writeValue (flags[fnoun1]);
+                }
+            #endif                        
+        } else if (flags[fnoun2]==EMPTY_WORD && buscador(nombres_t, playerWord, &flags[fnoun2])!=EMPTY_WORD)
+        {
+            #ifdef DEBUG 
+                if (flags[fnoun2]>EMPTY_WORD) 
+                {
+                    writeText ("N2_");
+                    writeValue (flags[fnoun2]);
+                }
+            #endif                        
+        } else if (flags[fadject1]==EMPTY_WORD && buscador(adjetivos_t, playerWord, &flags[fadject1])!=EMPTY_WORD)
+        {
+            #ifdef DEBUG 
+                if (flags[fadject1]>EMPTY_WORD) 
+                {
+                    writeText ("A1_");
+                    writeValue (flags[fadject1]);
+                }
+            #endif                        
+        } else if (flags[fadject2]==EMPTY_WORD && buscador(adjetivos_t, playerWord, &flags[fadject2])!=EMPTY_WORD)
+        {
+                #ifdef DEBUG 
+                if (flags[fadject2]>EMPTY_WORD) 
+                {
+                    writeText ("A2_");
+                    writeValue (flags[fadject2]);
+                }
+            #endif                        
+        }        
+ 
+    if (flags[fnoun1]<NUM_CONVERTIBLE_NOUNS && flags[fverb]==EMPTY_WORD)
+        {
+            flags[fverb] = flags[fnoun1];
+            flags[fnoun1] = EMPTY_WORD;
+        }
+ 
+    }     
+/*
 unsigned char counter=0;
 unsigned char caracter = 0;
 unsigned char ongoing=1;
@@ -526,7 +647,9 @@ while (salir==0) // Recorre la cadena hasta el final
         counter++;
         caracter = playerInput[counter];
 	}
+*/
 }
+ 
 
 #ifdef DEBUG
 void debugger ()
@@ -618,30 +741,35 @@ void writeValue (unsigned int value)
         writeText (&valor);
 }
 
-unsigned char buscador (token_t *tabla, unsigned char *word) // 180bytes
+BYTE buscador (token_t *tabla, unsigned char *word, unsigned char *result) // 180bytes
 {
     // Input: Cadena de texto
     unsigned char fin=0;
     unsigned char counter=0;
-    //writeText ("Buscando...%s\n",word);
+    //writeText ("Buscando:");
+    //writeText (word);
+    //writeText (" ");
+
     while (fin==0)
     {
 		//writeText ("%s-%s ",tabla[counter].word,playerWord);
         if (tabla[counter].id==0) fin=1; // Fin de la tabla...
+    //    writeText (tabla[counter].word);
+    //    writeText (" ");
         if (strncmp(word,tabla[counter].word,MAX_WORD_LENGHT)==0)
         {
             // flags[ftemp]=tabla[counter].id;
-            //writeText ("found %u", flags[ftemp]);
-            return tabla[counter].id;
+            //writeText (" Found ");
+      //      writeValue (tabla[counter].id);
+            //return tabla[counter].id;
+            *result = tabla[counter].id;
+            return TRUE;
         }
-        counter++;
+        ++counter;
     }
+    //writeText ("NOT FOUND^");
+    *result = EMPTY_WORD;
     return EMPTY_WORD;
-}
-
-void procesaString ()
-{
-//    strupr(playerInput);
 }
 
 // --------------------------------------------
@@ -822,7 +950,6 @@ BYTE  CNDtimeout()
 
 BYTE CNDisat(BYTE objid, BYTE locid)
 {
-//	return (objetos_t[get_obj_pos(objid)].locid == locid);
 if (objetos_t[get_obj_pos(objid)].locid==locid)
     return TRUE;
 else
@@ -867,7 +994,9 @@ void ACCinven()
     }
 
 	writeSysMessage(SYSMESS_YOUARECARRYING);
-	for (i=0;i<gNUM_OBJECTS;i++)
+
+    
+	for (i=0;i<gNUM_OBJECTS;++i)
 	{
 		if ((getObjectLocation(i)) == LOCATION_CARRIED)
 		{
@@ -904,10 +1033,7 @@ void  ACCquit()
 
 void  ACCend()
 {
-	//$('.input').hide();
 	ginEND = TRUE;
-	writeSysMessage(SYSMESS_PLAYAGAIN);
-	gDONE_FLAG = TRUE;
 }
 
 void  ACCok()
@@ -915,7 +1041,6 @@ void  ACCok()
 	writeSysMessage(SYSMESS_OK);
 	gDONE_FLAG = TRUE;
 }
-
 
 void  ACCramsave()
 {
@@ -955,6 +1080,8 @@ void  ACCramload()
 
 void  ACCsave()
 {
+    // We just need to store the FLAGS array in a file
+
     /*
 	var savegame_object = getSaveGameObject();
 	savegame =   JSON.stringify(savegame_object);
@@ -966,6 +1093,8 @@ void  ACCsave()
 
 void  ACCload()
 {
+    // Restore the FLAGS array in memory 
+    // Continue with the game...
     /*
 	var json_str;
 	filename = prompt(getSysMessageText(SYSMESS_LOADFILE),'').toUpperCase();;
@@ -1012,7 +1141,6 @@ void  ACCcls()
 	fzx.y = TextWindow.y;
 }
 
-
 void  ACCautog()
 {
     BYTE objid;
@@ -1038,7 +1166,7 @@ void  ACCautog()
 }
 
 
-void  ACCautod()
+void ACCautod()
 {
     BYTE objno;
 	objno =findMatchingObject(LOCATION_CARRIED);
@@ -1325,7 +1453,7 @@ void ACClistat(BYTE locid, BYTE container_id)   // objno is a container/supporte
 
   // writeText ("Num Obj: %u",objscount);
 
-  for (i=0;i<gNUM_OBJECTS;i++)
+  for (i=0;i<gNUM_OBJECTS;++i)
   {
     //j = objetos_t[i].id;
   	if (objetos_t[i].locid == locid)
@@ -1480,13 +1608,6 @@ void ACCweigh(BYTE objno, BYTE flagno)
 	setFlag(flagno, weight);
 }
 
-
-/*
-void ACCnewtext()
-{
-	// parser_order_buffer = '';
-}
-*/
 
 void  ACCability(BYTE maxObjectsCarried, BYTE maxWeightCarried)
 {
@@ -1664,39 +1785,11 @@ BYTE CNDonotzero(BYTE objid, unsigned long int attrno)
 void ACCoset(BYTE objid, unsigned long int attrno)
 {
     objetos_t[get_obj_pos(objid)].atributos|=attrno;
-    /*
-	if (attrno > 63) return;
-	if (attrno <= 31)
-	{
-		attrs = getObjectLowAttributes(objno);
-		var attrs = bitset(attrs, attrno);
-		setObjectLowAttributes(objno, attrs);
-		return;
-	}
-	var attrs = getObjectHighAttributes(objno);
-	attrno = attrno - 32;
-	attrs = bitset(attrs, attrno);
-	setObjectHighAttributes(objno, attrs);
-    */
 }
 
 void ACCoclear(BYTE objid, unsigned long int attrno)
 {
     objetos_t[get_obj_pos(objid)].atributos&=!attrno;
-    /*
-	if (attrno > 63) return;
-	if (attrno <= 31)
-	{
-		var attrs = getObjectLowAttributes(objno);
-		attrs = bitclear(attrs, attrno);
-		setObjectLowAttributes(objno, attrs);
-		return;
-	}
-	var attrs = getObjectHighAttributes(objno);
-	attrno = attrno - 32;
-	attrs = bitclear(attrs, attrno);
-	setObjectHighAttributes(objno, attrs);
-    */
 }
 
 BYTE CNDislight()
@@ -1774,20 +1867,6 @@ BYTE  CNDcarried(BYTE objid)
 
 void ACConeg(BYTE objid, unsigned long int attrno)
 {
-	/*
-	if (attrno > 63) return;
-	if (attrno <= 31)
-	{
-		var attrs = getObjectLowAttributes(objno);
-		attrs = bitneg(attrs, attrno);
-		setObjectLowAttributes(objno, attrs);
-		return;
-	}
-	var attrs = getObjectHighAttributes(objno);
-	attrno = attrno - 32;
-	attrs = bitneg(attrs, attrno);
-	setObjectHighAttributes(objno, attrs);
-	*/
 	objetos_t[get_obj_pos(objid)].atributos^=attrno;
 }
 
@@ -1799,7 +1878,7 @@ BYTE findMatchingObject(BYTE locno)
 {
     BYTE i,j=0;
 
-	for (i=0;i<gNUM_OBJECTS;i++) // Recorre el array de objetos
+	for (i=0;i<gNUM_OBJECTS;++i) // Recorre el array de objetos
     {
         if (locno==-1 || getObjectLocation(i) == locno)
         {
@@ -1858,7 +1937,7 @@ BYTE ACCgetReferredObject(BYTE num_noun)
             return objetos_t[objectfound].id;
         }
 
-   	for (i=0; i<gNUM_OBJECTS;i++) // Try to find it in present containers/supporters
+   	for (i=0; i<gNUM_OBJECTS;++i) // Try to find it in present containers/supporters
 	{
 		if (CNDpresent(objetos_t[i].id) && (isAccesibleContainer(i) || objectIsAttr(i, aSupporter)) )  // If there is another object present that is an accesible container or a supporter
 		{
@@ -1931,8 +2010,8 @@ void dropall()
 {
 	// Done in two different loops cause PAW did it like that, just a question of retro compatibility
 	BYTE i;
-	for (i=0;i<gNUM_OBJECTS;i++)	if (getObjectLocation(i) == LOCATION_CARRIED)setObjectLocation(i, flags[flocation]);
-	for (i=0;i<gNUM_OBJECTS;i++)	if (getObjectLocation(i) == LOCATION_WORN)setObjectLocation(i, flags[flocation]);
+	for (i=0;i<gNUM_OBJECTS;++i)	if (getObjectLocation(i) == LOCATION_CARRIED)setObjectLocation(i, flags[flocation]);
+	for (i=0;i<gNUM_OBJECTS;++i)	if (getObjectLocation(i) == LOCATION_WORN)setObjectLocation(i, flags[flocation]);
 }
 
 void  done()
@@ -1991,26 +2070,18 @@ BYTE get_img_pos (BYTE imgid)
 
 BYTE get_msg_pos (BYTE mesid)
 {
-    BYTE i=0;
-	while (mensajes_t[i].id!=0)
-	{
-		if (mensajes_t[i].id==mesid) return i;
-        i++;
-	}
-	return FALSE;
+    return get_table_pos (mensajes_t, mesid);
 }
 
-BYTE  get_table_num (token_t *tabla, BYTE noun_id)
+BYTE  get_table_pos (token_t *tabla, BYTE noun_id)
 {
-    unsigned char fin=0;
     unsigned char counter=0;
-    while (fin==0)
+    while (tabla[counter].id!=0)
     {
-        if (tabla[counter].id==0) fin=1; // Fin de la tabla...
         if (tabla[counter].id==noun_id) return counter;
         counter++;
     }
-    return 0;
+    return FALSE;
 }
 
 BYTE  getObjectLocation (BYTE objpos) // Devuelve el número de localidad en el array
@@ -2080,7 +2151,7 @@ BYTE getLocationObjectsWeight(BYTE locno)
         locid = locno;
     } else locid = localidades_t[locno].id;
 
-	for (i=0;i<gNUM_OBJECTS;i++)
+	for (i=0;i<gNUM_OBJECTS;++i)
 	{
 		if (objetos_t[i].locid == locid)
 		{
@@ -2108,7 +2179,7 @@ BYTE  getObjectCountAt(BYTE locno)
     {   locid = locno;
     } else locid = localidades_t[locno].id;
 
-	for (i=0;i<gNUM_OBJECTS;i++)
+	for (i=0;i<gNUM_OBJECTS;++i)
 	{
 		if (objetos_t[i].locid== locid)
 		{
@@ -2129,7 +2200,7 @@ BYTE getObjectCountAtWithAttr(BYTE locno, unsigned long int attrno)
 {
 	BYTE count = 0;
 	BYTE i=0;
-	for (i=0;i<gNUM_OBJECTS;i++)
+	for (i=0;i<gNUM_OBJECTS;++i)
 		if (   (objetos_t[i].locid == localidades_t[locno].id)  && (objectIsAttr(i, attrno))) count++;
 	return count;
 }
@@ -2138,7 +2209,7 @@ BYTE  getNPCCountAt(BYTE locno)
 {
 	BYTE count = 0;
 	BYTE i=0;
-	for (i=0;i<gNUM_OBJECTS;i++)
+	for (i=0;i<gNUM_OBJECTS;++i)
 		if ((objetos_t[i].locid  == localidades_t[locno].id) &&  (objectIsNPC(i))) count++;
 	return count;
 }
@@ -2260,7 +2331,11 @@ void  writeTextCenter (BYTE *texto)
     content = [w.replace('¿', '/') for w in content]
     content = [w.replace('¡', '<') for w in content]
 */
-    
+void writeTextln (BYTE *texto)
+{
+    writeText (texto);
+    writeText ("^");
+}
 void  writeText (BYTE *texto) 
 {
     BYTE texto_buffer[256];
@@ -2336,6 +2411,7 @@ void  writeSysMessage (BYTE messno)
    writeText (mensajesSistema_t[messno].word);
 }
 
+// Prints a message based on its position in the array 
 void  writeMessage (BYTE messno)
 {
    writeText (mensajes_t[messno].word);
@@ -2377,28 +2453,27 @@ void  clearGraphWindow (BYTE color)
     */
 }
 
-void  clearTextWindow (BYTE color)
+void  clearTextWindow (BYTE color, BYTE clear)
 {
     unsigned char a,b;
     // Posiciona el cursor en la esquina superior-izquierda
     fzx.x = TextWindow.x;
     fzx.y = TextWindow.y;
-
     // Borra la ventana de texto en pantalla.
-    for (b=TextWindow.y;b<TextWindow.height;b++)
+    for (b=TextWindow.y;b<(TextWindow.y+TextWindow.height-1);++b)
     {
-        for (a=TextWindow.x;a<TextWindow.width;a++)
+        for (a=TextWindow.x;a<(TextWindow.x+TextWindow.width);++a)
         {
-            clearchar (a,b,color);
+            if  (clear==TRUE) clearchar (a,b,color);
+                else set_attr (a,b,color);
         }
     }
 }
 
-
 void clearTextLine (BYTE x, BYTE y, BYTE color)
 {
     BYTE a;
-    for (a=31;a>x;a--)
+    for (a=31;a>x;--a)
         clearchar (a, y, color);
 }
 
@@ -2441,7 +2516,7 @@ void getInput ()
    }
    
    playerInput[contador-1]=' ';
-   playerInput[contador]='0';
+   playerInput[contador]=0;
    //playerInput[contador+1]=0;
 }
 
@@ -2546,7 +2621,6 @@ BYTE ACCremove(BYTE objid)
     return FALSE;
 
 }
-
 
 BYTE ACCwear(BYTE objid)
 {
@@ -2686,3 +2760,15 @@ void ACCtakeout(BYTE objid, BYTE obj2id)
 	ACCnewline();
     return TRUE;
 }
+
+void incr16bit (BYTE *pointer)
+{
+    if (pointer[0]==255)
+    {
+        pointer[0]=0;
+        ++pointer[1];
+        return;
+    }
+    ++pointer[0];
+}
+

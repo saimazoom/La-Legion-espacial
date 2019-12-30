@@ -3,7 +3,7 @@
 ;
 ;	Reconstructed for z80 Module Assembler
 ;
-;	Module compile time: Tue Dec 24 21:58:02 2019
+;	Module compile time: Sat Dec 28 15:28:46 2019
 
 
 
@@ -273,6 +273,11 @@
 
 
 
+._drawSprite
+	ret
+
+
+
 ._waitForAnyKey
 	Wait_For_Keys_Pressed:
 	XOR A ; A = 0
@@ -482,14 +487,14 @@
 
 
 ._fzx_setat
-	ld	hl,_fzx+4
+	ld	hl,_fzx
 	push	hl
 	ld	hl,6	;const
 	add	hl,sp
 	ld	a,(hl)
 	pop	de
 	ld	(de),a
-	ld	hl,_fzx+5
+	ld	hl,_fzx+1
 	push	hl
 	ld	hl,4	;const
 	add	hl,sp
@@ -503,10 +508,10 @@
 
 
 ._fzx_putc
-	ld	hl,(_fzx+4)
+	ld	hl,(_fzx)
 	ld	h,0
 	push	hl
-	ld	hl,(_fzx+5)
+	ld	hl,(_fzx+1)
 	ld	h,0
 	push	hl
 	ld	hl,6	;const
@@ -520,10 +525,10 @@
 
 
 ._fzx_puts
-	ld	hl,(_fzx+4)
+	ld	hl,(_fzx)
 	ld	h,0
 	push	hl
-	ld	hl,(_fzx+5)
+	ld	hl,(_fzx+1)
 	ld	h,0
 	push	hl
 	ld	hl,6	;const
@@ -539,7 +544,7 @@
 
 	SECTION	bss_compiler
 
-._fzx	defs	6
+._fzx	defs	2
 	SECTION	code_compiler
 
 
@@ -560,6 +565,8 @@
 	PUBLIC	_waitForNoKey
 	PUBLIC	_setRAMPage
 	PUBLIC	_setRAMBack
+	PUBLIC	_drawGFX
+	PUBLIC	_drawSprite
 	PUBLIC	_fzx_setat
 	PUBLIC	_fzx_putc
 	PUBLIC	_fzx_puts
@@ -655,7 +662,6 @@
 	PUBLIC	_drawHline
 	PUBLIC	_drawline
 	PUBLIC	_drawRectangle
-	PUBLIC	_drawGFX
 	PUBLIC	_getKey
 	PUBLIC	_clearchar
 	PUBLIC	_putpixel

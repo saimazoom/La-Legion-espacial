@@ -41,6 +41,7 @@
 
 PUBLIC _print_string
 PUBLIC _print_char
+PUBLIC _set_attr
 
 ; Fonts
 ; Fonts can be edited easily using the fzx font editor, it can import/export .chr files.
@@ -49,7 +50,9 @@ _reynolds:
 ;BINARY "./res/Reynolds Bold.chr"
 BINARY "./res/Reynolds.chr"
 
+; =====================================================================
 ; extern void print_string (BYTE x, BYTE y, unsigned char *texto);
+; =====================================================================
 _print_string:
             POP BC              ; BC = RET ADDRESS
             POP HL              ; HL = STRING ADDRESS
@@ -75,7 +78,9 @@ Print_String_0:
 			JR Print_String_0		; Loop back to print next character
 			RET
 
+; =====================================================================
 ;extern void __CALLEE__ print_char (BYTE x, BYTE y, unsigned char texto);
+; =====================================================================
  _print_char:
             POP BC              ; BC = RET ADDRESS
             POP HL              ; HL = L = CHARACTER TO BE PRINTED
@@ -205,3 +210,34 @@ Print_Char_1:		LD A,(HL)			; Get the byte from the ROM into A
 			JR NZ,Print_Char_1		; Loop around whilst it is Not Zero (NZ)
 			POP DE
 			RET				; Return from the subroutine
+
+; =====================================================================
+;extern void __CALLEE__ set_attr (BYTE x, BYTE Y, BYTE attr);
+; http://www.breakintoprogram.co.uk/computers/zx-spectrum/screen-memory-layout
+; BYTE *attr = (BYTE*)(0x5800+x+(y*32));  // Dirección base
+; =====================================================================
+
+_set_attr:
+            POP BC              ; BC = RET ADDRESS
+            POP HL              ; HL = L = ATTRIBUTE TO BE SET 
+            POP DE              ; DE = E = BYTE Y. Stack width is 16bits. LITTL ENDIAN
+            LD  A,E				; A = Y
+        	POP DE               ; DE = E = BYTE X
+            PUSH BC             ; PUT THE RETURN ADDRESS BACK in the STACK       
+			LD B,L				; Store in B the attribute value
+								; Calculates the attribute address 
+		    rrca                ; multiply Y by 32.
+       		rrca
+       		rrca
+            LD 	L,A				; Stores A in L 
+			and 3               ; mask bits for high byte.
+       		add a,88            ; 88*256=22528, start of attributes.
+       		ld h,a              ; high byte done.
+       		ld a,l              ; get x*32 again.
+       		and 224             ; mask low byte.
+       		ld l,a              ; put in l.
+       		ld a,e              ; get x displacement.
+       		add a,l             ; add to low byte.
+       		ld l,a              ; hl=address of attributes.
+       		ld (hl),B           ; Write attribute in (HL).
+			RET 
