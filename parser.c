@@ -63,8 +63,8 @@ unsigned char *playerPrompt = "> ";
 extern struct fzx_state fzx;   // active fzx state defined in libgfx
 
 // Global variables exposed to the author for the parsing of the player input
-unsigned char playerInput[80];
-unsigned char playerWord[25];
+unsigned char playerInput[MAX_INPUT_LENGTH]; // Máximo una fila
+unsigned char playerWord[MAX_INPUT_WORD];
 BYTE gWord_number; // Marker for current word, 1st word is 1
 BYTE gChar_number; // Marker for current char, 1st char is 0
 
@@ -1015,12 +1015,13 @@ void ACCinven()
 		}
         if (getObjectLocation(i)==LOCATION_WORN || getObjectLocation(i)==LOCATION_CARRIED)
         {
-            if (count<(objscount-1)) writeText(",");
-            if (count==(objscount-1)) writeText ("y");
+            if (count<(objscount-1)) writeSysMessage (SYSMESS_LISTSEPARATOR); // , 
+            if (count==(objscount-1)) writeSysMessage (SYSMESS_LISTLASTSEPARATOR); // y
         }
 	}
     
-    writeText (".^");
+    writeSysMessage (SYSMESS_LISTEND); //.
+    writeText ("^");
 
 	gDONE_FLAG = TRUE;
 }
@@ -1745,6 +1746,7 @@ void  ACCpicture(BYTE picid)
 	picpos = get_img_pos(picid);
     if (imagenes_t[picpos].page!=0) setRAMPage (imagenes_t[picpos].page);
     dzx7AgileRCS(imagenes_t[picpos].paddr, ((unsigned char*) 16384));
+    //dzx7SmartRCS(imagenes_t[picpos].paddr, ((unsigned char*) 16384));
     if (imagenes_t[picpos].page!=0) setRAMBack();
 }
 
@@ -2492,11 +2494,11 @@ void getInput ()
    BYTE contador=0;
    BYTE caracter=0;
    // Iterates until the player press ENTER
-   memset(playerInput,0,80); // Limpia el buffer
+   memset(playerInput,0,MAX_INPUT_LENGTH); // Limpia el buffer
    gotoxy(TextWindow.x,fzx.y);
    writeText (playerPrompt);
    //writeText("_");
-   while (caracter!=13 && contador<80)
+   while (caracter!=13 && contador<MAX_INPUT_LENGTH)
    {
         caracter = getKey();
         if (caracter!=4) { // Código devuelto al borrar

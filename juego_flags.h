@@ -281,6 +281,7 @@
 #define vDar 61
 #define vPuntos 62
 #define vTurnos 63
+#define vUsar 64 
 
 // Adverbios
 #define adRapidamente 2

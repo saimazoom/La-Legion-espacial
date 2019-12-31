@@ -39,6 +39,7 @@ extern void setRAMPage (BYTE banco);
 extern void setRAMBack();
 extern void drawGFX (BYTE *pointer, BYTE xorig, BYTE yorig);
 extern void drawSprite (BYTE *pointer, BYTE xorig, BYTE yorig, BYTE width, BYTE height);
+extern WORD __CALLEE__ randomNumber(); 
 
 ///////////////////////////////////////////////////////////
 //                  DATA STRUCTURES                      //

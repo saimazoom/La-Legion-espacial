@@ -15,10 +15,13 @@ http://www.breakintoprogram.co.uk/computers/zx-spectrum/memory-map
 
 TODO: 
 Versión 48K
-  - UNDO para el último movimiento 
-  - Autocompletar basado en el texto de la localidad y el inventario 
   - Colores en la fuente cuando habla el ordenador (toda la frase)
   - Scroll vertical con atributos 
+ 
+ Opcional si han entrado todos los gráficos o para la próxima versión:
+  - CURSOR ARRIBA/ABAJO para volver sobre los últimos 5 comandos...
+  - Autocompletar basado en el texto de la localidad y el inventario 
+  - UNDO para el último movimiento 
   - Funciones de dibujador de líneas para añadir efectos gráficos o implementar un formato similar a PAWS de dibujado.
   - Implementar atrezzo:
     Object atrezzo_blaus_porche blaus_porche
@@ -35,24 +38,40 @@ Versión 48K
         'ventanal' "Mosaico multicolor en la primera planta y sencillas en el desván." G_MASCULINO
         'ventanales' "Mosaico multicolor en la primera planta y sencillas en el desván." G_MASCULINO+G_PLURAL;
 
+31 Diciembre 2019
+Prueba de juego con Dani:
++ x panel no examina el panel de control en el puente de mando.
++ El ordenador tararea una canción al comenzar el juego
++ tocar panel 
+En la esclusa:
++x controles no da elmensaje correcto sobre los botones
++x controles devuelve el mismo mensaje que abrir esclusa 
++ ir edificio funciona pero falta el DONE
++ activar teclado no explica como funciona.
++ Al teclear la contraseña correcta no da tiempo a ver el mensaje
++ Texto duplicado en zonaA1 
++ Al listar inventario "y" no tiene espacios.
++ Esperar no funciona. 
++ Mensaje de error al input si el cañón supera el número de intentos...
++ Todas las pantallas completadas, pero me he pasado de memoria! ... 42067bytes!
+
+He eliminado la pantalla de Europa y ha bajado a 41251bytes y estamos dentro de nuevo con todas las ilustraciones. 
+
+Europa son sólo 700bytes, ¿puedo sacarlos de alguna parte...?
+
+Después de simplificar un poco algunas de las pantallas (tirando de niebla) estamos en 41063bytes y puedo decir que la aventura está completa.
+
+> Generar TAP con pantalla de carga...
+
+
 30 Diciembre 2019 
 > 39199bytes y necesito meter todavía 3 dibujos (aprox 3Kb)...
 Sólo cambiando todos los a++ por ++a: 39143bytes 
 + Añadidos comandos de turnos y puntos. 
 + Textos revisados
 
-Prueba de juego con Dani:
-- x panel no examina el panel de control en el puente de mando.
-- Introducir antes que podemos hablar con el ordenador 
-En la esclusa:
--x controles no da elmensaje correcto sobre los botones
--x controles devuelve el mismo mensaje que abrir esclusa 
-- ir edificio funciona pero falta el DONE
-- activar teclado no explica como funciona.
-- Al teclear la contraseña correcta no da tiempo a ver el mensaje
-- Texto duplicado en zonaA1 
-- Al listar inventario "y" no tiene espacios.
-- Esperar no funciona. 
+39389bytes (max 41000bytes)
+
 
 29 Diciembre 2019
 > Reorganizo las estructuras para los mensajes del ordenador. 

@@ -46,6 +46,9 @@ extern BYTE gChar_number; // Marker for current char, 1st char is 0
 
 // Tabla de imágenes del juego
 extern unsigned char *L01_img;
+extern unsigned char *L02_img;
+extern unsigned char *L03_img;
+extern unsigned char *L04_img;
 extern unsigned char *L05_img;
 extern unsigned char *L06_img;
 extern unsigned char *L07_img;
@@ -54,10 +57,16 @@ extern unsigned char *Europa_img;
 #asm
 _L01_img:
 BINARY "./res/lPuente07.scr.rcs.zx7"
+_L02_img:
+BINARY "./res/lnode1.scr.rcs.zx7"
+_L03_img:
+BINARY "./res/lEsclusa.scr.rcs.zx7"
+_L04_img:
+BINARY "./res/lBodega01.scr.rcs.zx7"
 _L05_img:
-BINARY "./res/lExterior.scr.rcs.zx7"
+BINARY "./res/lExterior03.scr.rcs.zx7"
 _L06_img:
-BINARY "./res/lEntrada.scr.rcs.zx7"
+BINARY "./res/lEntrada03.scr.rcs.zx7"
 _L07_img:
 BINARY "./res/lzonaA1.scr.rcs.zx7"
 _Europa_img:
@@ -67,9 +76,9 @@ BINARY "./res/Europa.scr.rcs.zx7"
 // id, page, memory pointer
 img_t imagenes_t [] = {
     { 1,0, L01_img},   
-    { 2,0, Europa_img},   
-    { 3,0, Europa_img},   
- 	{ 4,0, Europa_img},   
+    { 2,0, L02_img},   
+    { 3,0, L03_img},   
+ 	{ 4,0, L04_img},   
     { 5,0, L05_img},   
     { 6,0, L06_img},   
     { 7,0, L07_img},   
@@ -98,13 +107,13 @@ img_t imagenes_t [] = {
 
 loc_t localidades_t [] =
 {
-	{"Puente de mando","Los instrumentos de navegación iluminan el puente de mando de la nave. En el exterior, una tormenta de hielo se abate sobre la superficie de Europa. ",lPuente, FALSE, 0x00000000},
+	{"Puente de mando","Los instrumentos de navegación iluminan el puente de mando. En el exterior, una tormenta de hielo se abate sobre la superficie de Europa. ",lPuente, FALSE, 0x00000000},
 	{"Nodo central ","Los módulos de la nave están en penumbra. El nodo central conecta con el puente de mando, la esclusa al oeste y la bodega al sur. ",lNodo, FALSE, 0x00000000},
 	{"Esclusa","En la esclusa se escucha con intensidad la tormenta golpeando contra el fuselaje. Las sombras crean formas siniestras en los trajes de exploración. ",lEsclusa, FALSE, 0x00000000},
 	{"Bodega de carga","La zona de carga tiene espacio suficiente para atender pequeños envíos entre particulares. En la sombras hay varios paquetes que esperan su entrega. ", lBodega, FALSE, 0x00000000},
 	{"Exterior","Me envuelve una tormenta de nieve y cristales de hielo que me impide ver en la distancia. Al oeste se distingue un edificio que podría ser la entrada del almacén.",lExterior, FALSE, 0x00000000},
     {"Entrada al almacén","Una mole de metal se encuentra enclavada en la superficie helada de Europa. ",lAlmacen, FALSE, 0x00000000},
-    {"Zona A1","Las monótonas estanterías repletas de contenedores blancos crean una atmósfera impersonal. Al oeste un oscuro pasillo da acceso al oeste da acceso a una sala roja.",lZonaA1, FALSE, 0x00000000},
+    {"Zona A1","Las monótonas estanterías repletas de contenedores blancos crean una atmósfera impersonal. Al oeste un oscuro pasillo da acceso a una sala roja.",lZonaA1, FALSE, 0x00000000},
     {"Zona A2","El pasillo termina en una sala abovedada iluminada en rojo. Las monótonas estanterías prosiguen su curso con más contenedores blancos perfectamente ordenados.",lZonaA2, FALSE, 0x00000000},
     {"","",0, FALSE, 0x00000000}
 };
@@ -446,6 +455,7 @@ token_t nombres_t [] =
 	{"panta", nPantalla},
 	{"instr", nPantalla},
 	{"contr", nControles},
+	{"panel", nPantalla},
 	{"",0}
 };
 
@@ -536,10 +546,12 @@ token_t verbos_t [] =
 	{"BEBE",	39},
 	{"BEBET",	39},
 	{"BEBER",	39},
-	{"TOCAR",	40},
-	{"TOCA",	40},
-	{"ACARI",	40},
-	{"PALPA",	40},
+	*/
+	{"tocar",	vTocar},
+	{"toca",	vTocar},
+	{"acari",	vTocar},
+	{"palpa",	vTocar},
+	/*
 	{"SALID",	41},
 	{"EXITS",   41},
 	{"X",		41},
@@ -796,6 +808,9 @@ token_t verbos_t [] =
 	{"punto", vPuntos},
 	{"score", vPuntos},
 	{"turno", vTurnos},
+	{"usa", vUsar},
+	{"usar", vUsar},
+	{"activ", vUsar},
     {"",0}
 };
 
@@ -1324,7 +1339,7 @@ if (flocalidad == lEsclusa)
 	if (fverbo==vCerrar && fnombre1==nEsclusa) { ACCmessage(25); DONE; }
 	if (fverbo==vExaminar)
 		{			
-			if (fnombre1==nEsclusa || fnombre1==nCompu)
+			if (fnombre1==nEsclusa || fnombre1==nCompu || fnombre1==nControles)
 			{
 				ACCmes(21);
 				// Aparecen listados...
@@ -1333,7 +1348,6 @@ if (flocalidad == lEsclusa)
 				if (CNDonotzero(oEsclusa, aOpen)) { ACCmessage(23); DONE; }
 					else { ACCmessage(22); DONE; }
 			}
-			if (fnombre1==nControles) { ACCmessage(24); DONE; }
 			if (fnombre1==nBoton) 
 			{
 				if (fadjetivo1==aVerde) { ACCmessage (26); DONE; }
@@ -1421,10 +1435,12 @@ if (flocalidad==lExterior)
 			if (fnombre1==nNave) 
 			{
 				ACCgoto (lEsclusa);
+				DONE;
 			}	
 			if (fnombre1==nAlmacen || fnombre1==nMole || fnombre1==nEdificio)
 			{
 				ACCgoto (lAlmacen);
+				DONE;
 			}
 		}
 
@@ -1506,13 +1522,22 @@ if (flocalidad==lEntrada)
 		}	
 		DONE;
 	}
-		
+	
+	if (fverbo==vUsar && fnombre1==nTeclado) { ACCwriteln ("Debo teclear la contraseña correcta en el teclado."); DONE; }
+
 	if (fverbo==vTeclear) fverbo=vEscribir;
 	if (fverbo==vEscribir)
 	{
-		if (fnombre2==EMPTY_WORD) { fnombre2=nTeclado; ACCmes(183); }
-		if (fnombre2==nTeclado)
+		if (fnombre2==EMPTY_WORD && CNDpresent(oTeclado)) { fnombre2=nTeclado; ACCmes(183); }
+		if (fnombre2==nTeclado && CNDpresent(oTeclado))
 		{
+			if (CNDabsent(oCanon) && CNDozero (oPuerta, aOpen)) 
+			{
+				ACCplace(oCanon, lEntrada);
+				ACCmessage(40);
+				DONE;
+			}
+
 			// Si ya está abierta...
 			if (CNDpresent(oTeclado) && CNDonotzero(oPuerta, aOpen))
 			{
@@ -1529,12 +1554,12 @@ if (flocalidad==lEntrada)
 					ACCplace (oCanon, LOCATION_NOTCREATED);
 					ACCsetexit (lEntrada, nOeste, lZonaA1);
 					ACCsetexit (lEntrada, nEntrar, lZonaA1);
+					ACCanykey();
 					ACCdesc();
 					DONE;
 				}	
 			}
 
-			// Clave incorrecta...
 			if (CNDpresent(oTeclado) && CNDpresent(oCanon)) 
 			{
 				ACCmes (185);
@@ -1544,8 +1569,18 @@ if (flocalidad==lEntrada)
 					ACCmessage (186+flags[fCanon]);
 					DONE;
 				} 
+				if (flags[fCanon]==3)
+				{
+					ACCmessage (189);
+					ACCanykey();
+					ACCmessage (190);
+					flags[fCanon]=0;
+					DONE;
+				} 
+				
 				// Ha excedido el número de intentos
-				ACCmessage(41);				
+				ACCmessage(41);			
+				DONE;	
 			}
 		}
 	}
@@ -1708,7 +1743,8 @@ char respuestas_post()
 
 	if (fverbo==vPuntos) { ACCscore(); DONE; }
 	if (fverbo==vTurnos) { ACCturns(); DONE; }
-
+	if (fverbo==vEsperar) { writeSysMessage (35); DONE; }
+	if (fverbo==vTocar || fverbo==vOler) { ACCmessage (56); DONE; }
 	// Si ninguna acción es válida...
     ACCsysmess(SYSMESS_IDONTUNDERSTAND);
     newLine();
@@ -1737,6 +1773,9 @@ char proceso1() // Antes de la descripción de la localidad...
 
 char proceso1_post() // Después de la descripción
 {
+	if (CNDat (lPuente) && !localidades_t[0].visited)
+		ACCwriteln ("El ordenador de navegación parece estar tarareando una canción.");
+
  //setRAMPage(0);
  // Usar proceso en otras páginas require compilar código por separado
  //proceso1_post_pagina0();

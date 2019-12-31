@@ -7,6 +7,7 @@ struct fzx_state fzx;   // active fzx state
 
 void setRAMPage (BYTE banco)
 {
+/*
     #asm
 ;-----------------------------------------------------------------------
 ; SetRAMPage: Establece un banco de memoria sobre $c000
@@ -26,11 +27,12 @@ void setRAMPage (BYTE banco)
      out    (C), A
 ;     ret
     #endasm
+*/
 }
 
 void setRAMBack()
 {
-
+/*
 #asm
     ld      A, ($5B5C)
     and     $F8
@@ -43,7 +45,7 @@ void setRAMBack()
     ;ld i,a
     ;ei
 #endasm
-
+*/
 }
 
 
@@ -321,6 +323,48 @@ void waitForNoKey()
        INC A
        JR NZ, Wait_For_Keys_NotPressed
 #endasm
+}
+
+// Produces a random number between 0-65535
+WORD randomNumber()
+{
+     /*
+#asm
+     ; http://wikiti.brandonw.net/index.php?title=Z80_Routines:Math:Random
+     ; Xorshift is a class of pseudorandom number generators discover by George Marsaglia and detailed in his 2003 paper, Xorshift RNGs. 
+     ; 16-bit xorshift pseudorandom number generator by John Metcalf
+     ; 20 bytes, 86 cycles (excluding ret)
+     ; returns   hl = pseudorandom number
+     ; corrupts   a
+     ; generates 16-bit pseudorandom numbers with a period of 65535
+     ; using the xorshift method:
+     ; hl ^= hl << 7
+     ; hl ^= hl >> 9
+     ; hl ^= hl << 8
+     ; some alternative shift triplets which also perform well are:
+     ; 6, 7, 13; 7, 9, 13; 9, 7, 13.
+
+xrnd:
+     ld hl,1       ; seed must not be 0
+     ld a,h
+     rra
+     ld a,l
+     rra
+     xor h
+     ld h,a
+     ld a,l
+     rra
+     ld a,h
+     rra
+     xor l
+     ld l,a
+     xor h
+     ld h,a
+
+     ld (xrnd+1),hl
+     RET
+#endasm
+*/
 }
 
 unsigned char getKey()

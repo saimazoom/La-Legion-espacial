@@ -69,6 +69,8 @@
 #define NO_EXIT 255  // If an exit does not exist, its value is this value
 #define MAX_CHANNELS 2 // Number of SFX channels
 #define STR_NEWLINE "^"
+#define MAX_INPUT_LENGTH 32
+#define MAX_INPUT_WORD 25
 
 // Object attributes
 // Indicates the bit number in HEX...
