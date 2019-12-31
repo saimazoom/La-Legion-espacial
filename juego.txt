@@ -254,3 +254,4 @@
 "Release 4 ^"
 "Agradecimientos a aa@zdk.org y Carlos Sánchez (UTO)"
 "Compresión de gráficos con ZX7 por Einar Saukas"
+"Reynolds font by DamienG https://damieng.com/zx-origins"
