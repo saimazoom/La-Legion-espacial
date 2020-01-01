@@ -2,7 +2,7 @@
 ZHL
 =========================
 
-Eres Tod Connor un repartido que trabaja para ZHL, una empresa multiplanetaria de recogida y entrega de paquetes en el siglo XXIV. Has recibido el encargo de recoger un misterioso paquete de un almacén en uno de los satélites de Júpiter. Pero como siempre todo sale mal.
+Eres Tod Connor un repartidor que trabaja para ZHL, una empresa multiplanetaria de recogida y entrega de paquetes en el siglo XXIV. Has recibido el encargo de recoger un misterioso paquete de un almacén en uno de los satélites de Júpiter. Pero todo se complica.
 
 Una aventura de ciencia ficción creada por KMBR
 

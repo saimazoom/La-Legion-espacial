@@ -1832,7 +1832,7 @@ while (1)
 				writeTextln ("Release 4 ^");
 				writeTextln ("Agradecimientos a aa@zdk.org y Carlos Sánchez (UTO)");
 				writeTextln ("Compresión de gráficos con ZX7 por Einar Saukas");
-				writeTextln ("Reynolds font by DamienG https://damieng.com/zx-origins");
+				writeTextln ("Reynolds font by DamienG");
 				waitForAnyKey();
 				main();
 				break;
