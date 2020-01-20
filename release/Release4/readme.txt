@@ -12,7 +12,8 @@ Reynolds font by DamienG https://damieng.com/zx-origins
 Compresión de gráficos con ZX7 lib escrita por Einar Saukas 
 Compilado en Z88DK v1.99b
 
-This work is under a CC BY-NC-ND  Attribution-NonCommercial-NoDerivs License 
+This work is under a CC BY-NC-ND  Attribution-NonCommercial-NoDerivs License
+https://creativecommons.org/licenses/by-nc-nd/4.0/ 
 
 (c) 2019 KMBR 
 
