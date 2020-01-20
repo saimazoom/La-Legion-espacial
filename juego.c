@@ -1,7 +1,7 @@
 // ZHL. Escrita por KMBR.
 // 2016-2019 KMBR
-// This code is licensed under a Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)  license.
-// http://creativecommons.org/licenses/by-nc-sa/4.0/
+// This code is licensed under a Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) 
+// https://creativecommons.org/licenses/by-nc-nd/4.0/
 
 //#include <stdio.h>
 #include <string.h>
