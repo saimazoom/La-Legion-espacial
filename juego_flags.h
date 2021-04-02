@@ -171,7 +171,7 @@ Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) ç
 #define nIndicador 184 
 #define nFuera 182
 #define nExterior 182
-
+#define nSombra 183
 
 // Verbos que funcionan como nombres < 20
 

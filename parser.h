@@ -20,7 +20,7 @@ FASTCALL: https://www.z88dk.org/forum/viewtopic.php?id=8848
 // Parser Structures
 typedef struct {
         unsigned char id;
-        unsigned char page; // Página de RAM
+        unsigned char page; // Pï¿½gina de RAM
         unsigned char *paddr; // Puntero a la memoria
 } img_t;
 
@@ -55,11 +55,11 @@ typedef struct
 		BYTE vnombre; // Nombre de Vocabulario
 		BYTE vadj1;   // Adjetivo de Vocabulario
 		unsigned char peso;
-		unsigned long int atributos; // 32bit
+		unsigned long int atributos; // 32bit, 4bytes
     } obj_t;
 
 // Window properties
-// Values are characters for rows and cols *not in píxel*
+// Values are characters for rows and cols *not in pï¿½xel*
 typedef struct
     {
         BYTE x;
@@ -93,8 +93,8 @@ extern BYTE __FASTCALL__ CNDpresent(BYTE objno);
 extern BYTE __FASTCALL__ CNDabsent(BYTE objno);
 extern BYTE __FASTCALL__ CNDworn(BYTE objno);
 extern BYTE __FASTCALL__ CNDnotworn(BYTE objno);
-extern BYTE CNDozero(BYTE objno, unsigned long int attrno);
-extern BYTE CNDonotzero(BYTE objno, unsigned long int attrno);
+extern BYTE CNDozero(BYTE objno, BYTE attrno);
+extern BYTE CNDonotzero(BYTE objno, BYTE attrno);
 extern BYTE CNDweight();
 extern BYTE CNDisat(BYTE objid, BYTE locid);
 extern BYTE CNDisnotat(BYTE objid, BYTE locid);
@@ -123,9 +123,9 @@ extern void __FASTCALL__ ACCgoto(BYTE locno);
 extern void ACCweigh(BYTE objno, BYTE flagno);
 extern void ACClistat (BYTE locno, BYTE container_objno);
 extern BYTE __FASTCALL__ ACCobjat (BYTE locid);
-extern void ACCoset(BYTE objid, unsigned long int attrno);
-extern void ACCoclear(BYTE objid, unsigned long int attrno);
-extern void ACConeg(BYTE objid, unsigned long int attrno);
+extern void ACCoset(BYTE objid, BYTE attrno);
+extern void ACCoclear(BYTE objid, BYTE attrno);
+extern void ACConeg(BYTE objid, BYTE attrno);
 extern void ACClistobj();
 extern void ACCplace(BYTE objid, BYTE locno);
 extern void ACCend();
@@ -169,7 +169,7 @@ BYTE getObjectCountAtWithAttr(BYTE locno, unsigned long int attrno);
 BYTE __FASTCALL__ getNPCCountAt(BYTE locno);
 BYTE __FASTCALL__ objectIsSupporter (BYTE objno);
 BYTE __FASTCALL__ objectIsContainer (BYTE objno);
-BYTE objectIsAttr (BYTE objno, unsigned long int att);
+BYTE objectIsAttr (BYTE objno, BYTE att);
 BYTE __FASTCALL__ objectIsNPC(BYTE objno);
 extern BYTE __FASTCALL__ get_loc_pos (BYTE locid);
 extern BYTE __FASTCALL__ get_img_pos (BYTE imgid);

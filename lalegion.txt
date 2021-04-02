@@ -12,6 +12,51 @@ Links:
 Spectrum memory map:
 http://www.breakintoprogram.co.uk/computers/zx-spectrum/memory-map
 
+02.04.2021
+ - Al definir una ventana de texto que comienza en 0,0 de las primeras líneas sólo se imprime el primer caracter
+ - No se utiliza la última columna al imprimir los textos 
+
+ + La descripción del estado de la puerta al usar el teclado no es correcta 
+ + Confusión entre las palabras 'clave' y 'código' en algunas partes del juego 
+
+Descripciones que faltan:
+ En el puente 
+  + x Europa 
+En la esclusa 
+  + x fuselaje
+  + x sombras 
+En el exterior 
+   +x Europa 
+   +x tormenta 
+   +x jupiter 
++Añadido comando, password y contraseña como sinónimo de clave   
+
+01.04.2021 
+
+ Cuantas cosas han pasado en este año y cuatro meses. La pandemía ha cambiado toda la sociedad, eso sí que es un buen guión de SciFi. 
+Los repartidores se han convertido en las conexiones de la sociedad, qué habría sido sin los servicios de reparto a domicilio durante estos meses pasados y las temporadas de prisión domicialiaria obligatoria.
+
+ El caso es que ZHL ha salido comentado en CAAD#53 y han señalado algunos fallos de jugabilidad que quiero corregir. (¡Gracias Balta!)
+ + Al terminar una partida el estado del juego no se reinicia, esto es debido a que el estado de los objetos está en RAM y se pierde
+ el estado inicial definido en la compilación. 
+ + Los comandos de depuración han sido nukeados en la última compilación :-?, quizá por las prisas..., 
+  > Comandos de depuración funcionan de nuevo
+ > Añadido un modo sin gráficos cuando la macro GRAPHICS no está presente 
+ + Bug arreglado en ACCPLACE que ignoraba LOCATION_HERE y LOCATION_NONCREATED 
+ + Optimizada la definición de atributos, 1 byte para indicar el número de bit en lugar de usar 4 bytes cada vez que se usa un atributo, con un ahorro de casi 400 bytes en el parser
+ + Bug en ACCoclear 
+    ! El compilador no hace bitshift en 32bit usando una variable como entrada 
+      Esto no funciona:
+       writeValue (attrno); // 31
+       mask^=0x00000001<<attrno;
+     pero esto si:
+       writeValue (attrno); // 31
+       mask^=0x00000001<<31;
+    el patch es convertir attrno también a un longint
+       writeValue (attrno); // 31
+       mask^=0x00000001<<(unsigned long int)attrno;
+    
+ > Eliminado el sinónimo computador pues coincide en las primeras cinco letras de compuerta
 
 TODO: 
 Versión 48K
@@ -22,21 +67,7 @@ Versión 48K
   - CURSOR ARRIBA/ABAJO para volver sobre los últimos 5 comandos...
   - Autocompletar basado en el texto de la localidad y el inventario 
   - UNDO para el último movimiento 
-  - Funciones de dibujador de líneas para añadir efectos gráficos o implementar un formato similar a PAWS de dibujado.
-  - Implementar atrezzo:
-    Object atrezzo_blaus_porche blaus_porche
-    class decorado
-    with describir 
-        'ruedas' "Llevan bastantes kilómetros encima." G_FEMENINO+G_PLURAL
-        'rueda' "" G_FEMENINO
-        'parachoques' "" G_MASCULINO + G_PLURAL
-        'capota' "" G_FEMENINO
-        'techo' "" G_MASCULINO
-        'cerradura' "" G_FEMENINO
-        'ventana' "Mosaico multicolor en la primera planta y sencillas en el desván." G_FEMENINO
-        'ventanas' "Mosaico multicolor en la primera planta y sencillas en el desván." G_FEMENINO+G_PLURAL
-        'ventanal' "Mosaico multicolor en la primera planta y sencillas en el desván." G_MASCULINO
-        'ventanales' "Mosaico multicolor en la primera planta y sencillas en el desván." G_MASCULINO+G_PLURAL;
+  + Funciones de dibujador de líneas para añadir efectos gráficos o implementar un formato similar a PAWS de dibujado.
 
 31 Diciembre 2019
 Prueba de juego con Dani:

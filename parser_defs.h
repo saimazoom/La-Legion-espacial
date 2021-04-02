@@ -73,48 +73,105 @@
 #define MAX_INPUT_WORD 25
 
 // Object attributes
-// Indicates the bit number in HEX...
-#define aLight  	0x00000001
+// Indicates the bit number (0...31)
+#define aLight  	  0
+#define aLight_hex  0x00000001
 // aWear: The object can be weared.
-#define aWear   	0x00000002
+#define aWear   	  1
+#define aWear_hex   0x00000002
 // aContainer: The object can contain things. Additionally it can be also a supporter.
-#define aContainer  0x00000004
-#define aNPC        0x00000008
+#define aContainer  2
+#define aContainer_hex 0x00000004
+#define aNPC        3
+#define aNPC_hex 0x00000008
 // Concealed is a hidden object that can be manipulated
-#define aConcealed  0x00000010
-#define aEdible     0x00000020
-#define aDrinkable  0x00000040
-#define aEnterable  0x00000080
-#define aFemale     0x00000100
-#define aLockable   0x00000200
-#define aLocked     0x00000400
-#define aMale       0x00000800
-#define aNeuter     0x00001000
-#define aOpenable   0x00002000
+#define aConcealed  4
+#define aConcealed_hex 0x00000010
+
+#define aEdible     5
+#define aEdible_hex 0x00000020
+
+#define aDrinkable  6
+#define aDrinkable_hex 0x00000040
+
+#define aEnterable  7
+#define aEnterable_hex  0x00000080
+
+#define aFemale     8
+#define aFemale_hex 0x00000100
+
+#define aLockable   9
+#define aLockable_hex 0x00000200
+
+#define aLocked     10
+#define aLocked_hex 0x00000400
+
+#define aMale       11
+#define aMale_hex   0x00000800
+
+#define aNeuter       12
+#define aNeuter_hex   0x00001000
+
+// aOpenable =1 -> The object can be opened. OPEN/CLOSE commands will change its status.
+#define aOpenable     13
+#define aOpenable_hex 0x00002000
+
 // aOpen = 1 -> OPEN, aOpen =0 -> CLOSE
-#define aOpen       0x00004000
-#define aPluralName 0x00008000
-#define aTransparent 0x00010000
-// Scenery: An object which is concealed and not manipulated just examined (Concealed+Scenery).
-#define aScenery    0x00020000
-#define aSupporter  0x00040000
-#define aSwitchable 0x00080000
+#define aOpen       14
+#define aOpen_hex   0x00004000 
+
+// aPluralName = 1, when listed plural article is used
+#define aPluralName 15
+#define aPluralName_hex  0x00008000
+
+#define aTransparent 16
+#define aTransparent_hex 0x00010000
+
+// Scenery: An object which is concealed, present and cannot manipulated just examined (Concealed+Scenery).
+#define aScenery    17
+#define aScenery_hex 0x00020000
+
+#define aSupporter  18
+#define aSupportex_hex 0x00040000
+
+#define aSwitchable 19
+#define aSwitchable_hex 0x00080000
+
 // aOn =1 -> ON, aON=0 -> OFF
-#define aOn         0x00100000
-// Static: An object which cannot be manipulated
-#define aStatic     0x00200000
-#define aExamined   0x00400000
-#define aTaken      0x00800000
-#define aDropped    0x01000000
-#define aVisited    0x02000000
-#define aTalked     0x04000000
-#define aWore       0x08000000
-#define aEaten      0x10000000
-// The parser does not add the article
-#define aPropio     0x20000000
-// The parser adds the article
-// In spanish: el,la, los, las 
-#define aDeterminado 0x40000000
+#define aOn         20
+#define aOn_hex     0x00100000
+// Static: An object which cannot be manipulated but is present in the location and listed
+#define aStatic     21
+#define aStatic_hex 0x00200000
+
+#define aExamined   22
+#define aExamined_hex  0x00400000
+
+#define aTaken      23
+#define aTaken_hex 0x00800000
+
+#define aDropped    24
+#define aDropped_hex 0x01000000
+
+#define aVisited    25
+#define aVisited_hex 0x02000000
+
+#define aTalked     26
+#define aTalked_hex 0x04000000
+
+#define aWore       27
+#define aWore_hex  0x08000000
+
+#define aEaten      28
+#define aEaten_hex 0x10000000
+// The parser does not add the article, in example for a character's name
+#define aPropio     29
+#define aPropio_hex 0x20000000
+
+// The parser adds the definitive article, the object is known.
+// In spanish: el,la, los, las, in English: the  
+#define aDeterminado 31
+#define aDeterminado_hex 0x80000000
 
 // Definición de FLAGS del PARSER...
 

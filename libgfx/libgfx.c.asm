@@ -3,7 +3,7 @@
 ;
 ;	Reconstructed for z80 Module Assembler
 ;
-;	Module compile time: Sat Dec 28 15:28:46 2019
+;	Module compile time: Thu Apr 01 23:15:42 2021
 
 
 
@@ -17,38 +17,11 @@
 
 
 ._setRAMPage
-	;-----------------------------------------------------------------------
-	; SetRAMPage: Establece un banco de memoria sobre $c000
-	; Entrada: B = banco (0-7) a paginar entre $c000-$ffff
-	;-----------------------------------------------------------------------
-	; Extra�do del Manual de Usuario de Spectrum, P�gina 221
-	;
-	ld hl, $0002
-	add hl, sp
-	ld a, (hl) ; A= Banco
-	ld b, a
-	ld A, ($5B5C)
-	and $F8
-	or B
-	ld BC, $7FFD
-	ld ($5B5C), A
-	out (C), A
-	; ret
 	ret
 
 
 
 ._setRAMBack
-	ld A, ($5B5C)
-	and $F8
-	ld BC, $7FFD
-	di
-	ld ($5B5C), A
-	out (C), A
-	ei
-	;ld a,$0F0
-	;ld i,a
-	;ei
 	ret
 
 
@@ -164,106 +137,6 @@
 
 
 ._clsScreen
-	ld	hl,2	;const
-	add	hl,sp
-	ld	l,(hl)
-	ld	h,0
-.i_4
-	ld	a,l
-	cp	#(0% 256)
-	jp	z,i_5
-	cp	#(1% 256)
-	jp	z,i_6
-	jp	i_3
-.i_5
-	ld hl, $4000 ; Inicio de la memoria de video
-	ld b, 32 ; 32bytes por l�nea
-	ld c, $00 ; Contador de fila de caracteres
-	ld d, 4 ; 4 l�neas por caracter (alternas)
-	ld e, 0 ; Contador de tercios..
-	inicio: ld (hl), $FF ; Pone el Caracter actual a todo 1
-	inc l ; Avanza 1 caracter a la derecha...
-	dec b ; Decrementa el contador
-	jr nz, inicio ; 32 veces...
-	inc h
-	inc h ; Salta 2 scanlines
-	ld l, 0 ; Vuelve el contador de columnas a 0
-	ld a, l
-	add a, c ; A�ade la fila
-	ld l, a
-	ld b, 32 ; 32 caracteres para la siguiente fila...
-	dec d ; Contador de l�neas del caracter...
-	halt
-	jr nz, inicio ; Se termina la fila de caracteres actual...
-	ld a, e
-	ld h, $40
-	add a, h
-	ld h, a
-	ld d, 4
-	ld a, $20 ; Para sumar 1 al contador de filas...
-	add a, c ; Suma 1 al contador de filas...
-	ld c, a
-	ld l, a ; La parte baja de HL contiene ZZZ00000
-	jr nc, inicio ; Fin de Tercio
-	ld c, $00
-	ld l, 0
-	ld b, 32
-	ld a, e
-	add a, 8 ; Incrementa el contador de tercios
-	ld e, a
-	ld h, $40 ; Reinicia el contador de scanlines...
-	add a, h ; H+E
-	ld h, a
-	cp $58
-	jr nz, inicio
-	jp	i_3
-.i_6
-	ld hl, 22496 ; Inicio de la pen�ltima l�nea de la memoria de video
-	ld b, 32 ; 32bytes por l�nea
-	ld c, $E0 ; Contador de fila de caracteres
-	ld d, 4 ; 4 l�neas por caracter (alternas)
-	ld e, $10 ; Contador de tercios..., Tercer Tercio
-	inicio2:
-	ld (hl), $FF ; Pone el Caracter actual a todo 1
-	inc l ; Avanza 1 caracter a la derecha...
-	dec b ; Decrementa el contador
-	jr nz, inicio2 ; 32 veces...
-	dec h
-	dec h ; Salta 2 scanlines
-	ld l, 0 ; Vuelve el contador de columnas a 0
-	ld a, l
-	add a, c ; A�ade la fila de caracteres
-	ld l, a
-	ld b, 32 ; 32 caracteres para la siguiente fila...
-	dec d ; Contador de l�neas del caracter...
-	halt
-	jr nz, inicio2 ; Se termina la fila de caracteres actual...
-	ld a, e
-	ld h, $47 ; Pen�ltimo Scanline...
-	add a, h
-	ld h, a ; H = 0x46 + E
-	ld d, 4
-	ld a, c ; Para sumar 1 al contador de filas...
-	sub a, $20 ; Resta 1 al contador de filas...
-	ld c, a
-	ld l, a ; La parte baja de HL contiene ZZZ00000
-	jr nc, inicio2 ; Fin de Tercio
-	ld c, $E0
-	ld l, c
-	ld b, 32
-	ld a, e
-	sub a, 8 ; Decrementa el contador de tercios
-	jr c, fin ; Si sale un n�mero < 0
-	ld e, a
-	ld h, $47 ; Reinicia el contador de scanlines...
-	add a, h ; H+E
-	ld h, a
-	jr inicio2
-	fin: nop
-.i_3
-	pop	de
-	pop	bc
-	push	de
 	ret
 
 
@@ -274,6 +147,13 @@
 
 
 ._drawSprite
+	pop	de
+	pop	bc
+	pop	bc
+	pop	bc
+	pop	bc
+	pop	bc
+	push	de
 	ret
 
 
@@ -296,6 +176,11 @@
 	OR 224
 	INC A
 	JR NZ, Wait_For_Keys_NotPressed
+	ret
+
+
+
+._randomNumber
 	ret
 
 
@@ -349,106 +234,35 @@
 
 
 ._clearchar
-	dec	sp
-	ld	hl,5	;const
+	ld	hl,6	;const
 	add	hl,sp
 	ld	l,(hl)
 	ld	h,0
-	ld	a,l
-	and	24
-	ld	l,a
-	ld	h,l
-	ld	l,0
-	set	6,h
 	push	hl
-	ld	hl,7	;const
+	ld	hl,6	;const
 	add	hl,sp
 	ld	l,(hl)
 	ld	h,0
-	ld	a,l
-	and	7
-	ld	l,a
-	ld	h,0
-	add	hl,hl
-	add	hl,hl
-	add	hl,hl
-	add	hl,hl
-	add	hl,hl
-	pop	de
-	call	l_or
-	ex	de,hl
-	ld	hl,9-2	;const
-	add	hl,sp
-	ld	l,(hl)
-	ld	h,0
-	call	l_or
 	push	hl
-	ld	hl,9	;const
+	ld	hl,32 % 256	;const
+	push	hl
+	call	_print_char
+	ld	hl,6	;const
 	add	hl,sp
 	ld	l,(hl)
 	ld	h,0
-	ld	de,22528
-	add	hl,de
 	push	hl
-	ld	hl,9	;const
+	ld	hl,6	;const
 	add	hl,sp
 	ld	l,(hl)
 	ld	h,0
-	ld	de,32
-	call	l_mult
-	pop	de
-	add	hl,de
 	push	hl
-	ld	hl,4	;const
+	ld	hl,6	;const
 	add	hl,sp
-	ld	(hl),#(0 % 256 % 256)
 	ld	l,(hl)
 	ld	h,0
-	jp	i_9
-.i_7
-	ld	hl,4	;const
-	add	hl,sp
-	inc	(hl)
-	ld	l,(hl)
-	ld	h,0
-	dec	l
-.i_9
-	ld	hl,4	;const
-	add	hl,sp
-	ld	a,(hl)
-	cp	#(8 % 256)
-	jp	z,i_8
-	jp	nc,i_8
-	ld	hl,2	;const
-	call	l_gintspsp	;
-	ld	hl,0 % 256	;const
-	pop	de
-	ld	a,l
-	ld	(de),a
-	pop	bc
-	pop	hl
 	push	hl
-	push	bc
-	ld	bc,256
-	add	hl,bc
-	pop	de
-	pop	bc
-	push	hl
-	push	de
-	jp	i_7
-.i_8
-	ld	hl,0	;const
-	call	l_gintspsp	;
-	ld	hl,9	;const
-	add	hl,sp
-	ld	a,(hl)
-	pop	de
-	ld	(de),a
-	ld	l,a
-	ld	h,0
-	inc	sp
-	pop	bc
-	pop	bc
+	call	_set_attr
 	ret
 
 
@@ -567,12 +381,14 @@
 	PUBLIC	_setRAMBack
 	PUBLIC	_drawGFX
 	PUBLIC	_drawSprite
+	PUBLIC	_randomNumber
 	PUBLIC	_fzx_setat
 	PUBLIC	_fzx_putc
 	PUBLIC	_fzx_puts
 	EXTERN	_fzx_write
 	EXTERN	_print_string
 	EXTERN	_print_char
+	EXTERN	_set_attr
 	EXTERN	strlen
 	EXTERN	strcat
 	EXTERN	strcmp

@@ -1,4 +1,6 @@
 
+// Open with ISO 8859-15 Encoding 
+
 #include ".\libgfx\libgfx.h"
 #include <string.h>
 
