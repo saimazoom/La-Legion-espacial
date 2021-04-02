@@ -43,6 +43,8 @@ Comandos de depuración
 
 //#define DEBUG       // DEBUG=1 incluye funciones y mensajes de depuración
 //#define GRAPHICS    // GRAPHICS=1 Incluye gráficos
+// #define SPANISH
+#define ENGLISH
 
 #include <string.h>
 
@@ -343,7 +345,7 @@ void ParserLoop (void) // 664 bytes
                 // Si están activas, describe las salidas
                 if (flags[fsalidas])
                 {
-                    writeText ("Salidas visibles:");
+                    writeSysMessage (SYSMESS_EXISTLIST);
                     for (i=0;i<10;++i)
                     {
                         j = conexiones_t[loc_temp].con[i];
@@ -452,8 +454,6 @@ void parse() // 145bytes
 
     while (playerWord[0]!=0) 
     {
-
-
         ACCNextWord();
        //  writeText (playerWord);
         //writeValue (playerWord[0]);
@@ -2124,7 +2124,12 @@ void writeObject(BYTE objno)
 //    writeText ("%u %u %u",objno,j,isMale);
     if (objno==EMPTY_OBJECT)
     {
+        #ifdef SPANISH
         writeText ("ninguno");
+        #endif 
+        #ifdef ENGLISH 
+        writeText ("nothing");
+        #endif 
         return;
     }
     if (!isPropio)
@@ -2134,27 +2139,47 @@ void writeObject(BYTE objno)
             if (!isPlural) // Singular
             {
                 //if (isMale) writeText ("el ");
+             #ifdef SPANISH
                 if (isFemale) writeText ("la ");
                     else writeText ("el ");
+             #endif
+            #ifdef ENGLISH 
+                writeText ("the ");
+            #endif
             }
             else
             {
+                #ifdef SPANISH
                 if (isFemale) writeText ("las ");
                  else writeText ("los ");
+                #endif 
+                #ifdef ENGLISH 
+                    writeText ("the ");
+                #endif
             }
         }
         else // Indeterminado
         {
             if (!isPlural) // Singular
             {
+                #ifdef SPANISH
                 if (isFemale) writeText ("una ");
                  else writeText ("un ");
+                #endif 
 
+                #ifdef ENGLISH
+                    writeText ("a ");
+                #endif
             }
             else // Plural
             {
+                #ifdef SPANISH 
                  if (isFemale) writeText ("unas ");
                  else writeText ("unos ");
+                #endif 
+                #ifdef ENGLISH 
+                    writeText ("a ");
+                #endif
             }
         }
     }
@@ -2269,7 +2294,8 @@ void  writeText (BYTE *texto)
         {
             if (caracter==0) salir = 1;
             counter++;
-            if (caracter=='^' || !caracter) counter--; // Steps backs over the escape char                
+            if (caracter!='.') counter--; // Steps backs over the escape char           
+            
             buffer[counter]=0; // String terminator
             // New Line...
             // Each character fixed at 8pixel
@@ -2278,6 +2304,7 @@ void  writeText (BYTE *texto)
                 newLine();
             }
             fzx_puts(buffer);
+            if (caracter==' ') counter++;
             fzx.x+=counter;            
             counter=0;
         }  

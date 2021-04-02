@@ -1,5 +1,5 @@
 
- La Legión Espacial
+ ZHL Release 5
 ======================
 Links:
  https://chuntey.wordpress.com/2012/12/18/how-to-write-zx-spectrum-games-chapter-1/
@@ -12,10 +12,13 @@ Links:
 Spectrum memory map:
 http://www.breakintoprogram.co.uk/computers/zx-spectrum/memory-map
 
-02.04.2021
- - Al definir una ventana de texto que comienza en 0,0 de las primeras líneas sólo se imprime el primer caracter
- - No se utiliza la última columna al imprimir los textos 
+03.04.2021 
+ - El paquete azul no aparece en la localidad y no se puede coger
+ - Al usar la tecla de borrar no se elimina el caracter 
 
+02.04.2021
+ + Versión completa en Inglés!
+ + No se utiliza la última columna al imprimir los textos, corregido se estaba teniendo en cuenta el espacio al imprimir. 
  + La descripción del estado de la puerta al usar el teclado no es correcta 
  + Confusión entre las palabras 'clave' y 'código' en algunas partes del juego 
 
