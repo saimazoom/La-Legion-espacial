@@ -13,11 +13,12 @@ Spectrum memory map:
 http://www.breakintoprogram.co.uk/computers/zx-spectrum/memory-map
 
 03.04.2021 
- - El paquete azul no aparece en la localidad y no se puede coger
- - Al usar la tecla de borrar no se elimina el caracter 
+ + El paquete azul no aparece en la localidad y no se puede coger. Era necesario inicializar primero el parser antes de ubicar los objetos.
+   Para evitar problemas al reiniciar el juego he puesto el número de objetos llevados a 0.
+ + Al usar la tecla de borrar no se elimina el caracter. Rutina mejorada para trabajar por caracteres. 
 
 02.04.2021
- + Versión completa en Inglés!
+ + ¡Versión completa en Inglés!
  + No se utiliza la última columna al imprimir los textos, corregido se estaba teniendo en cuenta el espacio al imprimir. 
  + La descripción del estado de la puerta al usar el teclado no es correcta 
  + Confusión entre las palabras 'clave' y 'código' en algunas partes del juego 

@@ -43,7 +43,7 @@ Comandos de depuración
 
 //#define DEBUG       // DEBUG=1 incluye funciones y mensajes de depuración
 //#define GRAPHICS    // GRAPHICS=1 Incluye gráficos
-// #define SPANISH
+//#define SPANISH
 #define ENGLISH
 
 #include <string.h>
@@ -2406,6 +2406,7 @@ void getInput ()
    memset(playerInput,0,MAX_INPUT_LENGTH); // Limpia el buffer
    gotoxy(TextWindow.x,fzx.y);
    writeText (playerPrompt);
+
    //writeText("_");
    while (caracter!=13 && contador<MAX_INPUT_LENGTH)
    {
@@ -2413,22 +2414,19 @@ void getInput ()
         if (caracter!=4) { // Código devuelto al borrar
             playerInput[contador]=caracter;
             contador++;
+            print_char (TextWindow.x+contador, fzx.y,caracter);
         }
         else  // Borrar
             {
             playerInput[contador]=0;            
+             print_char (TextWindow.x+contador, fzx.y,caracter);
             if (contador>0) contador--;
-            playerInput[contador]=' ';            
             }
-        gotoxy(TextWindow.x+1,fzx.y);
-        writeText(playerInput);
-     //   writeText("_");
         waitForNoKey();
    }
    
-   playerInput[contador-1]=' ';
+   //playerInput[contador-1]=' ';
    playerInput[contador]=0;
-   //playerInput[contador+1]=0;
 }
 
 void fontStyle (BYTE style)

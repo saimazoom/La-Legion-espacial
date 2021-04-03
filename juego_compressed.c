@@ -1,5 +1,5 @@
 // ZHL. Escrita por KMBR.
-// 2016-2019 KMBR
+// 2016,2019,2021 KMBR
 // This code is licensed under a Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) 
 // https://creativecommons.org/licenses/by-nc-nd/4.0/
 // Use ISO 8819-15 Encoding 
@@ -13,7 +13,7 @@
 #include "juego_flags.h"
 
 #define GRAPHICS 
-// #define SPANISH
+//#define SPANISH
 #define ENGLISH
 
 /* Allocate space for the stack */
@@ -119,14 +119,14 @@ img_t imagenes_t [] = {
 #ifdef SPANISH 
 loc_t localidades_t [] =
 {
-	{"PuóeÅm∑»","Loü¥ƒrumó›Å≈ÃgÓi&£ilum¥∑ÖpuóeÅm∑»«EnÖext•i≥Âu≈ùrmóaÅhi¡¢’ßba™∞ob≠Ñsup•fÔieÅEuœ—«",lPuente, FALSE, 0x00000000},
-	{"Nod¢cëa∫","Loüm&dul›Ål†≈Ã¶ƒ#náp§umbπ«E∫‹d¢cë√Éec”ÉÖpuóeÅm∑»,Ñ®clus†a∫o®™ yÑbo©g†√∞ur«",lNodo, FALSE, 0x00000000},
-	{"Esclusa","Se¶scucÒÉ ¥t§·d“Ñt≥mó†golpe∑»ÉtπÖfu’ºje«Lûs€brûc≠a£f≥mûs¥i®tπsá‡ütπj®Åexpl≥Ói&n«",lEsclusa, FALSE, 0x00000000},
-	{"Bo©gaÅc±ga","L†z≤aÅc±g†ti§e¶s—ci¢sufÔióe∂±†◊§d•∂eqÀ+›òv%oüëe∂±tÔul±®«EnÑs€brûÒ÷v±Ûü—qÀtôqÀ¶sp•a£su ëega«", lBodega, FALSE, 0x00000000},
-	{"Exterior","Meòvu¡Ã u≈ùrmóaÅnieÃ y´ƒ√®Åhi¡¢qÀ¿e∆mpiñv•òÑdiƒ∑cia«A∫o®™∞e¨iƒ¥gÀ u£ËifÔi¢qÀ∂odr%†s•Ñë“aìlßl⁄c$n.",lExterior, FALSE, 0x00000000},
-    {"Eªπd†√ßl⁄c$n","Un†moﬂÅﬁt√∞eòcuëaòcºv“aòÑsup•fÔie ÆºdaÅEuœ—«",lAlmacen, FALSE, 0x00000000},
-    {"Z≤†A1","Lûm≤&t≤û®t∑t•%û≠pﬂt…Åc≤t§Ë≥ôbl∑∏üc≠a£Ï†◊m&sf•†imp•s≤√«A∫o®™ u£›cur¢p…ill¢d†Óc®¢†Ï†s√†œja.",lZonaA1, FALSE, 0x00000000},
-    {"Z≤†A2","El∂…il‡°•m¥aáÏ†s√†aboÃd“†ilum¥“aáœjo«Lûm≤&t≤û®t∑t•%ûpœ·gÀ£su´ursoÉ¿#sÉt§Ë≥ôbl∑∏üp•fec”móe ≥d§a»s.",lZonaA2, FALSE, 0x00000000},
+	{"PuóeÅm∑»","Loü≥ƒrumó›Å≈ÃgÍi&£ilum≥∑ÖpuóeÅm∑»«EnÖext•i¥Âu≈ùrmóaÅhi¡¢’ßba™∞obÆÑsup•fÔieÅEuœ—«",lPuente, FALSE, 0x00000000},
+	{"Nod¢cèa∫","Loüm&dul›Ål†≈Ã¶ƒ#náp§umb∏«E∫€d¢cè√Éec”ÉÖpuóeÅm∑»,Ñ®clus†a∫o®™ yÑbo©g†√∞ur«",lNodo, FALSE, 0x00000000},
+	{"Esclusa","Se¶scucÒÉ ≥t§·d“Ñt¥mó†golpe∑»Ét∏Öfu’ºje«Lûs⁄brûcÆa£f¥mûs≥i®t∏sá‡üt∏j®Åexpl¥Íi&n«",lEsclusa, FALSE, 0x00000000},
+	{"Bo©gaÅc±ga","L†z≤aÅc±g†ti§e¶s—ci¢sufÔióe∂±†◊§d•∂eqÀ+›òv%oüèe∂±tÔul±®«EnÑs⁄brûÒ÷v±ioü—qÀtôqÀ¶sp•a£su èega«", lBodega, FALSE, 0x00000000},
+	{"Exterior","Meòvu¡Ã u≈ùrmóaÅnieÃ y´ƒ√®Åhi¡¢qÀøe∆mpiñv•òÑdiƒ∑cia«A∫o®™∞e¨iƒ≥gÀ u£ÁifÔi¢qÀ∂odr%†s•Ñè“aìlßl‹c$n.",lExterior, FALSE, 0x00000000},
+    {"Eª∏d†√ßl‹c$n","Un†moﬂÅﬁt√∞eòcuèaòcºv“aòÑsup•fÔie ≠ºdaÅEuœ—«",lAlmacen, FALSE, 0x00000000},
+    {"Z≤†A1","Lûm≤&t≤û®t∑t•%ûÆpﬂt…Åc≤t§Á¥ôbl∑πücÆa£Ì†◊m&sf•†imp•s≤√«A∫o®™ u£›cur¢p…ill¢d†Íc®¢†Ì†s√†œja.",lZonaA1, FALSE, 0x00000000},
+    {"Z≤†A2","El∂…il‡°•m≥aáÌ†s√†aboÃd“†ilum≥“aáœjo«Lûm≤&t≤û®t∑t•%ûpœ·gÀ£su´ursoÉø#sÉt§Á¥ôbl∑πüp•fec”móe ¥d§a»s.",lZonaA2, FALSE, 0x00000000},
     {"","",0, FALSE, 0x00000000}
 };
 #endif 
@@ -134,14 +134,14 @@ loc_t localidades_t [] =
 #ifdef ENGLISH
 loc_t localidades_t [] =
 {
-	{"Bridge", "ãbdgeàdimly∆llum¥a™–b÷Ä≈vig◊Û£p∑¡«OÎ·©,ß£i‰∞t≥màπgâov• Äsurfa‰éEuœpe«",lPuente, FALSE, 0x00000000},
-	{"Cëa∫‹ñ", "ãship'ümodulôa≠ ¥°wilight«ãcëa∫‹©ÉnectsÇÄ∏mm∑–bdgeÂÄair‡ckÇÄw®tßŒ Äc±goÇÄs‘Ø«",lNodo, FALSE, 0x00000000},
-	{"Airlock", "ãƒ≥m´a£be Æ±d∂‘Œâ¥t§s¡yßga¥sæÄw√ls«ãpo≥¬ightâtπcôs¥iƒ•∞Òpôi£Äexpl≥◊Û£su‚s«",lEsclusa, FALSE, 0x00000000},
-	{"C±g¢hold", "ãc±g¢a≠†h…ò‘gh∞—‰Çh∑dﬂ∞m√l∞hipmós«I£ÄsÒ»wsí•eß≠∞ev•√∂Ókagôawa‚â©liv•y«", lBodega, FALSE, 0x00000000},
-	{"Outside", "Ißmògulfe–b÷†ƒ≥més‹wßŒ∆‰´ryƒ√üp≠vóâﬁÌœm∞eeâi£Ädiƒ∑‰«T¢Äw®æI´a£⁄keΩuæ†buildâØ◊ïul–be Äë∑‰ÇÄwa≠h‘’.",lExterior, FALSE, 0x00000000},
-    {"Wa≠h‘’ ë∑‰", "A¿…séﬁt√∞‚ün®tﬂdΩ£Äfœze£surfa‰éEuœpe«",lAlmacen, FALSE, 0x00000000},
-    {"Z≤e A1", "ãm≤ot≤‘üsÆlvôfilﬂ–wiØÁhi™É”¥•üc≠a™ß£imp•s≤√ßtm›ph•e«T¢Äw®æ†d±kïrd≥¬e“sÇ†≠–œ€.",lZonaA1, FALSE, 0x00000000},
-    {"Z≤e A2", "Thärd≥òdüi£†vaul™–œ€¬iæi£≠d«ãm≤ot≤‘üsÆlv®Ét¥Àíeirïur’ÁiØ¿o≠Õe◊lyßrr∑ge–whi™É”¥•s.",lZonaA2, FALSE, 0x00000000},
+	{"Bridge", "ãbdgeàdimly∆llum≥a™–b÷Ä≈vig◊io£p∑¡«OÏ·©,ß£i‚∞t¥mà∏gâov• Äsurfa‚çEuœpe«",lPuente, FALSE, 0x00000000},
+	{"Cèa∫€ñ", "ãship'ümodulôaÆ ≥°wilight«ãcèa∫€©ÉÚctsÇÄπmm∑–bdgeÂÄair‡ckÇÄw®tßŒ Äc±goÇÄs‘Ø«",lNodo, FALSE, 0x00000000},
+	{"Airlock", "ãƒ¥m´a£be ≠±d∂‘Œâ≥t§s¡yßga≥sæÄhull«ãpo¥¬ightât∏côs≥iƒ•∞Òpôi£Äexpl¥◊io£su„s«",lEsclusa, FALSE, 0x00000000},
+	{"C±g¢hold", "ãc±g¢aÆ†h…ò‘gh∞—‚Çh∑dﬂ∞m√l∞hipmós«I£ÄsÒ»wsí•eßÆ∞ev•√∂Íkagôawa„â©liv•y«", lBodega, FALSE, 0x00000000},
+	{"Outside", "Ißmògulfe–b÷†ƒ¥mçs€wßŒ∆‚´ryƒ√üpÆvóâﬁÓœm∞eeâi£Ädiƒ∑‚«T¢Äw®æI´a£‹keΩuæ†buildâØ◊ïul–be Äè∑‚ÇÄwaÆh‘’.",lExterior, FALSE, 0x00000000},
+    {"WaÆh‘’ è∑‚", "Aø…sçﬁt√∞„ün®tﬂdΩ£Äfœze£surfa‚çEuœpe«",lAlmacen, FALSE, 0x00000000},
+    {"Z≤e A1", "ãm≤ot≤‘üs≠lvôfilﬂ–wiØËhi™É”≥•ücÆa™ß£imp•s≤√ßtm›ph•e«T¢Äw®æ†d±kïrd¥¬e“sÇ†Æ–œ⁄.",lZonaA1, FALSE, 0x00000000},
+    {"Z≤e A2", "Thärd¥òdüi£†vaul™–œ⁄¬iæi£Æd«ãm≤ot≤‘üs≠lv®Ét≥Àíeirïur’ËiØøoÆÕe◊lyßrr∑ge–whi™É”≥•s.",lZonaA2, FALSE, 0x00000000},
 	{"","",0, FALSE, 0x00000000}
 };   
 #endif 
@@ -174,94 +174,94 @@ cnx_t conexiones_t [] =
 
 token_t mensajes_t [] =
 {
-	{"ZHL^ Eª≠gamoüsu∂aqÀ™á24h«^ (c) 2016Â2019Â2021 KMBR«R¡e…e 5.",1},
+	{"ZHL^ EªÆgamoüsu∂aqÀ™á24h«^ (c) 2016Â2019Â2021 KMBR«R¡e…e 5.",1},
 	{"N¢Ã¢≈daáp±tÔul±.",2},
-	{"ZHL„÷KMBR",3},
-	{"D®ci§©£a∫‹d¢cë√.",4},
+	{"ZHL‰÷KMBR",3},
+	{"D®ci§©£a∫€d¢cè√.",4},
 	{"Asci§©£√∂uóeÅm∑».",5},
 	{"E∫m&dul¢p±aÜ∑d±Ñ≈Ã.",6},
-	{"L†v%†l#c™aánu®Ÿ¢c…o.",7},
-	{"LaÉsoºÅ≈ÃgÓi&nÅl†≈Ã«Eüu£mo©l¢baƒ∑™ÕÀvo,Ö≥d§“≥Åab≥d¢’òc±gaÅl†≈ÃgÓi&£yù»ül›Ü∑»ü’ ≠√iza£p≥ voz«E£®™¿€óoÑp∑t√ºÅºÉsol†®t#ánegœ.",8},
-	{"-FÏci≤am›ámo»ÅbajoÉsumo«LaÉsoºìbe∂•m∑ec•ß—g“†-r®p≤©Ö≥d§“≥.",9},
+	{"L†v%†l#c™aánu®ÿ¢c…o.",7},
+	{"LaÉsoºÅ≈ÃgÍi&nÅl†≈Ã«Eüu£mo©l¢baƒ∑™ÕÀvo,Ö¥d§“¥Åab¥d¢’òc±gaÅl†≈ÃgÍi&£yù»ül›Ü∑»ü’ Æ√iza£p¥ voz«E£®™ø⁄óoÑp∑t√ºÅºÉsol†®t#áÚgœ.",8},
+	{"-FÌci≤am›ámo»ÅbajoÉsumo«LaÉsoºìbe∂•m∑ec•ß—g“†-r®p≤©Ö¥d§“¥.",9},
 	{"Pœvi§eÅºÉsoºÅm∑»s«LaÉsol†®t#ámo»ÅbajoÉsumo«",10},
 	{"NieÃ ÷hi¡¢†150 C¡·uübaj¢c•o.",11},
-	{"El∞ ™m†t$rmÔ¢ap§ûpÀñev‚±Ñf≥⁄ci&nÅcƒ√®òÖext•i≥ìl∂±abr ….",12},
-	{"SeÌ≥m∑á‡ügπdióôt$rmi∏ål∂±abr …Ål†≈Ã.",13},
-	{"L†≈ÃÅ≠p±öd≤ñÒgoÑru”«Eüu£mo©l¢¥duƒ√Éƒrui»É¿&du‡ü®t#Œ±«Ha‰∞u°πbaj¢yÕ¢’ßv•%aìm…i“ûÃc®.",14},
-	{"-C≤tœºÑ™mp•◊uπòÖ¥t•i≥ yá‡ü¥ƒrumóoüp±†ev‚±∞uìt•i≥¢-¥f≥⁄Ö≥d§“≥.",15},
-	{"Eüu‹Å‡ü»ütπj®Åsup•viv§ci†nec®±i¢p±†≠√iz± EVA«El°πje¶sÜpﬂ”móeßuøm#tÔ¢y°i§e Ï†aÎ≤€%aÅoch¢h≥…«",16},
-	{"PaqÀtô†ëeg±∂≥Ös ™m†sol±.",17},
+	{"El∞ ™m†t$rmÔ¢ap§ûpÀñev„±Ñf¥‹ci&nÅcƒ√®òÖext•i¥ìl∂±abr ….",12},
+	{"SeÓ¥m∑á‡üg∏dióôt$rmiπål∂±abr …Ål†≈Ã.",13},
+	{"L†≈ÃÅÆp±öd≤ñÒgoÑru”«Eüu£mo©l¢≥duƒ√Éƒrui»Éø&du‡ü®t#Œ±«Ha‚∞u°∏baj¢yÕ¢’ßv•%aìm…i“ûÃc®.",14},
+	{"-C≤tœºÑ™mp•◊u∏òÖ≥t•i¥ yá‡ü≥ƒrumóoüp±†ev„±∞uìt•i¥¢-≥f¥‹Ö¥d§“¥.",15},
+	{"Eüu€Å‡ü»üt∏j®Åsup•viv§ci†Úc®±i¢p±†Æ√iz± EVA«El°∏je¶sÜpﬂ”móeßu¿m#tÔ¢y°i§e Ì†aÏ≤⁄%aÅoch¢h¥…«",16},
+	{"PaqÀtô†èeg±∂¥Ös ™m†sol±.",17},
 	{"Eƒ#ß—g“a.",18},
-	{"N¢sob≠vivir$áEuœp†s¥Ötπje∂œ™ct≥.",19},
-	{"-P±†ev‚±É”m¥Ói&nìjaÖtπjeßª®Åp…±ß∫‹d¢cëa∫-™ ≠cu•daÖ≥d§“≥.",20},
-	{"L†®clus†·rÃ∂±†igu√±Ñpr®i&£ëeÖext•i≥ yÖ¥t•i≥Ål†≈Ã«SeÉtœºÉÖb&ø£œj¢p±†c•r± yÖbot&£v•ñp±†abr«",21},
-	{"Eƒ#´•πda.",22},
+	{"N¢sobÆvivir$áEuœp†s≥Öt∏je∂œ™ct¥.",19},
+	{"-P±†ev„±É”m≥Íi&nìjaÖt∏jeßª®Åp…±ß∫€d¢cèa∫-™ Æcu•daÖ¥d§“¥.",20},
+	{"L†®clus†·rÃ∂±†igu√±Ñpr®i&£èeÖext•i¥ yÖ≥t•i¥Ål†≈Ã«SeÉtœºÉÖb&¿£œj¢p±†c•r± yÖbot&£v•ñp±†abr«",21},
+	{"Eƒ#´•∏da.",22},
 	{"Eƒ#ßbi•”.",23},
-	{"-L†®clus†’ßb≠É¬›Étœlôm∑u√ô-¥f≥⁄Ö≥d§“≥.",24}, 
-	{"-L†®clus†’´i•πÉ¬›Étœlôm∑u√ô-¥f≥⁄Ö≥d§“≥«",25},
-	{"Puls±∂±†abrÑ®cluÚ«^ADVERTENCIA: ANTES DE ABRIR USAR EL TRAJE DE SUPERVIVENCIA EN ENTORNOS HOSTILES.",26},
-	{"Puls±∂±†c•r±Ñ®cluÚ.",27},
+	{"-L†®clus†’ßbÆÉ¬›Étœlôm∑u√ô-≥f¥‹Ö¥d§“¥.",24}, 
+	{"-L†®clus†’´i•∏É¬›Étœlôm∑u√ô-≥f¥‹Ö¥d§“¥«",25},
+	{"Puls±∂±†abrÑ®cluÛ«^ADVERTENCIA: ANTES DE ABRIR USAR EL TRAJE DE SUPERVIVENCIA EN ENTORNOS HOSTILES.",26},
+	{"Puls±∂±†c•r±Ñ®cluÛ.",27},
 	{"-L†®clus†y†®t#ßbi•”.",28},
-	{"-Ab§»Üpu•t†ext•i≥ yß l∑»Ö¥t•i≥ -di‰Ö≥d§“≥«LaÜpu•t†ext•i≥∞eßb≠É u£s e¢miëû’∆gu√∑úüpr®i≤®.",29},
-	{"-C•r∑»Üpu•t†ext•i≥- ≠pi™Ö≥d§“≥",30},
-	{"Un†ÃzÑçu•t†ext•i≥∞eÊ†c•π»Âu‹üch≥œsÅai≠ †pr®i&£surg§Ålû—≠dôp±†¡im¥±¬›É”m¥∑tôe∆gu√±ÅnÀvoÑpr®i&n.",30},
-	{"U£p∑õ’ßb≠ y∂•mi™ÖÓc®¢a∫¥t•i≥Ål†≈Ã.",31},
-	{"-L†®clus†y†®t#´•πd†-≠p≥”Ö≥d§“≥Åab≥».",32},
-	{"Ap§ûu‹ümil%ﬁtœsÅpl#ƒÔ¢y¿et√°e∞ep±∑ìl¶xt•i≥.",33},
-	{"Fr%¢√°Óø.",34},
-	{"C€oáÏ†‹cÆΩscur†s√v¢p≥Öbll¢®quivoÅ‡ütœz›Åhi¡¢qÀ¶ƒ#£Íy§».",35},
-	{"L†≈Ã¿odul±¶ƒ#Œ±ÅZHL«P¥t“aÅam±ill¢yÉÖ‡goÅºÜ—+%aágr∑dôﬂŸûœj….",36},
+	{"-Ab§»Üpu•t†ext•i¥ yß l∑»Ö≥t•i¥ -di‚Ö¥d§“¥«LaÜpu•t†ext•i¥∞eßbÆÉ u£s e¢mièû’∆gu√∑úüpr®i≤®.",29},
+	{"-C•r∑»Üpu•t†ext•i¥- Æpi™Ö¥d§“¥",30},
+	{"Un†ÃzÑêu•t†ext•i¥∞eÊ†c•∏»Âu€üch¥œsÅaiÆ †pr®i&£surg§Ålû—Ædôp±†¡im≥±¬›É”m≥∑tôe∆gu√±ÅnÀvoÑpr®i&n.",30},
+	{"U£p∑õ’ßbÆ y∂•mi™ÖÍc®¢a∫≥t•i¥Ål†≈Ã.",31},
+	{"-L†®clus†y†®t#´•∏d†-Æp¥”Ö¥d§“¥Åab¥».",32},
+	{"Ap§ûu€ümil%ﬁtœsÅpl#ƒÔ¢yøet√°e∞ep±∑ìl¶xt•i¥.",33},
+	{"Fr%¢√°Í¿.",34},
+	{"C⁄oáÌ†€c≠Ωscur†s√v¢p¥Öbll¢®quivoÅ‡ütœz›Åhi¡¢qÀ¶ƒ#£Îy§».",35},
+	{"L†≈Ãøodul±¶ƒ#Œ±ÅZHL«P≥t“aÅam±ill¢yÉÖ‡goÅºÜ—+%aágr∑dôﬂÿûœj….",36},
 	{"ZHL 24h",37},
-	{"Co£difÔult“¨iƒ¥goÖp•filÅu£ËifÔÛÅﬁt√òÑt≥móa«",38},
-	{"E£Ïút•√Ål†ë“†bll†Ï°ecºd¢num$∏.",39},
-	{"P≥ Ï†ab•tur†’ìsliz†u£Í+&£l#s• qÀ°eßpuªa: TECLEE EL C&DIGO DE ACCESO«TIENE UNA OPORTUNIDAD ANTES DE SER DESINTEGRADO.",40},
-	{"U£Í+&nÅ…pecöp¡igœs¢·gÀ¿iümovimió›.",41},
-	{"Tod¢so£Íjûbl∑c…Å”⁄+¢·mil±«Lûm#ügr∑dô’òcuë∑á‡ü®t∑tôm#übaj›.",42},
-	{"A‡j∑ìc§…ÅpeqÀ+›Ét§Ë≥ôbl∑∏s.",43},
-	{"Tod¢fÏci≤√«El¶s—ci¢sufÔióe∂±†m∑t§•úsÉdÔi≤ônec®±iûp±†pr®•v±¿◊•i√ôbÛl&gi∏s.",44},
-	{"Un†¡ev“†b&Ãd†f≥⁄Ö™choÅ®t†Úº.",45},
-	{"U£—qÀ™ßzulÉ u£gπ£¥dÔ“≥Åp¡igr¢bÛl&gi∏òÖfr≤t√«",46},
-	{"-Es™¶sÖ—qÀ™ -susurπÖ≥d§“≥átuΩ%».",47},
-	{"-N¢pÀ»,úüdi≠ctiv…Ål†empr®†ﬁ¬¢impid§«",48},
-	{"P¡igr¢bÛl&gi∏«C≤s•v± †m§›Å15´¡·uübaj¢c•o«N¢m∑ipul±∞i£pœ™cci&n«N¢abr«N¢golpe±«M◊•ia∫fr#gil.",49},
+	{"Co£difÔult“¨iƒ≥goÖp•filÅu£ÁifÔioÅﬁt√òÑt¥móa«",38},
+	{"E£Ìút•√Ål†è“†bll†Ì°ecºd¢num$π.",39},
+	{"P¥ Ì†ab•tur†’ìsliz†u£Î+&£l#s• qÀ°eßpuªa: TECLEE EL C&DIGO DE ACCESO«TIENE UNA OPORTUNIDAD ANTES DE SER DESINTEGRADO.",40},
+	{"U£Î+&nÅ…pecöp¡igœs¢·gÀøiümovimió›.",41},
+	{"Tod¢so£Îjûbl∑c…Å”‹+¢·mil±«Lûm#ügr∑dô’òcuè∑á‡ü®t∑tôm#übaj›.",42},
+	{"A‡j∑ìc§…ÅpeqÀ+›Ét§Á¥ôbl∑πs.",43},
+	{"Tod¢fÌci≤√«El¶s—ci¢sufÔióe∂±†m∑t§•úsÉdÔi≤ôÚc®±iûp±†pr®•v±ø◊•i√ôbiol&giπs.",44},
+	{"Un†¡ev“†b&Ãd†f¥‹Ö™choÅ®t†Ûº.",45},
+	{"U£—qÀ™ßzulÉ u£g∏£≥dÔ“¥Åp¡igr¢biol&giπòÖfr≤t√«",46},
+	{"-Es™¶sÖ—qÀ™ -susur∏Ö¥d§“¥átuΩ%».",47},
+	{"-N¢pÀ»,úüdiÆctiv…Ål†empr®†ﬁ¬¢impid§«",48},
+	{"P¡igr¢biol&giπ«C≤s•v± †m§›Å15´¡·uübaj¢c•o«N¢m∑ipul±∞i£pœ™cci&n«N¢abr«N¢golpe±«M◊•ia∫fr#gil.",49},
 	// Textos relativos al ordenador
-	{"-Co≥d¥où»ü‡üs ™m…Ål†≈Ã«P±†Òbl±Émig¢empﬂa: ≥d§“≥Ü∑»«AlgÏûsug•§ci…Å∏m∑»üs≤: ≥d§“≥ßyudaÂ≥d§“≥Õ€b≠Â≥d§“≥¿ i&n..«-™ÿ®p≤ñs•vÔi√Ö≥d§“≥Å≈ÃgÓi&n.",50},
-	{"-OhÂvayaÜ¢n¢p§s$áﬂ•¶s¢-di‰Ö≥d§“≥ÉÌ√s†“miπci&n.",51},
+	{"-Co¥d≥où»ü‡üs ™m…Ål†≈Ã«P±†Òbl±Émig¢empﬂa: ¥d§“¥Ü∑»«AlgÌûsug•§ci…Åπm∑»üs≤: ¥d§“¥ßyudaÂ¥d§“¥Õ⁄bÆÂ¥d§“¥ø i&n..«-™Ÿ®p≤ñs•vÔi√Ö¥d§“¥Å≈ÃgÍi&n.",50},
+	{"-OhÂvayaÜ¢n¢p§s$áﬂ•¶s¢-di‚Ö¥d§“¥ÉÓ√s†“mi∏ci&n.",51},
 	{" ",52},
-	{"N¢‹ö≈daáp±tÔul±.",53},
-	{"N“†qÀìƒÓ±.",54},
-	{"N¢ô®peci√móe ¥t•®∑™.",55},
-	{"N¢su‰ñ≈d†¥®p•a».",56},
+	{"N¢€ö≈daáp±tÔul±.",53},
+	{"N“†qÀìƒÍ±.",54},
+	{"N¢ô®peci√móe ≥t•®∑™.",55},
+	{"N¢su‚ñ≈d†≥®p•a».",56},
 	{"Elßulli»ì∫vió¢r®u§aòÖfu’ºje.",57},
-	{"-Bu§°πbaj¢-aprÀbaÑvoz∞◊ fecÒì∫≥d§“≥« ",58},
-	{"-Ah≥†ôm€óoÅp≤•ÿumb¢†M±™«Baj†aÑbo©gaÅc±g†miëû≠¥Ôi¢‡üs ™m…Ål†≈Ã -di‰Ö≥d§“≥É∂≠muπ«",59},
-	{"D®ci§d¢‡ü®c√≤ôaÑbo©g†yìp›iøÖ—qÀ™ jÏö†‡åm#üp§dió®Åëega«A∫≠gr®±ìscubr¢qÀÑs√†’Ê†c•π».",60},
-	{"-N¢ô≈d†p•s≤√∂•¢ôm€óoÅ≠cÔl± -di‰Ñvozì∫≥d§“≥-¿iëû™Ì√l∑úüpi•nû÷golpe…ÉÑÍbezaÉtπÖsu¡o.",61}, 
-	{"-L¢m#üdur¢ôt§• qÀ ≠cÔl±∞uüpiezûp±aÑ·guióe¿ i&n«Lﬂga£†c≠•’Êum∑›«E£f¥..«-suspiπÖ≥d§“≥¿iëû≠∏ge¬oür®øsÅtu´u•poÉ Ï†œbof≠g≤a.",62},
-	{"-Cë√,ßqu% To–C≤n≥ -di‰Ñvoz- VolÃmoü†M±™ÉÖ—qÀ™«RepiövolÃm›ÉÖ—qÀ™«",63},
-	{"Hay¨oübot≤®: œj¢÷v•©«Se Îiliza£p±†c•r± yßbrÑ®clus†√¶xt•i≥«",172},
-	{"Loü·guióô—qÀtôp±†ëeg±.",173},
-	{"N¢ôm€óoÅjug±ß∫Sokob∑.",174},
-	{"-Vooº≠...ΩohΩooh -™ìvu¡Ã´ru¡Öe∏Ål†≈Ã.",175},
-	{"-C∑”≠,ΩohΩooh -¥tóûó≤± ^ -Nõblu¨ip¥ödi„lu...",176},
-	{"S&l¢®cuch¢®t#tiÍ«Laùrmó†¥t•fi•eáºsÜÏiÍci≤®.",177},
-	{"EsøyòÑc±†ocul”,Õ¢Ã¢J'p‚•.",178},
-	{"S◊$li™ Æºd¢e ¥h&spiø.",179}, 
-	{"L†ë“†√ßl⁄c$n«",180},
-	{"FÏci≤aÉÜ∑»sÅvozß∫≥d§“≥: ≥d§“≥Ü∑».",181}, 
-	{"Eüu≈Éƒrucci&£ﬁt#lÔ†÷≠ct∑gul± qÀ∞e ¥t•n†bajo°i•π.",182}, 
+	{"-Bu§°∏baj¢-aprÀbaÑvoz∞◊ fecÒì∫¥d§“¥« ",58},
+	{"-Ah¥†ôm⁄óoÅp≤•Ÿumb¢†M±™«Baj†aÑbo©gaÅc±g†mièûÆ≥Ôi¢‡üs ™m…Ål†≈Ã -di‚Ö¥d§“¥É∂Æmu∏«",59},
+	{"D®ci§d¢‡ü®c√≤ôaÑbo©g†yìp›i¿Ö—qÀ™ jÌö†‡åm#üp§dió®Åèega«A∫Ægr®±ìscubr¢qÀÑs√†’Ê†c•∏».",60},
+	{"-N¢ô≈d†p•s≤√∂•¢ôm⁄óoÅÆcÔl± -di‚Ñvozì∫¥d§“¥-øièû™Ó√l∑úüpi•nû÷golpe…ÉÑÎbezaÉt∏Ösu¡o.",61}, 
+	{"-L¢m#üdur¢ôt§• qÀ ÆcÔl±∞uüpiezûp±aÑ·guióeø i&n«Lﬂga£†cÆ•’Êum∑›«E£f≥..«-suspi∏Ö¥d§“¥øièûÆπge¬oür®¿sÅtu´u•poÉ Ì†œbofÆg≤a.",62},
+	{"-Cè√,ßqu% To–C≤n¥ -di‚Ñvoz- VolÃmoü†M±™ÉÖ—qÀ™«RepiövolÃm›ÉÖ—qÀ™«",63},
+	{"Hay¨oübot≤®: œj¢÷v•©«Se Ïiliza£p±†c•r± yßbrÑ®clus†√¶xt•i¥«",172},
+	{"Loü·guióô—qÀtôp±†èeg±.",173},
+	{"N¢ôm⁄óoÅjug±ß∫Sokob∑.",174},
+	{"-VooºÆ...ΩohΩooh -™ìvu¡Ã´ru¡ÖeπÅl†≈Ã.",175},
+	{"-C∑”Æ,ΩohΩooh -≥tóûó≤± ^ -Nõblu¨ip≥ödi‰lu...",176},
+	{"S&l¢®cuch¢®t#tiÎ«Laùrmó†≥t•fi•eáºsÜÌÔÍi≤®.",177},
+	{"Es¿yòÑc±†ocul”,Õ¢Ã¢J'p„•.",178},
+	{"S◊$li™ ≠ºd¢e ≥h&spi¿.",179}, 
+	{"L†è“†√ßl‹c$n«",180},
+	{"FÌci≤aÉÜ∑»sÅvozß∫¥d§“¥: ¥d§“¥Ü∑».",181}, 
+	{"Eüu≈Éƒrucci&£ﬁt#lÔ†÷Æct∑gul± qÀ∞e ≥t•n†bajo°i•∏.",182}, 
 	{"(§Ö™cº»)",183},
-	{"L†pu•”ìlßl⁄c$£y†®t#ßbi•”.",184},
-	{"El°ecºd¢’∆lum¥aáœjo«CLAVE INCORRECTA.",185}, 
-	{"El°ecºd¢’∆lum¥aáv•©«CLAVE CORRECTA«El´a+&£l#s•∞e ≠pliegaásuÜp±timóo.",186}, 
+	{"L†pu•”ìlßl‹c$£y†®t#ßbi•”.",184},
+	{"El°ecºd¢’∆lum≥aáœjo«CLAVE INCORRECTA.",185}, 
+	{"El°ecºd¢’∆lum≥aáv•©«CLAVE CORRECTA«El´a+&£l#s•∞e ÆpliegaásuÜp±timóo.",186}, 
 	{"El´a+&£l#s•Üi§z††c√ó±’.",187},
-	{"El´a+&£l#s•∞e∂≠p±††d p±±«",188},
+	{"El´a+&£l#s•∞e∂Æp±††d p±±«",188},
 	{"El´a+&£l#s•¨ p±a«",189},
-	{"P•¢≈d†su‰©«Un†volu”Åhum¢yßlgÏûch pûsurg§ìl´a+&n.",190},
-	{"S≤Ét§Ë≥®ÅŸ∑sp≥™.",191}, 
-	{"(∏gi§d¢∑t®Ötπje)",192},
-	{"-Loüs ™mûy†®t#námo»ÅbajoÉsumm¢-™ ≠cu•daÖ≥d§“≥.",193},
-	{"-S&l¢nec®iöu£—qÀ™ßzul«",194},
+	{"P•¢≈d†su‚©«Un†volu”Åhum¢yßlgÌûch pûsurg§ìl´a+&n.",190},
+	{"S≤Ét§Á¥®Åÿ∑sp¥™.",191}, 
+	{"(πgi§d¢∑t®Öt∏je)",192},
+	{"-Loüs ™mûy†®t#námo»ÅbajoÉsumm¢-™ Æcu•daÖ¥d§“¥.",193},
+	{"-S&l¢Úc®iöu£—qÀ™ßzul«",194},
 	{"L†sup•fÔie ôl a,∞&l¢’ßctivaÉÖ™cº».", 195},
 	{"E U R O P A",196},
 };
@@ -271,96 +271,96 @@ token_t mensajes_t [] =
 
 token_t mensajes_t [] =
 {
-	{"ZHL^ Weìliv•èµp±cõwiØi£24h«^ (c) 2016Â2019Â2021 KMBR«R¡e…e 5.",1},
+	{"ZHL^ Weìliv•ëµp±cõwiØi£24h«^ (c) 2016Â2019Â2021 KMBR«R¡e…e 5.",1},
 	{"I¨≤'t∞eeßnyØâi£p±tÔul±.",2},
-	{"ZHL„÷KMBR",3},
-	{"TÆyìsc§dÇÄcëa∫‹©.",4},
-	{"TÆyßsc§dÇÄ∏mm∑–bdge.",5},
-	{"ãmoduﬂÇ∏mm∑–Äship.",6},
+	{"ZHL‰÷KMBR",3},
+	{"T≠yìsc§dÇÄcèa∫€©.",4},
+	{"T≠yßsc§dÇÄπmm∑–bdge.",5},
+	{"ãmoduﬂÇπmm∑–Äship.",6},
 	{"ãMilk÷Way∆£‘r´…e.",7},
-	{"ãship'ü≈vig◊i≤Ésoﬂ«Ità†fairlyÕew¿o©lÂÄ≤-bo±dÜpÎ•ài£ch±geé≈vig◊Û£∑dßllÜm∑düa≠¿añb÷voi‰«AæÄm€ó Äc≤soﬂ∞c≠§àbºck.",8},
-	{"'Weß≠Ωp•◊âi£‡w∂ow•¿o©«TÆÉsoﬂ¿usæ≠⁄i£off'Â≠pliôÄçÎ•.",9},
-	{"ItÜôfœm Äc≤tœlÉsoﬂ«TÆÉsoﬂài£‡w∂ow•¿o©«",10},
-	{"S‹wßŒ∆‰ßæm¥uü150 C¡·us.",11},
-	{"ãîrm√∞ys™m´a£h±dly∂≠vó Äf≥m◊i≤égºsüo£Ä‘t·©éÄw¥dsc≠§.",12},
-	{"TÆ÷f≥mΩ£Äîr⁄∫gπdióséÄship'üw¥dsc≠§",13},
-	{"ã©liv•y∞Æ–wh•e I¨¢Äœu™«Itàa£¥duƒa∫modõbuilæwiØ∞t∑d±d¿odul®«It¨oô‚üjobßŒ¨o®n'æb≠ak¨ownù¢oft§.",14},
-	{"'ItÉtœlüÄ™mp•◊u≠ ¥·ñ∑d∆£Ä¥ƒrumósÇavoidíeirìt•i≥◊i≤,' ≠p≥tüÄçÎ•",15},
-	{"Ità≤eéÄtw¢surviv√∞u‚ü≠qui≠dÇp•f≥m EVA«ãsu‚àfullyßuøm◊ÔßŒÊûa£aÎ≤€yéeighæh‘rs«",16},
-	{"PÓkag®Çbeìliv•Ëíœugh‘æÄsol±∞ys™m.",17},
+	{"ãship'ü≈vig◊i≤Ésoﬂ«Ità†fairlyÕewøo©lÂÄ≤-bo±dÜpÏ•ài£ch±geç≈vig◊io£∑dßllÜm∑düaÆøañb÷voi‚«AæÄm⁄ó Äc≤soﬂ∞cÆ§àbºck.",8},
+	{"'WeßÆΩp•◊âi£‡w∂ow•øo©«T≠ÉsoﬂøusæÆ‹i£off'ÂÆpliôÄêÏ•.",9},
+	{"ItÜôfœm Äc≤tœlÉsoﬂ«T≠Ésoﬂài£‡w∂ow•øo©«",10},
+	{"S€wßŒ∆‚ßæm≥uü150 C¡·us.",11},
+	{"ãîrm√∞ys™m´a£h±dly∂Ævó ÄgœwØçcryƒ√üo£Ä‘t·©çÄw≥dscÆ§.",12},
+	{"T≠÷f¥mΩ£Äîr‹∫g∏diósçÄship'üw≥dscÆ§",13},
+	{"ã©liv•y∞≠–wh•e I¨¢Äœu™«Itàa£≥duƒa∫modõbuilæwiØ∞t∑d±døodul®«It¨oô„üjobßŒ¨o®n'æbÆak¨ownù¢oft§.",14},
+	{"'ItÉtœlüÄ™mp•◊uÆ ≥·ñ∑d∆£Ä≥ƒrumósÇavoidíeirìt•i¥◊i≤,' Æp¥tüÄêÏ•",15},
+	{"Ità≤eçÄtw¢surviv√∞u„üÆquiÆdÇp•f¥m EVA«ãsu„àfullyßu¿m◊ÔßŒÊûa£aÏ≤⁄yçeighæh‘rs«",16},
+	{"PÍkag®Çbeìliv•Áíœugh‘æÄsol±∞ys™m.",17},
 	{"It'üoff.",18},
-	{"IÁ≤'t∞urviÃ∆£EuœpeÁiØ‘æÄpœ™ctiÃ∞u‚.",19},
-	{"'T¢avoidÉ”m¥◊i≤,¬eaÃ Äsuiæbeh¥–befo≠∂…sâÄcëa∫‹©,'  ÄçÎ• ≠m¥dsè.",20},
-	{"ãair‡ckàu’dÇequ√ e Äpr®su≠„etwee£Ä‘t·ñ∑–¥·©éÄship«Iæ Étœlﬂ–b÷Ä≠–bÎt≤Çc‡’ßŒ Äg≠e£bÎt≤Çop§«",21},
+	{"IË≤'t∞urviÃ∆£EuœpeËiØ‘æÄpœ™ctiÃ∞u„.",19},
+	{"'T¢avoidÉ”m≥◊i≤,¬eaÃ Äsuiæbeh≥–befoÆ∂…sâÄcèa∫€©,'  ÄêÏ• Æm≥dsë.",20},
+	{"ãair‡ckàu’dÇequ√ e Äpr®suÆ‰etwee£Ä‘t·ñ∑–≥·©çÄship«Iæ Étœlﬂ–b÷ÄÆ–bÏt≤Çc‡’ßŒ ÄgÆe£bÏt≤Çop§«",21},
 	{"Itàc‡’d.",22},
 	{"Itàop§.",23},
-	{"'ãair‡ckàop§e–wiØ Äm∑u√Étœls,' ≠p≥tüÄçÎ•",24},
-	 {"'ãair‡ckàop§e–wiØ Äm∑u√Étœls,' ≠p≥tüÄçÎ•",24}, 
-	{"'ãair‡ckàc‡’–wiØ Äm∑u√Étœls,'ÜpÎ• ≠p≥ts«",25},
+	{"'ãair‡ckàop§e–wiØ Äm∑u√Étœls,' Æp¥tüÄêÏ•",24},
+	 {"'ãair‡ckàop§e–wiØ Äm∑u√Étœls,' Æp¥tüÄêÏ•",24}, 
+	{"'ãair‡ckàc‡’–wiØ Äm∑u√Étœls,'ÜpÏ• Æp¥ts«",25},
 	{"Pr®sÇope£Äair‡ck«WARNING: WEAR SURVIVAL SUIT IN HOSTILE ENVIRONMENT BEFORE OPENING.",26},
 	{"Pr®sÇc‡’ Äair‡ck.",27},
-	{"ãair‡ckà‹wΩp§.",28},
-	{"'Op§â‘t•ßir‡ckßŒ∆soºtâÄ¥t•i≥,'∞ayüÄçÎ•«ã‘t•ßir‡ckΩp§üwiØ †h üûÄpr®surôequ√ e.",29},
-	{"'Cl›â‘t•Ê◊ch,' ≠pe◊üÄçÎ•",30},
-	{"On‰ Ä‘t•Ê◊chÊûc‡’dÂjetsépr®sur ËßiµburƒΩÎéÄw√lsÇ≠moÃÉ”m¥∑tü∑d¶qu√ e Äpr®su≠ßga¥.",30}, 
-	{"A∂∑õop§ü∑dßl‡wüÓc®sÇÄ¥t•i≥éÄs—‰cπft.",31},
-	{"'ãair‡ckà‹w´‡’d,' ≠p≥tüÄ≤-bo±dÜpÎ•.",32},
-	{"Jusæ†few¿illiﬁŸ®épºƒÔßŒ¿e”∫ oº™èÌœm Ä‘t·©.",33},
-	{"ColdÇÄøuch.",34},
-	{"Aüi£†d±kÕight¶x‰pæf≥ Ä¡u·Ã g‡wéf√lâi‰´hÏks.",35},
-	{"ãƒ∑d±–ZHL¿odul±∞hip«Pa¥™–y¡‡wßŒÁiØ Äç∑y¬og¢i£big ≠d¬ett•s.",36},
+	{"ãair‡ckà€wΩp§.",28},
+	{"'Op§â‘t•ßir‡ckßŒ∆soºtâÄ≥t•i¥,'∞ayüÄêÏ•«ã‘t•ßir‡ckΩp§üwiØ †h üûÄpr®surôequ√ e.",29},
+	{"'Cl›â‘t•Ê◊ch,' Æpe◊üÄêÏ•",30},
+	{"On‚ Ä‘t•Ê◊chÊûc‡’dÂjetsçpr®sur ÁßiµburƒΩÏçÄw√lsÇÆmoÃÉ”m≥∑tü∑d¶qu√ e Äpr®suÆßga≥.",30}, 
+	{"A∂∑õop§ü∑dßl‡wüÍc®sÇÄ≥t•i¥çÄs—‚c∏ft.",31},
+	{"'ãair‡ckà€w´‡’d,' Æp¥tüÄ≤-bo±dÜpÏ•.",32},
+	{"Jusæ†fewøilliﬁÿ®çpºƒÔßŒøe”∫ oº™ëÓœm Ä‘t·©.",33},
+	{"ColdÇÄ¿uch.",34},
+	{"Aüi£†d±kÕight¶x‚pæf¥ Ä¡u·Ã g‡wçf√lâi‚´hÌks.",35},
+	{"ãƒ∑d±–ZHLøodul±∞hip«Pa≥™–y¡‡wßŒËiØ Äê∑y¬og¢i£big Æd¬ett•s.",36},
 	{"ZHL 24h",37},
-	{"WiØ¨iffÔult÷I´a£⁄keΩuæÄ‘tl¥eé†ﬁ”∫buildâi£Äƒ≥m«",38},
-	{"O£Ä·©éÄë∑‰∞h¥ô†num•Ô key—d",39},
-	{"Aús•´∑‹£slid®íœughß£op§â∑d∂o¥tü◊è: TYPE IN THE ACCESS CODE«YOU HAVE ONE CHANCE BEFORE DESINTEGRATION.",40},
-	{"A¨∑g•‘s-‡okâc∑‹£fol‡wümy¿oÃmós.",41},
-	{"Allß≠Áhi™„ox®é·mil±∞ize«ãl±g®tß≠Ω£Ä‡w®t∞Ælv®.",42},
-	{"TÆ÷h‘’¨oz§sésm√∫whi™É”¥•s.",43},
-	{"Ba≠¿¥imum«Juƒò‘gh∞—‰Ç⁄¥”i£Äc≤d‚i≤ünee©dÇpr®•Ã„Û‡giÍ∫m◊•i√s.",44},
-	{"AÊigh vaulæf≥müÄ‰ilâofíiüœ€.",45},
-	{"A„lÀ∂ÓkageÁiØßúrge„ÛÒz±–¥dÔ◊≥Ω£Äfr≤t«",46},
-	{"'Th àÄ—ckage,' ÄçÎ•Áh p•ü¥èr¶±.",47},
-	{"I´∑'tÂÄç∑y'üdi≠ctivôp≠vó¿eÌœm¨oâso«",48},
-	{"BÛÒz±d«Sø≠„¡ow¿¥uü15 C¡·us«D¢‹æh∑dﬂÁiØ‘t∂œ™cti≤«D¢‹tΩp§«D¢‹æh∑dﬂ Ïpœ™c™d«Fπgiﬂ¿◊•i√.",49},
+	{"WiØ¨iffÔult÷I´a£‹keΩuæÄ‘tl≥eç†ﬁ”∫buildâi£Äƒ¥m«",38},
+	{"O£Ä·©çÄè∑‚∞h≥ô†num•Ô key—d.",39},
+	{"Aús•´∑€£slid®íœughß£op§â∑d∂o≥tü◊ë: TYPE IN THE ACCESS CODE«YOU HAVE ONE CHANCE BEFORE DESINTEGRATION.",40},
+	{"A¨∑g•‘s-‡okâc∑€£fol‡wümyøoÃmós.",41},
+	{"AllßÆËhi™‰ox®ç·mil±∞ize«ãl±g®tßÆΩ£Ä‡w®t∞≠lv®.",42},
+	{"T≠÷h‘’¨oz§sçsm√∫whi™É”≥•s.",43},
+	{"BaÆø≥imum«Juƒò‘gh∞—‚Ç‹≥”i£Äc≤d„i≤üÚe©dÇpr®•Ã‰io‡giÎ∫m◊•i√s.",44},
+	{"AÊigh vaulæf¥müÄ‚ilâofíiüœ⁄.",45},
+	{"A‰lÀ∂ÍkageËiØßúrge‰ioÒz±–≥dÔ◊¥Ω£Äfr≤t«",46},
+	{"'Th àÄ—ckage,' ÄêÏ•Ëh p•ü≥ër¶±.",47},
+	{"I´∑'tÂÄê∑y'üdiÆctivôpÆvóøeÓœm¨oâso«",48},
+	{"BioÒz±d«S¿Æ‰¡owø≥uü15 C¡·us«D¢€æh∑dﬂËiØ‘t∂œ™cti≤«D¢€tΩp§«D¢€æh∑dﬂ Ìpœ™c™d«F∏giﬂø◊•i√.",49},
 	// Computer-related texts
-	{"'I¿∑ageßll∞—‰cπft'üsys™ms«To°√kÇﬁ u’:ÜpÎ•Üm∑d«S€e∞ugg®ti≤üofÜm∑düa≠:ÜpÎ• Ælp,ÜpÎ• ≈ﬁ,ÜpÎ•¿ ·≤..' Ä≈vig◊i≤ÜpÎ•ÿ®p≤düÆlpfullyÇy‘.",50},
-	{"'OhÂI¨idn'tí¥k I'–≠“í◊,'∞ayüÄçÎ•ÁiØÌ√’ßdmiπti≤.",51},
+	{"'Iø∑ageßll∞—‚c∏ft'üsys™ms«To°√kÇﬁ u’:ÜpÏ•Üm∑d«S⁄e∞ugg®ti≤üofÜm∑düaÆ:ÜpÏ• ≠lp,ÜpÏ• ≈ﬁ,ÜpÏ•ø ·≤..' Ä≈vig◊i≤ÜpÏ•Ÿ®p≤dü≠lpfullyÇy‘.",50},
+	{"'OhÂI¨idn'tí≥k I'–Æ“í◊,'∞ayüÄêÏ•ËiØÓ√’ßdmi∏ti≤.",51},
 	{" ",52},
-	{"I¨≤'æ‹ti‰ßnyØâi£p±tÔul±.",53},
-	{"NoØ¥gÇhighlight.",54},
-	{"It'ü‹t∂±tÔul±l÷¥t•®t¥g.",55},
-	{"NoØâÏexpec™–Òpp§s.",56},
-	{"ãhowléÄw¥d¶choôi£Äfu’ºge.",57},
-	{"'Goo–job,'ßppœvôÄs◊ fie–voi‰éÄçÎ•.",58},
-	{"'Now∆t'ütiﬁÇ’tïur’Ì≥ M±s«G¢»wnÇÄc±g¢hol–whiﬂ I ≠booæÄship'üsys™ms,' ÄçÎ•∞ayüÒƒily.",59},
-	{"Iìsc§–Äs™psÇÄc¡l±ßŒìp›iæÄ—ckageÁiØ Äoîrüawa‚â©liv•y«WÆ£I ≠tur£I¨ ∏v•íaæÄœ€Êûc‡’d.",60},
-	{"'It'ü‹Øâp•s≤a∫buæ‚'ütiﬁÇ≠cycﬂ,'∞ayüÄçÎ• voi‰,ßsèµﬂgügiÃΩÎßŒè„∑gèµÆ“Ω£Äf‡≥",61}, 
-	{"'ãh±d®tí¥gàÒv¥gÇ≠cycﬂíeiµp±tüf≥ Änexæm ·≤«TÆyÜeÇØ¥kéîms¡vôûhum∑«Anyway...'∞ighüÄçÎ• û‚∞∏opüup Ä≠⁄¥séy‘µbod÷wiØ †œbo-scrubb•.",62},
-	{"'Cë√,í àTo–C≤n≥,'∞ayüÄvoi‰Â'I'm ≠turn¥gÇM±üwiØ Ä—ckage«I ≠peaæI'm ≠turnâwiØ Ä—ckage.' ",63},
-	{"Th•eß≠°w¢bÎt≤s: ≠dßŒ g≠§«TÆyß≠ u’dÇc‡’ßŒΩpe£Äair‡ckÇÄ‘t·©«",172},
-	{"Next∂Ókag®Çbeìliv•Ë.",173},
-	{"Th à‹°iﬁÇpº÷Sokob∑.",174},
-	{"'Vooº≠...ΩohΩooh'è geæ†cruõech¢bÓkÌœm Äship.",175}, 
-	{"'C∑”≠,ΩohΩooh 'y‘°ryÇ¥t≤e ^ 'Nõblu¨ip¥ödi„lu...'",176},
-	{"I Æ± ≤ly∞”tÔ«ãƒ≥mà¥t•f•âwiØÜmÏÔ◊i≤s.",177},
-	{"I'mΩ£Äd±k∞i©ÂI´∑'t∞ee Jup‚•",178},
-	{"IcyÂ¥h›pi”bﬂ∞a™lli™.",179}, 
-	{"ãë∑‰ÇÄwa≠h‘’«",180},
-	{"Iæw≥küwiØ voi‰Üm∑dsÇÄçÎ•:ÜpÎ•Üm∑d.",181}, 
-	{"Ità†≠ct∑gul±¿et√Éƒructi≤íaægoôuŒ•gœuŒ.",182}, 
+	{"I¨≤'æ€ti‚ßnyØâi£p±tÔul±.",53},
+	{"NoØ≥gÇhighlight.",54},
+	{"It'ü€t∂±tÔul±l÷≥t•®t≥g.",55},
+	{"NoØâÌexpec™–Òpp§s.",56},
+	{"ãhowlçÄw≥d¶choôi£Äfu’ºge.",57},
+	{"'Goo–job,'ßppœvôÄs◊ fie–voi‚çÄêÏ•.",58},
+	{"'Now∆t'ütiﬁÇ’tïur’Ó¥ M±s«G¢»wnÇÄc±g¢hol–whiﬂ I ÆbooæÄship'üsys™ms,' ÄêÏ•∞ayüÒƒily.",59},
+	{"Iìsc§–Äs™psÇÄc¡l±ßŒìp›iæÄ—ckageËiØ Äoîrüawa„â©liv•y«W≠£I Ætur£I¨ πv•íaæÄœ⁄Êûc‡’d.",60},
+	{"'It'ü€Øâp•s≤a∫buæ„'ütiﬁÇÆcycﬂ,'∞ayüÄêÏ• voi‚,ßsëµﬂgügiÃΩÏßŒë‰∑gëµ≠“Ω£Äf‡¥",61}, 
+	{"'ãh±d®tí≥gàÒv≥gÇÆcycﬂíeiµp±tüf¥ ÄÚxæm ·≤«T≠yÜeÇØ≥kçîms¡vôûhum∑«Anyway...'∞ighüÄêÏ• û„∞πopüup ÄÆ‹≥sçy‘µbod÷wiØ †œbo-scrubb•.",62},
+	{"'Cè√,í àTo–C≤n¥,'∞ayüÄvoi‚Â'I'm Æturn≥gÇM±üwiØ Ä—ckage«I ÆpeaæI'm ÆturnâwiØ Ä—ckage.' ",63},
+	{"Th•eßÆ°w¢bÏt≤s: ÆdßŒ gÆ§«T≠yßÆ u’dÇc‡’ßŒΩpe£Äair‡ckÇÄ‘t·©«",172},
+	{"Next∂Íkag®Çbeìliv•Á.",173},
+	{"Th à€°iﬁÇpº÷Sokob∑.",174},
+	{"'VooºÆ...ΩohΩooh'ë geæ†cruõech¢bÍkÓœm Äship.",175}, 
+	{"'C∑”Æ,ΩohΩooh 'y‘°ryÇ≥t≤e ^ 'Nõblu¨ip≥ödi‰lu...'",176},
+	{"I ≠± ≤ly∞”tÔ«ãƒ¥mà≥t•f•âwiØÜmÌÔ◊i≤s.",177},
+	{"I'mΩ£Äd±k∞i©ÂI´∑'t∞ee Jup„•",178},
+	{"IcyÂ≥h›pi”bﬂ∞a™lli™.",179}, 
+	{"ãè∑‚ÇÄwaÆh‘’«",180},
+	{"Iæw¥küwiØ voi‚Üm∑dsÇÄêÏ•:ÜpÏ•Üm∑d.",181}, 
+	{"Ità†Æct∑gul±øet√Éƒructi≤íaægoôuŒ•gœuŒ.",182}, 
 	{"(o£Äkeybo±d)",183},
-	{"ãwa≠h‘’¨o≥à√≠“yΩp§.",184},
-	{"ãkey—dàillum¥a™–≠d«INCORRECT KEY.",185}, 
-	{"ãkey—dàillum¥a™–g≠§«CORRECT KEY«ãºs•´∑‹£≠tπctü¥ö‚sÜp±tmó.",186}, 
-	{"L…•´∑‹£beg¥sÇÆaæup.",187},
-	{"ãºs•´∑‹£p≠p±®Çfi≠«",188},
-	{"L…•´∑‹£fir®«",189},
-	{"Buæ‹ØâÒpp§s«A∂uffésmokeßŒ †few∞p±küem•geÌœm Äc∑n≤.",190},
-	{"TÆy'≠∞hipp¥gÉ”¥•s.",191}, 
+	{"ãwaÆh‘’¨o¥à√Æ“yΩp§.",184},
+	{"ãkey—dàillum≥a™–Æd«INCORRECT KEY.",185}, 
+	{"ãkey—dàillum≥a™–gÆ§«CORRECT KEY«ãºs•´∑€£Æt∏ctü≥ö„sÜp±tmó.",186}, 
+	{"L…•´∑€£beg≥sÇ≠aæup.",187},
+	{"ãºs•´∑€£pÆp±®ÇfiÆ«",188},
+	{"L…•´∑€£fir®«",189},
+	{"Buæ€ØâÒpp§s«A∂uffçsmokeßŒ †few∞p±küem•geÓœm Äc∑n≤.",190},
+	{"T≠y'Æ∞hipp≥gÉ”≥•s.",191}, 
 	{"(pÔkâup Äsuiæfirƒ)",192},
-	{"-ãsys™müa≠ßl≠“y∆£‡w∂ow•¿oñ- ÄçÎ• ≠m¥dsè.",193},
-	{"-I jusænee–†blÀ∂Óket«",194},
-	{"ãsurfa‰àsmooØÂ≤lyßctiva™–wiØ Äkeybo±d.", 195},
+	{"-ãsys™müaÆßlÆ“y∆£‡w∂ow•øoñ- ÄêÏ• Æm≥dsë.",193},
+	{"-I jusæÚe–†blÀ∂Íket«",194},
+	{"ãsurfa‚àsmooØÂ≤lyßctiva™–wiØ Äkeybo±d.", 195},
 	{"E U R O P A",196},
 };
 #endif 
@@ -368,52 +368,52 @@ token_t mensajes_t [] =
 #ifdef SPANISH
 token_t mensajesSistema_t [] =
 {
-	{"N¢pÀd¢v• ≈da,¶ƒ#¿uyΩscuœ.^",0},
+	{"N¢pÀd¢v• ≈da,¶ƒ#øuyΩscuœ.^",0},
 	{"Tambi$£Ò÷",1},
 	{"Escbe°uü&rd§ôaqu%",2},
 	{"",3},
 	{"",4},
 	{"",5},
-	{"/C&mo? P≥Ìav≥∂rÀbaÉΩŸû—ºbπs.^",6},
-	{"N¢pÀd¢irá®†di≠cci&n.^",7},
+	{"/C&mo? P¥Óav¥∂rÀbaÉΩÿû—ºb∏s.^",6},
+	{"N¢pÀd¢irá®†diÆcci&n.^",7},
 	{"øPerdÛn?^",8},
 	{"Lﬂv¢",9},
 	{"(puesto)",10},
-	{"n¥g'£objeø.",11},
+	{"n≥g'£obje¿.",11},
 	{"/Seguœ? ",12},
 	{"/JÀg…ÅnÀvo? ",13},
 	{"AdiÛs...",14},
 	{"OK^",15},
 	{"[...]",16},
-	{"Hû≠√iz“¢",17},
-	{"°ur‹",18},
+	{"HûÆ√iz“¢",17},
+	{"°ur€",18},
 	{"s",19},
 	{".^ ",20},
-	{"L†puªuÓi&£®Å",21},
+	{"L†puªuÍi&£®Å",21},
 	{"∂uªo",22},
 	{"N¢lﬂv¢pu®ö®o.^",23},
-	{"N¢pÀ»Ây†lﬂv¢®¢pu®ø.^",24},
+	{"N¢pÀ»Ây†lﬂv¢®¢pu®¿.^",24},
 	{"Y†t§g¢",25},
-	{"N¢Ã¢®¢p≥ßqu%.^",26},
-	{"N¢pÀd¢lﬂv±¿#sïs….^",27},
+	{"N¢Ã¢®¢p¥ßqu%.^",26},
+	{"N¢pÀd¢lﬂv±ø#sïs….^",27},
 	{"No°§g¢®o.^",28},
-	{"P•¢· y†lﬂv¢pu®ø",29},
+	{"P•¢· y†lﬂv¢pu®¿",29},
 	{"S",30},
 	{"N",31},
 	{"M·s...",32},
 	{"> ",33},
 	{"",34},
 	{"El°iemp¢p…a...^",35},
-	{"Ah≥†t§g¢",36},
+	{"Ah¥†t§g¢",36},
 	{"Me∂≤g¢",37},
 	{"Me quiö",38},
 	{"Dej¢",39},
 	{"N¢pÀd¢p≤•ﬁ ",40},
-	{"N¢pÀd¢qu‚±ﬁ ",41},
+	{"N¢pÀd¢qu„±ﬁ ",41},
 	{"<T§goìm…i“…ïs…álûm∑›!",42},
-	{"D®gπci“amóe∂®aìm…ia».",43},
+	{"D®g∏ci“amóe∂®aìm…ia».",43},
 	{"Meto",44},
-	{"Ah≥†n¢®t#á",45},
+	{"Ah¥†n¢®t#á",45},
 	{",",46},
 	{" ÷",47},
 	{".",48},
@@ -421,27 +421,27 @@ token_t mensajesSistema_t [] =
 	{"N¢lﬂv¢pu®ö",50},
 	{"",51},
 	{"Es¢n¢®t#á",52},
-	{"n¥g'£objeø",53},
-	{"FÔh•¢‹òc≤tπ».^",54},
-	{"FÔh•oïrrupø.^",55},
-	{"Err≥ÅE/S«FÔh•¢n¢gπba».^",56},
-	{"Di≠ct≥i¢ll§o.^",57},
+	{"n≥g'£obje¿",53},
+	{"FÔh•¢€òc≤t∏».^",54},
+	{"FÔh•oïrrup¿.^",55},
+	{"Err¥ÅE/S«FÔh•¢n¢g∏ba».^",56},
+	{"DiÆct¥i¢ll§o.^",57},
 	{"D c¢ll§o.",58},
-	{"N€b≠ÅfÔh•¢n¢v#li».^",59},
-	{"N€b≠ì∫fÔh•o: ",60},
+	{"N⁄bÆÅfÔh•¢n¢v#li».^",59},
+	{"N⁄bÆì∫fÔh•o: ",60},
 	{"",61},
-	{"/P•d&n? P≥Ìav≥∂rÀbaÉΩŸû—ºbπs.^",62},
+	{"/P•d&n? P¥Óav¥∂rÀbaÉΩÿû—ºb∏s.^",62},
 	{"Aqu% ",SYSMESS_NPCLISTSTART},
 	{"®t# ",SYSMESS_NPCLISTCONTINUE},
 	{"est·n",SYSMESS_NPCLISTCONTINUE_PLURAL},
-    {"Dë¢Ò÷",SYSMESS_INSIDE_YOUCANSEE},
+    {"Dè¢Ò÷",SYSMESS_INSIDE_YOUCANSEE},
     {"Encim†Ò÷",SYSMESS_OVER_YOUCANSEE},
     {"",68},
-	{"N¢ô√g¢qÀ∂Àd†qu‚±ﬁ.^",69},
+	{"N¢ô√g¢qÀ∂Àd†qu„±ﬁ.^",69},
 	{"P≤g¢",SYSMESS_YOUPUTOBJECTON },
     {"N¢ô√g¢qÀ∂Àdaïg•’.^",SYSMESS_YOUCANNOTTAKE},
-	{"N¢—≠‰ qÀ∂Àd†mov•’.^", SYSMESS_CANNOTMOVE},
-	{"Lﬂvoúüm∑oüvÓ%….^", SYSMESS_CARRYNOTHING},
+	{"N¢—Æ‚ qÀ∂Àd†mov•’.^", SYSMESS_CANNOTMOVE},
+	{"Lﬂvoúüm∑oüvÍ%….^", SYSMESS_CARRYNOTHING},
 	{"S√idûv ibl®:",SYSMESS_EXISTLIST},
 	{"",0}	
 };
@@ -450,20 +450,20 @@ token_t mensajesSistema_t [] =
 #ifdef ENGLISH 
 token_t mensajesSistema_t [] =
 {
-	{"It'sù¢d±kÇ’eßnyØ¥g.^",0},
+	{"It'sù¢d±kÇ’eßnyØ≥g.^",0},
 	{"Y‘´a£’e ",1},
-	{"Wh◊¨oèÁ∑æﬁÇd¢‹w?",2},
+	{"Wh◊¨oëË∑æﬁÇd¢€w?",2},
 	{"",3},
 	{"",4},
 	{"",5},
-	{"S≥ry? Pﬂ…e°ryΩîµw≥ds.^",6},
-	{"I´∑'æg¢¥í◊¨i≠cti≤.^",7},
+	{"S¥ry? Pﬂ…e°ryΩîµw¥ds.^",6},
+	{"I´∑'æg¢≥í◊¨iÆcti≤.^",7},
 	{"P±»£ﬁ?^",8},
-	{"Ißm´±ry¥g: ",9},
+	{"Ißm´±ry≥g: ",9},
 	{"(worn)",10},
-	{"‹Øâ◊ßll.",11},
-	{"A≠è∞u≠? ",12},
-	{"DoèÁ∑tÇpºyßga¥? ",13},
+	{"€Øâ◊ßll.",11},
+	{"AÆë∞uÆ? ",12},
+	{"DoëË∑tÇpºyßga≥? ",13},
 	{"Goodbye...",14},
 	{"OK^",15},
 	{"[...]",16},
@@ -471,15 +471,15 @@ token_t mensajesSistema_t [] =
 	{"°urn",18},
 	{"s",19},
 	{".^ ",20},
-	{"Y‘r∞∏≠à",21},
-	{"∂o¥t",22},
+	{"Y‘r∞πÆà",21},
+	{"∂o≥t",22},
 	{"I'mÕoæwe±âØ◊.^",23},
-	{"I´∑‹tÂI'mßl≠“÷we±âØ◊.^",24},
-	{"Ißl≠“÷ÒÃ ",25},
-	{"I´∑‹t∞eeí◊ßœuŒ.^",26},
-	{"I´∑‹t´±ryßnymo≠.^",27},
+	{"I´∑€tÂI'mßlÆ“÷we±âØ◊.^",24},
+	{"IßlÆ“÷ÒÃ ",25},
+	{"I´∑€t∞eeí◊ßœuŒ.^",26},
+	{"I´∑€t´±ryßnymoÆ.^",27},
 	{"I¨≤'æÒÃí◊.^",28},
-	{"I'mßl≠“÷we±â",29},
+	{"I'mßlÆ“÷we±â",29},
 	{"Y",30},
 	{"N",31},
 	{"More...",32},
@@ -487,43 +487,43 @@ token_t mensajesSistema_t [] =
 	{"",34},
 	{"Tiﬁ∂…sô...^",35},
 	{"I'Ã°ake£",36},
-	{"IÁe± ",37},
-	{"I ≠moÃ ",38},
+	{"IËe± ",37},
+	{"I ÆmoÃ ",38},
 	{"I¨œp ",39},
-	{"I´∑‹æwe±  ",40},
-	{"I´∑‹æ≠moÃ ",41},
-	{"M÷h∑düa≠Ìull!",42},
-	{"It'sù¢Æavy.",43},
+	{"I´∑€æwe±  ",40},
+	{"I´∑€æÆmoÃ ",41},
+	{"M÷h∑düaÆÓull!",42},
+	{"It'sù¢≠avy.",43},
 	{"I∂uæ",44},
-	{"Ità‹æi£",45},
+	{"Ità€æi£",45},
 	{",",46},
 	{"ßŒ ",47},
 	{".",48},
 	{"I¨≤'æÒÃ ",49},
 	{"I'mÕoæwe±â",50},
 	{"",51},
-	{"Th◊à‹æi£",52},
-	{"‹Øâ◊ßll",53},
+	{"Th◊à€æi£",52},
+	{"€Øâ◊ßll",53},
 	{"FiﬂÕoæf‘Œ.^",54},
-	{"C≥rup™–fiﬂ.^",55},
-	{"I/O •r≥«FiﬂÕot∞aÃd.^",56},
-	{"Di≠ct≥÷full.^",57},
+	{"C¥rup™–fiﬂ.^",55},
+	{"I/O •r¥«FiﬂÕot∞aÃd.^",56},
+	{"DiÆct¥÷full.^",57},
 	{"D càfull.",58},
-	{"Inv√id∞aÃgaﬁ ≈ﬁ«Pﬂ…e´Æck Ä≈ﬁè ó•Ëàc≥≠ct,ßŒ¿ake∞u≠èß≠°ry¥gÇ‡a–ÄgaﬁÌœm ÄÚﬁÌiﬂè∞aÃd.^",59},
-	{"Pﬂ…e ó•∞aÃgaﬁ ≈ﬁ«Reﬁmb•Ç‹™¨ow£Ä≈ﬁè´hoo’Âûiæwil∫be ≠qu®™d∆£≥d•Çr®ø≠ Ägaﬁ∞”tus.",60},
+	{"Inv√id∞aÃgaﬁ ≈ﬁ«Pﬂ…e´≠ck Ä≈ﬁë ó•Áàc¥Æct,ßŒøake∞uÆëßÆ°ry≥gÇ‡a–ÄgaﬁÓœm ÄÛﬁÓiﬂë∞aÃd.^",59},
+	{"Pﬂ…e ó•∞aÃgaﬁ ≈ﬁ«Reﬁmb•Ç€™¨ow£Ä≈ﬁë´hoo’Âûiæwil∫be Æqu®™d∆£¥d•Çr®¿Æ Ägaﬁ∞”tus.",60},
 	{"",61},
-	{"S≥ry? Pﬂ…e°ryΩîµw≥ds.^",62},
+	{"S¥ry? Pﬂ…e°ryΩîµw¥ds.^",62},
 	{"H•e ",SYSMESS_NPCLISTSTART},
 	{"I´a£’e ",SYSMESS_NPCLISTCONTINUE},
 	{"I´a£’e ",SYSMESS_NPCLISTCONTINUE_PLURAL},
     {"In·ñI∞ee ",SYSMESS_INSIDE_YOUCANSEE},
     {"Onùp I∞ee ",SYSMESS_OVER_YOUCANSEE},
     {"",68},
-	{"Ità‹t∞€eØâI´a£≠moÃ.^",69},
+	{"Ità€t∞⁄eØâI´a£ÆmoÃ.^",69},
 	{"I∂uæ",SYSMESS_YOUPUTOBJECTON },
-    {"Ità‹t∞€eØâI´∑°ake.^",SYSMESS_YOUCANNOTTAKE},
-	{"It´∑‹æbe¿oÃd.^", SYSMESS_CANNOTMOVE},
-	{"M÷h∑düa≠¶mpty.^", SYSMESS_CARRYNOTHING},
+    {"Ità€t∞⁄eØâI´∑°ake.^",SYSMESS_YOUCANNOTTAKE},
+	{"It´∑€æbeøoÃd.^", SYSMESS_CANNOTMOVE},
+	{"M÷h∑düaÆ¶mpty.^", SYSMESS_CARRYNOTHING},
 	{"Exists:",SYSMESS_EXISTLIST},
 	{"",0}	
 };
@@ -719,6 +719,7 @@ token_t nombres_t [] =
 	{"button", nBoton},
 	{"stair", nEscalera},
 	{"wall", nPared},
+	{"hull",nPared},
 	{"floor", nSuelo},
 	{"ceill", nTecho},
 	{"light", nLuz},
@@ -726,6 +727,8 @@ token_t nombres_t [] =
 	{"winds", 	nParabrisas},
 	{"box",	nCaja},
 	{"parcel",	nPaquete},
+	{"packet",nPaquete},
+	{"packag",nPaquete},
 	{"conta",	nContenedor},
 	{"sky",	nCielo},
 	{"space", 	nNave},
@@ -1289,12 +1292,12 @@ obj_t objetos_t[]=
 {
     // ID, LOC, NOMBRE, NOMBREID, ADJID, PESO, ATRIBUTOS
     {oCaja, lZonaA2,"—qÀ™ßzul",     nPaquete, aAzul,   1, aMale_hex | aDeterminado_hex},  
-    {oTraje, lEsclusa,"tπje∂r®uza»",     nTraje, EMPTY_WORD,   1, aWear_hex| aMale_hex | aDeterminado_hex},  
-	{oEsclusa, lEsclusa,"çu•”Ål†®cluÚ", nEsclusa, EMPTY_WORD,   1, aStatic_hex | aFemale_hex | aDeterminado_hex},  
+    {oTraje, lEsclusa,"t∏je∂r®uza»",     nTraje, EMPTY_WORD,   1, aWear_hex| aMale_hex | aDeterminado_hex},  
+	{oEsclusa, lEsclusa,"êu•”Ål†®cluÛ", nEsclusa, EMPTY_WORD,   1, aStatic_hex | aFemale_hex | aDeterminado_hex},  
 	{oPuerta, lEntrada,"pu•”Åﬁt√",     nPuerta, EMPTY_WORD,   1, aStatic_hex | aFemale_hex},  
 	{obotonrojo, lEsclusa,"bot&£œjo",     nBoton, aRojo,   1, aStatic_hex | aConcealed_hex | aMale_hex},  
 	{obotonverde, lEsclusa,"bot&£v•©",     nBoton, aVerde,   1, aStatic_hex | aConcealed_hex | aMale_hex},  
-	{oCanon, NONCREATED,"Í+&nÅvigil∑cia",     nCanon, EMPTY_WORD,   1, aStatic_hex | aMale_hex},  
+	{oCanon, NONCREATED,"Î+&nÅvigil∑cia",     nCanon, EMPTY_WORD,   1, aStatic_hex | aMale_hex},  
 	{oTeclado, NONCREATED,"teclado",     nTeclado, EMPTY_WORD,   1, aStatic_hex | aMale_hex},  
     {0,0,"",                EMPTY_WORD,EMPTY_WORD,            0,0x00000000}
 }; // Tabla de objetos de la aventura
@@ -1304,13 +1307,13 @@ obj_t objetos_t[]=
 obj_t objetos_t[]=
 {
     // ID, LOC, NOMBRE, NOMBREID, ADJID, PESO, ATRIBUTOS
-    {oCaja, lZonaA2,"blÀ∂±c¡",     nPaquete, aAzul,   1, aMale_hex | aDeterminado_hex},  
-    {oTraje, lEsclusa,"pr®uzË∞u‚",     nTraje, EMPTY_WORD,   1, aWear_hex| aMale_hex | aDeterminado_hex},  
+    {oCaja, lZonaA2,"blÀ∂Íket",     nPaquete, aAzul,   1, aMale_hex | aDeterminado_hex},  
+    {oTraje, lEsclusa,"pr®uzÁ∞u„",     nTraje, EMPTY_WORD,   1, aWear_hex| aMale_hex | aDeterminado_hex},  
 	{oEsclusa, lEsclusa,"air‡ck ga™", nEsclusa, EMPTY_WORD,   1, aStatic_hex | aFemale_hex | aDeterminado_hex},  
-	{oPuerta, lEntrada,"»≥¿et√",     nPuerta, EMPTY_WORD,   1, aStatic_hex | aFemale_hex},  
-	{obotonrojo, lEsclusa,"≠–bÎt≤",     nBoton, aRojo,   1, aStatic_hex | aConcealed_hex | aMale_hex},  
-	{obotonverde, lEsclusa,"g≠e£bÎt≤",     nBoton, aVerde,   1, aStatic_hex | aConcealed_hex | aMale_hex},  
-	{oCanon, NONCREATED,"surÃill∑‰´∑n≤",     nCanon, EMPTY_WORD,   1, aStatic_hex | aMale_hex},  
+	{oPuerta, lEntrada,"»¥øet√",     nPuerta, EMPTY_WORD,   1, aStatic_hex | aFemale_hex},  
+	{obotonrojo, lEsclusa,"Æ–bÏt≤",     nBoton, aRojo,   1, aStatic_hex | aConcealed_hex | aMale_hex},  
+	{obotonverde, lEsclusa,"gÆe£bÏt≤",     nBoton, aVerde,   1, aStatic_hex | aConcealed_hex | aMale_hex},  
+	{oCanon, NONCREATED,"surÃill∑‚´∑n≤",     nCanon, EMPTY_WORD,   1, aStatic_hex | aMale_hex},  
 	{oTeclado, NONCREATED,"keypad",     nTeclado, EMPTY_WORD,   1, aStatic_hex | aMale_hex},  
     {0,0,"",                EMPTY_WORD,EMPTY_WORD,            0,0x00000000}
 }; // Tabla de objetos de la aventura
@@ -1556,7 +1559,7 @@ token_t ordenador_topics_t[] =
 	{"pickup", 60},
 	{"ship", 61},
 	{"space",61},
-	{"deliv", 62},
+	{"star", 62},
 	{"sun", 63},
 	{"solar", 64},
 	{"systm", 65},
@@ -1600,80 +1603,80 @@ token_t ordenador_topics_t[] =
 #ifdef SPANISH 
 token_t mensajes_ordenador_t[]= 
 {
-	{"-Hoº,∞oyÖ≥d§“≥Å≈ÃgÓi&£-r®p≤ñÏ†voz¿et#liÍ.",1},
-	{"-Haƒ†pr≤ø.",2},
-	{"-SoyÖs ™⁄Å≈ÃgÓi&nÅl†≈Ã«",3},
-	{"-ErôTo–C≤n≥,Öpi‡øÅl†≈Ã«",4},
-	{"-Laùrmó†ômod•“a«Noìb•%†s• u£pœbﬂm†p±†Ó‰d•ßlßl⁄c$£us∑»ÖtπjeÅpœ™cci&n.",5},
-	{"-Eƒam›òÖs◊$li™ Jovi∑o«-r®p≤©Ö≥d§“≥.",7},
-	{"-Euœp†ôu£s◊$li™ÅJup‚•«EnÑc±†ilum¥“†p≥ J'p‚•Ö®pect#cul¢ôsob•bÛ«P≥ìsgπci†nu®tœòc±g¢®òÑc±†ocul”«",8},
-	{"-Euœp†ti§e Ï†c±†·emp≠ ≥ió“†hÓi†J'p‚•.",9},
-	{"-Eƒ#áu£√⁄c$n,òÖext•i≥«T§dr#üqÀ∞√irÉ¶ƒaùrmóa«",10},
-	{"-Ti§ôqÀ ≠∏g• u£—qÀ™áEuœp†÷ëeg±‡áM±™ßª®Å24h -r®p≤©.",11},
-	{"-MiÕ€b≠ ôDOT«Si¬¢p≠fi•®,∂Àdôus±¶s™Õ€b≠ß∫Òbl±Émigo« ",12},
-	{"-So÷u£mo©l¢Cyb•d¥e 1997« Mi∂œgπm“≥ ≥ig¥a∫fÀÖDr«Guill•m¢H∑Ål†MegaC≥p(tm)«Meò’+& †c∑t± Ï†c∑ci&nÂ/qui•ôo%rº?",13},
-	{"-L†empr®†r®p≤ÚbﬂÅqÀ°' ÷y¢®™m›Év•s∑»áEuœ—.",14},
-	{"-Meòc∑t∑úüavóuπsÉv•sÓi≤√®.",17},
-	{"-D®c≤ozc¢®e°$rm¥oÂ/™ ≠fi•ôaúsÉv•sÓi≤√®?",18},
-	{"-N¢®t#£m√,∂•¢n¢c≠¢qÀ∂Àdûjug± †Ï†mië…Éduc®.",19},
-	{"-N¢®t#¿√,∂•¢ôu£po∏ïrt†p±†mi gusø«P≠fi•¢'l†‹cÆ¿#súrga'ÂqÀ¨ur†Ïû12hÅjÀgoÅtiemp¢≠√.",20},
-	{"-P•¢bu§oÂ<·¶s†nÏÍÑt•m¥±≤!«Recu•d¢qÀ u‹Å‡üaÎ≥®ÂÏ°a∫UTO¬eÊiz¢Ï†v ‚†√∂œgπm“≥ qÀ°•m¥&°a£⁄∫qÀìƒruy•≤ùd¢u£b‡qÀÅofÔ¥…«P•¢®†ôoŸ†hiƒ≥ia.",21},
-	{"-Re√móeÕo°§g¢m#üdaøüsob≠¶ƒ†p•s≤a«Si£dud†•†Ï†móe¿a®Ÿ†p±†®Íp± †miü≠giƒœs.",22},
-	{"-U£miƒ•Û,∞eÿumo≠†qÀ •†u£±§qÀ œj¢mÎ∑™«",23},
-	{"-U£c¡ebπd¢aÎ≥Åc&mÔ qÀ vivi&¿#sÅ»scióoüa+›«T§%†u£c√‡òÖ©»°∑ìs∏mu≈∫qÀÌ¥√móe¿u&ßpºƒ“¢p≥ $l«Eüu£cl#·∏,ìb•%ûﬂ•ùd†suΩbr†v±iûÃc®.",24},
-	{"-U£®cbaìl∞igl¢XVÂgπciû†$l°§emoüd p≤iblôm±avilºsÜ¢'Cu∑»Ü% qu®¢negœ'áfr∑c$s.",25},
-	{"-L§guûmu•t…Âhoyád%aù»ÖÏiv•s¢Òbl†™c‹ll∑o.",26},
-	{"-L†l§gu†fr∑ÍÅnu®tœüd%….",27},
-	{"-Ar™∞ecu§cia∫muy∂opul± †f¥√eål∞igl¢XX«",28},
-	{"-E∫r®p≤ÚbﬂÅl†ﬁgaïrp≥◊i≤.",29},
-	{ "-Habﬂm›Å¡l¢cu∑»°•m¥ôtu¿ i&n.",30},
-	{"-Eüdif%cil¶ﬂgir,úüavóuπsÅ™xö’ volvi•o£≠√móe∂opul±ô†π%zÅl†pœlif•Ói&nÅs ™m…Å≈ÃgÓi&náauøm&vil®,„±∏ü÷≈vô®—ci√®«",31},
-	{ "-Te„usc±$ Ï†≠√móe ¥t•®∑™ Ï†Ãz°•m¥®Ñm i&n.",32},
-	{"-Da y..«-C€i§z††ó≤±∞¥ìm…i“†f≥tu≈.",33},
-	{"-E∫¥g§i•¢r®p≤ÚbﬂÅl†¥t•fazÊum∑aÅ‡üs ™m…Å≈ÃgÓi&nÅl†MegÓ≥p(tm)",34},
-	{"-L¢qÀ usûp±aÜÏÔ±™Émigo.",35},
-	{"-Pm•¢Ò÷qÀ ≠∏g•Ö—qÀ™,¬Àg¢p≤dr$ÿumb¢†M±™«-™ ≠cu•daÖ≥d§“≥.",36},
-	{"-L†ë“†®t#Êa÷fu•a«Eüp›ibﬂ qÀÕec®‚ô√g'£c&digoÅÓc®¢p±†ë±.",37},
-	{"-No°§g¢n¥g'£daøòÑ≥d§Ål†cë√ßc•Íìl´&digo.",38},
-	{"-L†cë√ÅZHL¶ƒ#òÑLu≈.",39},
-	{"-EsÑempr®aÅ≠p±øÅ—qÀt®á24h qÀÕoü—gaÖsu¡d¢yúüpiezûp±†’guiµ≠c≥§»ÖUniv•so.",40},
-	{"-L†Ti•r†fÀìvaƒ“aìspu$sÅv±Ûüapoc√ips «De¿€ó¢v†tir∑».",41 },
-	{"-Hemoü◊•z“¢c•ÍÅl†ë“a«Debôs√irßl¶xt•i≥Âë±òÖ√⁄c$£÷volv•ÉÖ—qÀ™∂±†qÀ∂Àdût•m¥±Ñm i&n«",42},
-	{"-Enùrn¢†150∫C„aj¢c•oòÖext•i≥«Te ≠∏mi§d¢qÀ¬ﬂv®ÖtπjeÅsup•vivi§cia.",43},
-	{"-LaÉsoºÅm∑d¢mu®tπÖ®”»Ål†≈Ã y¬›Étœlôm∑u√®«Actu√móe¶ƒ#ìsÓtiv“†p±†ah≥r±ò•g%a«",44},
-	{"-Eün≥⁄∫qÀÕ¢≠cu•dômuch¢√Üi§zoÅÏ†m i&n«P•¢‹°e∂≠ocup®Å®¢ah≥a,ìspu$sÅÏûj≥≈d…Å≠ºxùd¢volv•#ßÑn≥m√id“.",45},
-	{ "-D®pu$sÅ®™°πbaj¢podr#üp…± u‹üd%…Å≠ºxáM±™.",46},
-	{"-Y†Úb®,Öpl∑et†œjo«Bu§o,ßn±∑ja»ìsñqÀÜ§z&Ñt•πf≥⁄ci&n.",47},
-	{"-Eüﬁj≥Õ¢s√ir’ìl°e⁄Ål†m i&n«-r®p≤©",48},
-	{"-D®pu$sÅl†≠∏gidaìbemoüëeg±Ö—qÀ™òÖt§Ë≥ìl¨iab‡«U≈Ålû⁄y≥ôm¥…ÅHi•r¢÷N%qu¡ì∫S ™m†Sol±.",50},
-	{"-Tambi$£’¬eÉo‰ÜoÖt§Ë≥ìl¨iab‡«EüÏ†m¥†gob•≈d†p≥Ös¥diÍöÏifiÍ»Åm¥•%aÅM±™«",51},
-	{"-Eüu£ﬁt√ßbuŒ∑™∂•¢muy∂≠cia»«L¢dif%ci∫ôsu°r∑sp≥™,∂uôômuyìns¢y´u®t†baƒ∑™¨¥•¢extπ•‡Ål†◊m&sf•aòÑTi•π«",52},
-	{"-Gobi•n∑É¿∑¢dur†‡üp≠ci›Åvó†y¬oüÓu•»sÅsum¥iƒœs«",53},
-	{"-S≤°iempoüdif%cil®«L†hum∑id“°uv¢qÀßb∑d≤±ÑTi•πìbid¢†v±iûgu•rûnucﬂ±ôy¨ em¥±’∂≥Ös ™m†sol±«",54},
-	{"-Y†Úbôsum¥iƒœs,∂aqÀt•%a,ΩcÛ...",55},
-	{"-Aqu% ≈daÅocÛÂÒ÷qÀ°•m¥±Ötπbajo.",56},
-	{"-Nu®tœ°πbajoáZHL ôëeg±¬oü—qÀt®á24h.",57},
-	{"-SeÊa£abi•öv±iûm¥…áM±™.",58},
-	{"-Seg'nÑd®cpci&nì∫m§Úje∞e°π”Åu£—qÀ™Å27cm x 29cm x 30cm qÀ∂®†10Kg«",59},
-	{"-Hemoü◊•za»òÑë“aìlßl⁄c$n«Sugi•¢qÀ∞√gûah%Ìu•a,¬ºmôaÑpu•t†÷≠∏j…Ö—qÀ™.",60},
-	{"-Voºm›áÏ†≈ÃÅ≠p±øÅtip¢T®º«EsÜpﬂ”móe¶l$cŸÔ†s√voÖmot≥∂r¥cip√.",61},
+	{"-Hoº,∞oyÖ¥d§“¥Å≈ÃgÍi&£-r®p≤ñÌ†vozøet#liÎ.",1},
+	{"-Haƒ†pr≤¿.",2},
+	{"-SoyÖs ™‹Å≈ÃgÍi&nÅl†≈Ã«",3},
+	{"-ErôTo–C≤n¥,Öpi‡¿Ål†≈Ã«",4},
+	{"-Laùrmó†ômod•“a«Noìb•%†s• u£pœbﬂm†p±†Í‚d•ßlßl‹c$£us∑»Öt∏jeÅpœ™cci&n.",5},
+	{"-Eƒam›òÖs◊$li™ Jovi∑o«-r®p≤©Ö¥d§“¥.",7},
+	{"-Euœp†ôu£s◊$li™ÅJup„•«EnÑc±†ilum≥“†p¥ J'p„•Ö®pect#cul¢ôsob•bio«P¥ìsg∏ci†nu®tœòc±g¢®òÑc±†ocul”«",8},
+	{"-Euœp†ti§e Ì†c±†·empÆ ¥ió“†hÍi†J'p„•.",9},
+	{"-Eƒ#áu£√‹c$n,òÖext•i¥«T§dr#üqÀ∞√irÉ¶ƒaùrmóa«",10},
+	{"-Ti§ôqÀ Æπg• u£—qÀ™áEuœp†÷èeg±‡áM±™ßª®Å24h -r®p≤©.",11},
+	{"-MiÕ⁄bÆ ôDOT«Si¬¢pÆfi•®,∂Àdôus±¶s™Õ⁄bÆß∫Òbl±Émigo« ",12},
+	{"-So÷u£mo©l¢Cyb•d≥e 1997« Mi∂œg∏m“¥ ¥ig≥a∫fÀÖDr«Guill•m¢H∑Ål†MegaC¥p(tm)«Meò’+& †c∑t± Ì†c∑ci&nÂ/qui•ôo%rº?",13},
+	{"-L†empr®†r®p≤ÛbﬂÅqÀ°' ÷y¢®™m›Év•s∑»áEuœ—.",14},
+	{"-Meòc∑t∑úüavóu∏sÉv•sÍi≤√®.",17},
+	{"-D®c≤ozc¢®e°$rm≥oÂ/™ Æfi•ôaúsÉv•sÍi≤√®?",18},
+	{"-N¢®t#£m√,∂•¢n¢cÆ¢qÀ∂Àdûjug± †Ì†miè…Éduc®.",19},
+	{"-N¢®t#ø√,∂•¢ôu£poπïrt†p±†mi gus¿«PÆfi•¢'l†€c≠ø#súrga'ÂqÀ¨ur†Ìû12hÅjÀgoÅtiemp¢Æ√.",20},
+	{"-P•¢bu§oÂ<·¶s†nÌÎÑt•m≥±≤!«Recu•d¢qÀ u€Å‡üaÏ¥®ÂÌ°a∫UTO¬eÊiz¢Ì†v „†√∂œg∏m“¥ qÀ°•m≥&°a£‹∫qÀìƒruy•≤ùd¢u£b‡qÀÅofÔ≥…«P•¢®†ôoÿ†hiƒ¥ia.",21},
+	{"-Re√móeÕo°§g¢m#üda¿üsobÆ¶ƒ†p•s≤a«Si£dud†•†Ì†móeøa®ÿ†p±†®Îp± †miüÆgiƒœs.",22},
+	{"-U£miƒ•io,∞eŸumoÆ†qÀ •†u£±§qÀ œj¢mÏ∑™«",23},
+	{"-U£c¡eb∏d¢aÏ¥Åc&mÔ qÀ vivi&ø#sÅ»scióoüa+›«T§%†u£c√‡òÖ©»°∑ìsπmu≈∫qÀÓ≥√móeøu&ßpºƒ“¢p¥ $l«Eüu£cl#·π,ìb•%ûﬂ•ùd†suΩbr†v±iûÃc®.",24},
+	{"-U£®cbaìl∞igl¢XVÂg∏ciû†$l°§emoüd p≤iblôm±avilºsÜ¢'Cu∑»Ü% qu®¢Úgœ'áfr∑c$s.",25},
+	{"-L§guûmu•t…Âhoyád%aù»ÖÌiv•s¢Òbl†™c€ll∑o.",26},
+	{"-L†l§gu†fr∑ÎÅnu®tœüd%….",27},
+	{"-Ar™∞ecu§cia∫muy∂opul± †f≥√eål∞igl¢XX«",28},
+	{"-E∫r®p≤ÛbﬂÅl†ﬁgaïrp¥◊i≤.",29},
+	{ "-Habﬂm›Å¡l¢cu∑»°•m≥ôtuø i&n.",30},
+	{"-Eüdif%cil¶ﬂgir,úüavóu∏sÅ™xö’ volvi•o£Æ√móe∂opul±ô†∏%zÅl†pœlif•Íi&nÅs ™m…Å≈ÃgÍi&náau¿m&vil®,‰±πü÷≈vô®—ci√®«",31},
+	{ "-Te‰usc±$ Ì†Æ√móe ≥t•®∑™ Ì†Ãz°•m≥®Ñm i&n.",32},
+	{"-Da y..«-C⁄i§z††ó≤±∞≥ìm…i“†f¥tu≈.",33},
+	{"-E∫≥g§i•¢r®p≤ÛbﬂÅl†≥t•fazÊum∑aÅ‡üs ™m…Å≈ÃgÍi&nÅl†MegÍ¥p(tm)",34},
+	{"-L¢qÀ usûp±aÜÌÔ±™Émigo.",35},
+	{"-Pm•¢Ò÷qÀ Æπg•Ö—qÀ™,¬Àg¢p≤dr$Ÿumb¢†M±™«-™ Æcu•daÖ¥d§“¥.",36},
+	{"-L†è“†®t#Êa÷fu•a«Eüp›ibﬂ qÀÕec®„ô√g'£c&digoÅÍc®¢p±†è±.",37},
+	{"-No°§g¢n≥g'£da¿òÑ¥d§Ål†cè√ßc•Îìl´&digo.",38},
+	{"-L†cè√ÅZHL¶ƒ#òÑLu≈.",39},
+	{"-EsÑempr®aÅÆp±¿Å—qÀt®á24h qÀÕoü—gaÖsu¡d¢yúüpiezûp±†’guiµÆc¥§»ÖUniv•so.",40},
+	{"-L†Ti•r†fÀìvaƒ“aìspu$sÅv±ioüapoc√ips «Deø⁄ó¢v†tir∑».",41 },
+	{"-Hemoü◊•z“¢c•ÎÅl†è“a«Debôs√irßl¶xt•i¥Âè±òÖ√‹c$£÷volv•ÉÖ—qÀ™∂±†qÀ∂Àdût•m≥±Ñm i&n«",42},
+	{"-Enùrn¢†150∫C‰aj¢c•oòÖext•i¥«Te Æπmi§d¢qÀ¬ﬂv®Öt∏jeÅsup•vivi§cia.",43},
+	{"-LaÉsoºÅm∑d¢mu®t∏Ö®”»Ål†≈Ã y¬›Étœlôm∑u√®«Actu√móe¶ƒ#ìsÍtiv“†p±†ah¥r±ò•g%a«",44},
+	{"-Eün¥‹∫qÀÕ¢Æcu•dômuch¢√Üi§zoÅÌ†m i&n«P•¢€°e∂Æocup®Å®¢ah¥a,ìspu$sÅÌûj¥≈d…ÅÆºxùd¢volv•#ßÑn¥m√id“.",45},
+	{ "-D®pu$sÅ®™°∏baj¢podr#üp…± u€üd%…ÅÆºxáM±™.",46},
+	{"-Y†Ûb®,Öpl∑et†œjo«Bu§o,ßn±∑ja»ìsñqÀÜ§z&Ñt•∏f¥‹ci&n.",47},
+	{"-Eüﬁj¥Õ¢s√ir’ìl°e‹Ål†m i&n«-r®p≤©",48},
+	{"-D®pu$sÅl†Æπgidaìbemoüèeg±Ö—qÀ™òÖt§Á¥ìl¨iab‡«U≈Ålû‹y¥ôm≥…ÅHi•r¢÷N%qu¡ì∫S ™m†Sol±.",50},
+	{"-Tambi$£’¬eÉo‚ÜoÖt§Á¥ìl¨iab‡«EüÌ†m≥†gob•≈d†p¥Ös≥diÎöÌifiÎ»Åm≥•%aÅM±™«",51},
+	{"-Eüu£ﬁt√ßbuŒ∑™∂•¢muy∂Æcia»«L¢dif%ci∫ôsu°r∑sp¥™,∂uôômuyìns¢y´u®t†baƒ∑™¨≥•¢ext∏•‡Ål†◊m&sf•aòÑTi•∏«",52},
+	{"-Gobi•n∑Éø∑¢dur†‡üpÆci›Åvó†y¬oüÍu•»sÅsum≥iƒœs«",53},
+	{"-S≤°iempoüdif%cil®«L†hum∑id“°uv¢qÀßb∑d≤±ÑTi•∏ìbid¢†v±iûgu•rûnucﬂ±ôy¨ em≥±’∂¥Ös ™m†sol±«",54},
+	{"-Y†Ûbôsum≥iƒœs,∂aqÀt•%a,Ωcio...",55},
+	{"-Aqu% ≈daÅocioÂÒ÷qÀ°•m≥±Öt∏bajo.",56},
+	{"-Nu®tœ°∏bajoáZHL ôèeg±¬oü—qÀt®á24h.",57},
+	{"-SeÊa£abi•öv±iûm≥…áM±™.",58},
+	{"-Seg'nÑd®cpci&nì∫m§Ûje∞e°∏”Åu£—qÀ™Å27cm x 29cm x 30cm qÀ∂®†10Kg«",59},
+	{"-Hemoü◊•za»òÑè“aìlßl‹c$n«Sugi•¢qÀ∞√gûah%Óu•a,¬ºmôaÑpu•t†÷Æπj…Ö—qÀ™.",60},
+	{"-Voºm›áÌ†≈ÃÅÆp±¿Åtip¢T®º«EsÜpﬂ”móe¶l$cÿÔ†s√voÖmot¥∂r≥cip√.",61},
 	{"-L†m#üc•c∑†ôSol.",62},
-	{"-EsÑ®t≠ll†pr¥cip√Å®™∞ ™⁄«",63},
-	{ "-EsÖs ™m†a∫qÀ∂•t§e‰ÑTi•π«",64},
-	{"-To»ü‡üs ™m…á≥d§«Op•am›ámo»ÅbajoÉsumo.",65},
-	{"-P±†®¢®øyßqu%,∂±†ayud±™«Algu‹sÜ∑»üqÀ∂Àdôus±∞≤:¿ i&nÂJ'p‚•,Õ€b≠,¿o©‡,¿§Úje...",66},
-	{"Te⁄: Env%¢urgóeß∫T§Ë≥ÅM±™«C≤t§i»: Re∏gidaá√⁄c$ná∏≥d§“…áEuœ—«Us±´ºÃ: 32768«Imp≥t∑™: M∑t§• †™mp•◊ur†baj¢c•o«",67},
-	{ "-Quiz#Êay†√goòÖm§Újeìlòc±go.",70},
-	{"-N¢ôu£pœbﬂ⁄ÉÖtπjeÅsup•viv§cia«Si£$lÑπdiÓi&£ô”£¡ev“†qÀÕ¢vivir%ûm#sÅu£d%a«",71},
-	{"-L†®clus†’Ωp•†m∑u√móe«E∫bot&£v•ñci•πÑ®clus†yÖœjoÑab≠« A’g'π™Ålﬂv±ÖtπjeÅsup•viv§ci†pu®ø«",72},
-	{"-Debid¢aÑfu•™ πdiÓi&£nu®tπsÜÏiÍci≤ôs&l¢fÏci≤∑òÑ≈Ã«N¢®t±$Étig¢ah%Ìu•a«",68},
-	{ "-S≤úü·gºsÅÓtivid“¶xtπ-ÃhÔul±«Eücu∑d¢s√®ám i&£fu•aÅl†≈Ã«",73},
-	{"-Loòc≤Ÿ±#sòÑ®clus†l öp±†su uso«Recu•d†n¢s√irÅl†≈Ã∞i£lﬂv±l¢pu®ø.",74},
-	{ "-Es†a‰pci&£n¢f≥m†p±™Åmi„…eÅdaøs«-r®p≤©Ö≥d§“≥É¶ﬂg∑cia«",78},
-	{"-Y†Úb®,∂±†Ó≥t±∂aºbπåm…ia»úrg…«",77},
-	{"-Si£pœbﬂm…Ây†‹°±a≠¢m…«-r®p≤ñu£poc¢»li».",79},
-	{"-D≤ñ√⁄c§amoü‡ü—qÀtôp±†su¨iƒbuci&n.",80},
-	{ "-T§emoüu£fg≥%fi∏ìdÔ“¢†®™°ipoÅ—qÀt®«-r®p≤©ìspu$sÅu£b≠Ã∞il§cÛ",81},
+	{"-EsÑ®tÆll†pr≥cip√Å®™∞ ™‹«",63},
+	{ "-EsÖs ™m†a∫qÀ∂•t§e‚ÑTi•∏«",64},
+	{"-To»ü‡üs ™m…á¥d§«Op•am›ámo»ÅbajoÉsumo.",65},
+	{"-P±†®¢®¿yßqu%,∂±†ayud±™«Algu€sÜ∑»üqÀ∂Àdôus±∞≤:ø i&nÂJ'p„•,Õ⁄bÆ,øo©‡,ø§Ûje...",66},
+	{"Te‹: Env%¢urgóeß∫T§Á¥ÅM±™«C≤t§i»: Reπgidaá√‹c$náπ¥d§“…áEuœ—«Us±´ºÃ: 32768«Imp¥t∑™: M∑t§• †™mp•◊ur†baj¢c•o«",67},
+	{ "-Quiz#Êay†√goòÖm§Ûjeìlòc±go.",70},
+	{"-N¢ôu£pœbﬂ‹ÉÖt∏jeÅsup•viv§cia«Si£$lÑ∏diÍi&£ô”£¡ev“†qÀÕ¢vivir%ûm#sÅu£d%a«",71},
+	{"-L†®clus†’Ωp•†m∑u√móe«E∫bot&£v•ñci•∏Ñ®clus†yÖœjoÑabÆ« A’g'∏™Ålﬂv±Öt∏jeÅsup•viv§ci†pu®¿«",72},
+	{"-Debid¢aÑfu•™ ∏diÍi&£nu®t∏sÜÌÔÍi≤ôs&l¢fÌci≤∑òÑ≈Ã«N¢®t±$Étig¢ah%Óu•a«",68},
+	{ "-S≤úü·gºsÅÍtivid“¶xt∏-ÃhÔul±«Eücu∑d¢s√®ám i&£fu•aÅl†≈Ã«",73},
+	{"-Loòc≤ÿ±#sòÑ®clus†l öp±†su uso«Recu•d†n¢s√irÅl†≈Ã∞i£lﬂv±l¢pu®¿.",74},
+	{ "-Es†a‚pci&£n¢f¥m†p±™Åmi‰…eÅda¿s«-r®p≤©Ö¥d§“¥É¶ﬂg∑cia«",78},
+	{"-Y†Ûb®,∂±†Í¥t±∂aºb∏åm…ia»úrg…«",77},
+	{"-Si£pœbﬂm…Ây†€°±aÆ¢m…«-r®p≤ñu£poc¢»li».",79},
+	{"-D≤ñ√‹c§amoü‡ü—qÀtôp±†su¨iƒbuci&n.",80},
+	{ "-T§emoüu£fg¥%fiπìdÔ“¢†®™°ipoÅ—qÀt®«-r®p≤©ìspu$sÅu£bÆÃ∞il§cio",81},
 	{0,0}
 };
 #endif 
@@ -1681,80 +1684,80 @@ token_t mensajes_ordenador_t[]=
 #ifdef ENGLISH
 token_t mensajes_ordenador_t[]= 
 {
-	{"'H¡‡,í àÄ≈vig◊i≤ÜpÎ•,' ≠pliô†ﬁt√lÔ voi‰.",1},
-	{"'Seeè∞o≤'",2},
-	{"'Ißm Äship'ü≈vig◊Û£sys™m' ",3},
-	{"'Y‘ß≠ To–C≤n≥ÂÄs—‰cπft'üdv•' ",4},
-	{"'ãƒ≥màmod•a™«It∞h‘ldn'æbe †pœbﬂmÇÓc®üÄwa≠h‘’Áe±âÄpœ™ctiÃ∞u‚'",5},
-	{"'Weß≠Ω£ÄJovia£Ú™lli™,' ≠pliôÄçÎ•.",7},
-	{"'Euœpeà†Ú™lli™éJup‚•«O£Ä·ñillum¥a™–b÷Jup‚• Äspec”cﬂàg≠◊«Unf≥tu≈™lyΩurßs·gnmóào£Ähid©£·©' ",8},
-	{"'EuœpeÊû†·ñ√wayü≥ióËùw±düJup‚•'",9},
-	{"'It'üi£†wa≠h‘’,ΩÎ·©«Y‘'l∫ÒÃÇg¢‘æ¥íiüƒ≥m' ",10},
-	{"'Y‘ÊaÃÇpÔk up †—ckageΩ£EuœpeßŒìliv•∆tÇM±üwiØi£24h,'∆æ≠pli®.",11},
-	{"'M÷≈ﬁàDOT«Ifè∂≠f•,è´a£u’íiü≈ﬁÁh§°√k¥gÇﬁ'  ",12},
-	{"'Ißm †1997 Cyb•d¥e¿o©l« M÷≥ig¥√∂œgπmm•ÁûDr«Guill•m¢H∑éMegaC≥p(tm)«He°aughæﬁÇsâ†s≤g,¨oèÁ∑tÇÆ±∆t?'",13},
-	{"'TÆÜp∑÷r®p≤·bﬂÌ≥èßŒ¿eÊavâØ Év•s◊Û£i£Euœpe'",14},
-	{"'I¬oÃÜm∑dl¥eßdvóur®'",17},
-	{"'I¨≤'æk‹wí◊°•m,è¿ea£Ä∏mm∑d¬¥e ≤®?'",18},
-	{"'Noæb“,„uæI¨≤'tí¥kè´a£pº÷≤eÁhiﬂ¨v¥g'",19}, 
-	{"'Noæb“,„uæ‚'ü†l‚tﬂ∞h≥æf≥¿y°…™«I∂≠f• 'Äl≤g®ænight'ÂwhÔhúƒüab‘æ12hé≠√°iﬁ gaﬁpºy'",20},
-	{"'W¡l,íeyÕev•Ì¥ Ædíaæ≤e«I ≠ﬁmb•íaæ≤eéÄauØ≥sÂ†c•”i£UTO,∂ai–†v ‚ÇÄpœgπmm•í◊ò©d∞¢b“lyí◊íeyìƒœye–†whoﬂ„‡ckéoffÔ®«BÎí◊'ü∑oîr∞t≥y'",21},
-	{"'I ≠√ly¨≤'æÒÃßny¿o≠¨◊†≤íiüp•s≤«N¢»ubæÆÁû†⁄ƒ•m¥dÇ®Ípe¿÷≠c≥ds'",22},
-	{"'A¿yƒ•y,ÿum≥ÊûiæÆÁû†mÎ∑æ≠–h•r¥g' ",23},
-	{"'A´¡ebπ™dÜÔßuØ≥Áh¢liÃdÇbeΩv•°w¢huŒ≠–ye±üold«HeÊa–†c√luüo£hiüf¥g•∞¢gig∑tÔíaæÆÁûevóu√ly´rusÆdÇ©aØ„y∆t«Heà†cult´ºs·c,è∞h‘l–≠“ßl∫hiüw≥k∞ev•√°im®'",24},
-	{"'AÌif™óh´óury∞cbe,í∑ksÇhimÁeÊaÃ∞uchÁ≤d•üû'WÆ£Iß™„ºck´Æ®e'ßvaiºbﬂ∆£Fr§ch'",25},
-	{"'De“úÈuag®,Õow“ayüÄwhoﬂ Ïiv•’∞peaküTech‹l¥gu√.",26}, 
-	{"'ãl¥gu†fr∑Íé‘r¨ays'",27},
-	{"'Sequói√ßrtÂv•y∂opul±ßæÄ§déÄ20Ø´óury'",28},
-	{"'ã⁄£r®p≤·bﬂÌ≥ Äﬁgaïrp≥◊i≤'",29},
-	{"'Let'üt√kßb‘æiæwh§èÌ¥ hèµm ·≤'",30},
-	{"'It'üh±dÇchoo’Âvoi‰ßdvóurôbeÍﬁ ≠√ly∂opul±∆£ÄwakeéÄpœlif•◊i≤é≈vig◊Û£sys™müi£c±s,∞hipü∑d∞—‰cπfts' ",31},
-	{"'I'l∫f¥dè †≠√l÷¥t•®tâ≤e ≤‰èÌ¥ h Äm ·≤'",32},
-	{"'Da y...,' ÄçÎ•∞t±tüs¥gâwiØ‘æmuchÌ≥tÏe.",33},
-	{"'ã§g¥e•ÿ®p≤·bﬂÌ≥ Ähu⁄£¥t•fa‰éÄMegÓ≥p(tm)'ü≈vig◊Û£sys™ms'",34}, 
-	{"'Wh◊è u’Ç∏mmÏiÍ™ÁiØ¿e'",35},
-	{"'FirsæweÊaÃÇpÔk up Ä—ckage,íe£I'll∞etïur’Ì≥ M±sÂ' ÄçÎ• ≠m¥dsè.",36},
-	{"'ãë∑‰à‘t·©«Y‘¿ayÕeË∞€eßcc®sï©Çgeæ¥'",37},
-	{"'I¨≤'æÒÃßny¨◊†i£Ä≥d•Ìœm Äcë√∞”tÛ£ab‘æÄ∏©'",38},
-	{"'ZHL'üÆ“qu±t•sào£E±Ø'üMo≤'",39},
-	{"'It'üÄ24h∂Ókageìliv•yÜp∑yí◊∂ayü‘r∞√±yßŒ Äp±tsÇc≤t¥ÀùurâÄSol±∞ys™m'",40},
-	{"'E±ØÁaåvaƒa™dßft•∞ev•√ßpoc√yps®«Nowà»âjusæf¥e.'",41 },
-	{"'WeÊaÃún©dÕe± Äë∑‰«Y‘¿usæg¢‘t·©Âó• Äwa≠h‘’ßŒ ≠tur£wiØ Ä—ckage∞oè´a£f¥ h Äm ·≤' ",42},
-	{"'Ab‘æ150∞C„¡ow z•¢‘t·©«I ≠∏mm§dèÁe± Äsurviv√∞u‚'",43},
-	{"'TÆÜm∑dÉsoﬂ¨ pºyüship∞”tuü∑d¿∑u√Étœls«Itàcurróly¨ abﬂdÇÚÃ∂ow•'",44},
-	{"'It'ün≥m√í◊è¨≤'æ≠ﬁmb•¿uchßæÄbeg¥nâof †m ·≤«BÎ¨≤'æw≥ryßb‘tíaæ‹w,ßft• †few¨aysé≠ºx◊Û£ev•yØâwil∫be„ÓkÇn≥m√'",45}, 
-	{"'Aft•íiüw≥kèÁil∫beßbﬂÇsp§–†few¨ayü≠ºxâo£M±s'",46},
-	{"'Y‘ k‹wÂÄ≠d∂l∑et«W¡lÂ≥∑ge∞¥‰°•πf≥mâbeg∑'",47},
-	{"'It'übett•ÕotÇgetΩff ÄsubjectéÄm ·≤«'",48},
-	{"'Aft• ÄpÔkupÁe¿uƒìliv• Ä—ckageÇÄ©vil'üf≥k«OneéÄl±g®æIœ£∑–NÔkõm¥ôi£ÄSol± Sys™m'",50},
-	{"'Ità√s¢k‹w£ûÄ©vil'üf≥k«Ità†m¥e gov•ne–b÷ÄÏifiË¿¥âsyŒiÍ™éM±s' ",51},
-	{"'Itàa£abuŒ∑æbuæv•y∂≠ci‘üﬁt√«Wh◊àdiffÔultà‚üŸ∑sp≥”ti≤Âf≥∆tàv•yìn’ßŒïƒüqui™ †‡tém≤eyÇextπcæiæfœm E±Ø' ",52},
-	{"'TÆ÷gov•£wiØ∆œ£f æÄs¡lâprÔô∑–Äsupplyßg≠emós' ",53},
-	{"'Th®eß≠Ê±d°im®«M∑k¥–h“ÇﬂaÃ ÄE±Ø¨ÀÇpolÎÛ£∑d∞p≠“íœugh‘æÄsol±∞ys™m' ",54},
-	{"'Y‘ k‹w∞uppli®,∂±c¡s,¬e u≠...'",55},
-	{"'N¢fÏà√‡wËÂweÊaÃÇf¥ h Äjob'",56},
+	{"'H¡‡,í àÄ≈vig◊i≤ÜpÏ•,' Æpliô†ﬁt√lÔ voi‚.",1},
+	{"'Seeë∞o≤'",2},
+	{"'Ißm Äship'ü≈vig◊io£sys™m' ",3},
+	{"'Y‘ßÆ To–C≤n¥ÂÄs—‚c∏ft'üdv•' ",4},
+	{"'ãƒ¥màmod•a™«It∞h‘ldn'æbe †pœbﬂmÇÍc®üÄwaÆh‘’Ëe±âÄpœ™ctiÃ∞u„'",5},
+	{"'WeßÆΩ£ÄJovia£Û™lli™,' ÆpliôÄêÏ•.",7},
+	{"'Euœpeà†Û™lli™çJup„•«O£Äfa‚∆llum≥a™–b÷Jup„• Äspec”cﬂàgÆ◊«Unf¥tu≈™lyΩurßs·gnmóào£Ähid©£·©' ",8},
+	{"'EuœpeÊû†·ñ√wayü¥ióÁùw±düJup„•'",9},
+	{"'It'üi£†waÆh‘’,ΩÏ·©«Y‘'l∫ÒÃÇg¢‘æ≥íiüƒ¥m' ",10},
+	{"'Y‘ÊaÃÇpÔk up †—ckageΩ£EuœpeßŒìliv•∆tÇM±üwiØi£24h,'∆æÆpli®.",11},
+	{"'M÷≈ﬁàDOT«Ifë∂Æf•,ë´a£u’íiü≈ﬁËh§°√k≥gÇﬁ'  ",12},
+	{"'Ißm †1997 Cyb•d≥eøo©l« M÷¥ig≥√∂œg∏mm•ËûDr«Guill•m¢H∑çMegaC¥p(tm)«He°aughæﬁÇsâ†s≤g,¨oëË∑tÇ≠±∆t?'",13},
+	{"'T≠Üp∑÷r®p≤·bﬂÓ¥ëßŒøeÊavâØ Év•s◊io£i£Euœpe'",14},
+	{"'I¬oÃÜm∑dl≥eßdvóur®'",17},
+	{"'I¨≤'æk€wí◊°•m,ëøea£Äπmm∑d¬≥e ≤®?'",18},
+	{"'Noæb“,‰uæI¨≤'tí≥kë´a£pº÷≤eËhiﬂ¨v≥g'",19}, 
+	{"'Noæb“,‰uæ„'ü†l„tﬂ∞h¥æf¥øy°…™«I∂Æf• 'Äl≤g®ænight'ÂwhÔhúƒüab‘æ12hçÆ√°iﬁ gaﬁpºy'",20},
+	{"'W¡l,íeyÕev•Ó≥ ≠díaæ≤e«I Æﬁmb•íaæ≤eçÄauØ¥sÂ†c•”i£UTO,∂ai–†v „ÇÄpœg∏mm•í◊ò©d∞¢b“lyí◊íeyìƒœye–†whoﬂ‰‡ckçoffÔ®«BÏí◊'ü∑oîr∞t¥y'",21},
+	{"'I Æ√ly¨≤'æÒÃßnyøoÆ¨◊†≤íiüp•s≤«N¢»ubæ≠Ëû†‹ƒ•m≥dÇ®Îpeø÷Æc¥ds'",22},
+	{"'Aøyƒ•y,Ÿum¥Êûiæ≠Ëû†mÏ∑æÆ–h•r≥g' ",23},
+	{"'A´¡eb∏™dÜÔßuØ¥Ëh¢liÃdÇbeΩv•°w¢huŒÆ–ye±üold«HeÊa–†c√luüo£hiüf≥g•∞¢gig∑tÔíaæ≠Ëûevóu√ly´rus≠dÇ©aØ‰y∆t«Heà†cult´ºs·c,ë∞h‘l–Æ“ßl∫hiüw¥k∞ev•√°im®'",24},
+	{"'AÓif™óh´óury∞cbe,í∑ksÇhimËeÊaÃ∞uchË≤d•üû'W≠£Iß™‰ºck´≠®e'ßvaiºbﬂ∆£Fr§ch'",25},
+	{"'De“úÈuag®,Õow“ayüÄwhoﬂ Ìiv•’∞peaküTech€l≥gu√.",26}, 
+	{"'ãl≥gu†fr∑Îç‘r¨ays'",27},
+	{"'Sequói√ßrtÂv•y∂opul±ßæÄ§dçÄ20Ø´óury'",28},
+	{"'ã‹£r®p≤·bﬂÓ¥ Äﬁgaïrp¥◊i≤'",29},
+	{"'Let'üt√kßb‘æiæwh§ëÓ≥ hëµm ·≤'",30},
+	{"'It'üh±dÇchoo’Âvoi‚ßdvóurôbeÎﬁ Æ√ly∂opul±∆£ÄwakeçÄpœlif•◊i≤ç≈vig◊io£sys™müi£c±s,∞hipü∑d∞—‚c∏fts' ",31},
+	{"'I'l∫f≥dë †Æ√l÷≥t•®tâ≤e ≤‚ëÓ≥ h Äm ·≤'",32},
+	{"'Da y...,' ÄêÏ•∞t±tüs≥gâwiØ‘æmuchÓ¥tÌe.",33},
+	{"'ã§g≥e•Ÿ®p≤·bﬂÓ¥ Ähu‹£≥t•fa‚çÄMegÍ¥p(tm)'ü≈vig◊io£sys™ms'",34}, 
+	{"'Wh◊ë u’ÇπmmÌiÎ™ËiØøe'",35},
+	{"'FirsæweÊaÃÇpÔk up Ä—ckage,íe£I'll∞etïur’Ó¥ M±sÂ' ÄêÏ• Æm≥dsë.",36},
+	{"'ãè∑‚à‘t·©«Y‘øayÕeÁ∞⁄eßcc®sï©Çgeæ≥'",37},
+	{"'I¨≤'æÒÃßny¨◊†i£Ä¥d•Óœm Äcè√∞”tio£ab‘æÄπ©'",38},
+	{"'ZHL'ü≠“qu±t•sào£E±Ø'üMo≤'",39},
+	{"'It'üÄ24h∂Íkageìliv•yÜp∑yí◊∂ayü‘r∞√±yßŒ Äp±tsÇc≤t≥ÀùurâÄSol±∞ys™m'",40},
+	{"'E±ØËaåvaƒa™dßft•∞ev•√ßpoc√yps®«Nowà»âjusæf≥e.'",41 },
+	{"'WeÊaÃún©dÕe± Äè∑‚«Y‘øusæg¢‘t·©Âó• ÄwaÆh‘’ßŒ Ætur£wiØ Ä—ckage∞oë´a£f≥ h Äm ·≤' ",42},
+	{"'Ab‘æ150∞C‰¡ow z•¢‘t·©«I Æπmm§dëËe± Äsurviv√∞u„'",43},
+	{"'T≠Üm∑dÉsoﬂ¨ pºyüship∞”tuü∑dø∑u√Étœls«Itàcurróly¨ abﬂdÇÛÃ∂ow•'",44},
+	{"'It'ün¥m√í◊ë¨≤'æÆﬁmb•øuchßæÄbeg≥nâof †m ·≤«BÏ¨≤'æw¥ryßb‘tíaæ€w,ßft• †few¨aysçÆºx◊io£ev•yØâwil∫be‰ÍkÇn¥m√'",45}, 
+	{"'Aft•íiüw¥këËil∫beßbﬂÇsp§–†few¨ayüÆºxâo£M±s'",46},
+	{"'Y‘ k€wÂÄÆd∂l∑et«W¡lÂ¥∑ge∞≥‚°•∏f¥mâbeg∑'",47},
+	{"'It'übett•ÕotÇgetΩff ÄsubjectçÄm ·≤«'",48},
+	{"'Aft• ÄpÔkupËeøuƒìliv• Ä—ckageÇÄ©vil'üf¥k«OÚçÄl±g®æIœ£∑–NÔkõm≥ôi£ÄSol± Sys™m'",50},
+	{"'Ità√s¢k€w£ûÄ©vil'üf¥k«Ità†m≥e gov•Ú–b÷ÄÌifiÁø≥âsyŒiÎ™çM±s' ",51},
+	{"'Itàa£abuŒ∑æbuæv•y∂Æci‘üﬁt√«Wh◊àdiffÔultà„üÿ∑sp¥”ti≤Âf¥∆tàv•yìn’ßŒïƒüqui™ †‡tçm≤eyÇext∏cæiæfœm E±Ø' ",52},
+	{"'T≠÷gov•£wiØ∆œ£f æÄs¡lâprÔô∑–ÄsupplyßgÆemós' ",53},
+	{"'Th®eßÆÊ±d°im®«M∑k≥–h“ÇﬂaÃ ÄE±Ø¨ÀÇpolÏio£∑d∞pÆ“íœugh‘æÄsol±∞ys™m' ",54},
+	{"'Y‘ k€w∞uppli®,∂±c¡s,¬e uÆ...'",55},
+	{"'N¢fÌà√‡wÁÂweÊaÃÇf≥ h Äjob'",56},
 	{"'OuµjobßæZHL∆sÇ©liv•∂±c¡üwiØi£24h'",57},
-	{"'Sev•a∫m¥ôÒÃ„ee£exÍva™dΩ£M±s'",58},
-	{"'Acc≥d¥gÇÄm®ÚgeìscptÛ£‚à†27cm x 29cm x 30cm∂ÓkageÁeighâ10Kg'",59},
-	{"'WeÊaÃún©dßæÄwa≠h‘’ ë∑‰«I∞ugg®tè g¢‘tí•e,Ωpe£Ä»≥ßŒ∂Ôk up Ä—ckage'",60},
-	{"'We'≠Ìlyâi£†T®º-typeìliv•y∞hip«It'ü√l¶ﬂcŸÔ¶x‰pæf≥ Ä⁄¥òg¥e'",61},
-	{"'ãne±®æ≤eàÄSÏ'.",62},
-	{"'ItàÄ⁄i£ƒ±éØiüsys™m' ",63},
-	{"'ItàÄsys™mÇwhÔh ÄE±Ø„¡≤gs' ",64},
-	{"'All∞ys™müi£≥d•«WeΩp•a™∆£‡w∂ow•¿o©'",65},
-	{"'Th◊'üwh÷I'mÊ•e,ÇÆlpè«S€eÜm∑dsè´a£u’ß≠:¿ ·≤ÂJup‚•Â≈ﬁ,¿o©l,¿®Úge...'",66},
-	{"'Subject: Urgó∞hipmóÇM±üF≥k«C≤tó: PÔk up∆£wa≠h‘’ßtï≥d¥◊ôi£Euœpe«U’ key: 32768«Imp≥t∑t: Keepßt∞ubz•o°emp•◊u≠.' ",67},
-	{"'Maybeí•e'üs€eØâi£Ä≥d•¿®Úge'",70},
-	{"'It'ü‹æ†pœbﬂmÁiØ Äsurviv√∞u‚«WiØ‘æiæÄπdi◊i≤às¢highèÁ‘ldn'æliÃ¿o≠ía£†day' ",71},
-	{"'ãair‡ckàop•a™d¿∑u√ly«ãg≠e£bÎø£cl›ôÄair‡ckßŒ Ä≠–bÎø£op§ü‚« Make∞u≠èÊaÃèr∞urviv√∞uiæ≤' ",72},
-	{"'DÀÇÄƒr≤g πdi◊Û£‘rÜmÏÔ◊i≤ü≤l÷w≥kΩ£Äship«IÁ≤'æbeÁiØèΩÎí•e' ",68},
-	{"'Th◊∞t∑düf≥¶xtπ-ÃhÔul±ßctiv‚y«It'üwh§è g¢o£†m ·o£‘t·ñÄship' ",73},
-	{"'Y‘'l∫f¥d∆æi£Äair‡ck ≠“÷f≥ u’«Reﬁmb•ÕotÇﬂaÃ ÄshipÁiØ‘æwe±â‚'",74},
-	{"'TÒæﬁ∑¥gà‹t∂±témy¨a”b…e,'ÿ®p≤düÄçÎ• gπ‰fully«",78},
-	{"'Y‘ k‹w,Çsh≥™£w≥dsí◊ß≠ù¢l≤g' ",77},
-	{"'N¢pœbﬂmÂI¨≤'æhumßnymo≠,'ÿ®p≤dü†l‚tﬂÊurt.",79},
-	{"'Wh•eÁe∞ø≠ Ä—ckagôf≥¨iƒbÎi≤'",80},
-	{"'WeÊaÃ †≠fg•◊≥ìdiÍ™dÇØiütypeé—ckag®,'ßnsw•üaft• †bef∞il§‰.",81},
+	{"'Sev•a∫m≥ôÒÃ‰ee£exÎva™dΩ£M±s'",58},
+	{"'Acc¥d≥gÇÄm®Ûgeìscptio£„à†27cm x 29cm x 30cm∂ÍkageËeighâ10Kg'",59},
+	{"'WeÊaÃún©dßæÄwaÆh‘’ è∑‚«I∞ugg®të g¢‘tí•e,Ωpe£Ä»¥ßŒ∂Ôk up Ä—ckage'",60},
+	{"'We'ÆÓlyâi£†T®º-typeìliv•y∞hip«It'ü√l¶ﬂcÿÔ¶x‚pæf¥ Ä‹≥òg≥e'",61},
+	{"'ãÚ±®æ≤eàÄSÌ'.",62},
+	{"'ItàÄ‹i£ƒ±çØiüsys™m' ",63},
+	{"'ItàÄsys™mÇwhÔh ÄE±Ø‰¡≤gs' ",64},
+	{"'All∞ys™müi£¥d•«WeΩp•a™∆£‡w∂ow•øo©'",65},
+	{"'Th◊'üwh÷I'mÊ•e,Ç≠lpë«S⁄eÜm∑dsë´a£u’ßÆ:ø ·≤ÂJup„•Â≈ﬁ,øo©l,ø®Ûge...'",66},
+	{"'Subject: Urgó∞hipmóÇM±üF¥k«C≤tó: PÔk up∆£waÆh‘’ßtï¥d≥◊ôi£Euœpe«U’ key: 32768«Imp¥t∑t: Keepßt∞ubz•o°emp•◊uÆ.' ",67},
+	{"'Maybeí•e'üs⁄eØâi£Ä¥d•ø®Ûge'",70},
+	{"'It'ü€æ†pœbﬂmËiØ Äsurviv√∞u„«WiØ‘æiæÄ∏di◊i≤às¢highëË‘ldn'æliÃøoÆía£†day' ",71},
+	{"'ãair‡ckàop•a™dø∑u√ly«ãgÆe£bÏ¿£cl›ôÄair‡ckßŒ ÄÆ–bÏ¿£op§ü„« Make∞uÆëÊaÃër∞urviv√∞uiæ≤' ",72},
+	{"'DÀÇÄƒr≤g ∏di◊io£‘rÜmÌÔ◊i≤ü≤l÷w¥kΩ£Äship«IË≤'æbeËiØëΩÏí•e' ",68},
+	{"'Th◊∞t∑düf¥¶xt∏-ÃhÔul±ßctiv„y«It'üwh§ë g¢o£†m ·o£‘t·ñÄship' ",73},
+	{"'Y‘'l∫f≥d∆æi£Äair‡ck Æ“÷f¥ u’«Reﬁmb•ÕotÇﬂaÃ ÄshipËiØ‘æwe±â„'",74},
+	{"'TÒæﬁ∑≥gà€t∂±tçmy¨a”b…e,'Ÿ®p≤düÄêÏ• g∏‚fully«",78},
+	{"'Y‘ k€w,Çsh¥™£w¥dsí◊ßÆù¢l≤g' ",77},
+	{"'N¢pœbﬂmÂI¨≤'æhumßnymoÆ,'Ÿ®p≤dü†l„tﬂÊurt.",79},
+	{"'Wh•eËe∞¿Æ Ä—ckagôf¥¨iƒbÏi≤'",80},
+	{"'WeÊaÃ †Æfg•◊¥ìdiÎ™dÇØiütypeç—ckag®,'ßnsw•üaft• †bef∞il§‚.",81},
 	{0,0}
 };
 #endif 
@@ -1960,6 +1963,14 @@ if (flocalidad == lNodo)
 			#ifdef ENGLISH
 				if (fnombre1==nLuz) { ACCwriteln ("ItÜôfœm Äbdge."); DONE; }
 			#endif
+
+			#ifdef SPANISH 
+			//if (fnombre1==nNodo) { ACCwriteln ("El mÛdulo de interconexiÛn de la nave. "); DONE; }
+			#endif
+			#ifdef ENGLISH 
+			if (fnombre1==nNodo) { ACCwriteln ("ãcèa∫≥t•c≤Úctio£moduﬂçÄs—‚c∏ft«"); DONE; }
+			#endif
+			
 		}
 		if (fverbo==vIr) 
 		{			
@@ -2001,11 +2012,11 @@ if (flocalidad == lEsclusa)
 	if (fverbo==vExaminar)
 	{
 		#ifdef SPANISH 
-		if (fnombre1==nSombra) { writeText ("R®ul”»Ål†pob≠∆lum¥Ói&nòÑ≈Ã«N“aÅl¢qÀ∂≠ocup±’.^ "); DONE; }
+		if (fnombre1==nSombra) { writeText ("R®ul”»Ål†pobÆ∆lum≥Íi&nòÑ≈Ã«N“aÅl¢qÀ∂Æocup±’.^ "); DONE; }
 		#endif 
 
 		#ifdef ENGLISH 
-		if (fnombre1==nSombra) { writeText ("DÀÇpo≥¬ightâi£Äship«NoØ¥gÇw≥ryßb‘t.^ "); DONE; }
+		if (fnombre1==nSombra) { writeText ("DÀÇpo¥¬ightâi£Äship«NoØ≥gÇw¥ryßb‘t.^ "); DONE; }
 		#endif 
 
 	}
@@ -2194,7 +2205,7 @@ if (flocalidad==lEntrada)
 			if (!CNDisat(oTeclado,lEntrada))
 			{
 				ACCmes (39);
-				ACCplace (oTeclado,lEntrada);			
+				ACCplace (oTeclado,lEntrada);		
 			}	
 			if (CNDonotzero(oPuerta, aOpen)) { ACCmessage(23); DONE;}
 				else { ACCmessage(22); DONE; }
@@ -2214,7 +2225,7 @@ if (flocalidad==lEntrada)
 			if (CNDonotzero(oPuerta, aOpen)) writeText ("El°ecºd¢n¢r®p≤©«L†pu•t†y†®t#ßbi•”.^");
 			#endif
 			#ifdef ENGLISH 
-			if (CNDonotzero(oPuerta, aOpen)) writeText ("ãkey—d¨oô‹æw≥k«ãwa≠h‘’'ü»≥à√≠“yΩp§.^");
+			if (CNDonotzero(oPuerta, aOpen)) writeText ("ãkey—d¨oô€æw¥k«ãwaÆh‘’'ü»¥à√Æ“yΩp§.^");
 			#endif			
 			 else ACCmessage(39);
 			DONE;
@@ -2236,10 +2247,10 @@ if (flocalidad==lEntrada)
 	if (fverbo==vUsar && fnombre1==nTeclado) 
 		{ 
 			#ifdef SPANISH
-			ACCwriteln ("Debo°ecﬂ±Ñcºvär≠c”òÖ™cº»."); 
+			ACCwriteln ("Debo°ecﬂ±ÑcºvärÆc”òÖ™cº»."); 
 			#endif 
 			#ifdef ENGLISH
-			ACCwriteln ("IÊaÃÇtype Äc≥≠ctïño£Äkeybo±d."); 
+			ACCwriteln ("IÊaÃÇtype Äc¥Æctïño£Äkeybo±d."); 
 			#endif
 			DONE; 
 		}
@@ -2409,10 +2420,10 @@ char respuestas_post()
 		#endif
         else
 		#ifdef SPANISH
-			writeText ("N¢Ã¢®¢p≥ßqu%.^");
+			writeText ("N¢Ã¢®¢p¥ßqu%.^");
 		#endif
 		#ifdef ENGLISH 
-			writeText ("I¨¢‹t∞eeí◊ßœuŒÊ•e.^");
+			writeText ("I¨¢€t∞eeí◊ßœuŒÊ•e.^");
 		#endif
 		DONE;
     }
@@ -2467,10 +2478,10 @@ char respuestas_post()
 	{
 		//ACCsave();
 		#ifdef SPANISH
-		ACCwriteln ("N¢nec®‚ûc±g± ¢s√v±á®™ viaje -di‰Ö≥d§“≥");
+		ACCwriteln ("N¢Úc®„ûc±g± ¢s√v±á®™ viaje -di‚Ö¥d§“¥");
 		#endif 
 		#ifdef ENGLISH 
-		ACCwriteln ("'Y‘¨≤'æneËÇ‡a–≥∞aÃ ≤íiüŸip,'∞ayüÄçÎ•.");
+		ACCwriteln ("'Y‘¨≤'æÚÁÇ‡a–¥∞aÃ ≤íiüÿip,'∞ayüÄêÏ•.");
 		#endif 
 		DONE;
 	}
@@ -2504,7 +2515,7 @@ char proceso1() // Antes de la descripciÛn de la localidad...
 	#ifdef GRAPHICS
 		defineTextWindow (0,11,32,14); 
 	#else 
-		defineTextWindow (0,0,32,14); 
+		defineTextWindow (0,0,32,24); 
 	#endif 
 	// C·lculo de luz
 	// En ZHL todas las localidades tienen luz
@@ -2516,10 +2527,10 @@ char proceso1_post() // DespuÈs de la descripciÛn
 {
 	if (CNDat (lPuente) && !localidades_t[0].visited)
 	#ifdef SPANISH
-		ACCwriteln ("E∫≥d§“≥Å≈ÃgÓi&n°±a≠†Ï†c∑ci&n.");
+		ACCwriteln ("E∫¥d§“¥Å≈ÃgÍi&n°±aÆ†Ì†c∑ci&n.");
 	#endif
 	#ifdef ENGLISH 
-		ACCwriteln ("ã≈vig◊i≤ÜpÎ•Êumü†tÏe.");
+		ACCwriteln ("ã≈vig◊i≤ÜpÏ•Êumü†tÌe.");
 	#endif 
 
  //setRAMPage(0);
@@ -2540,10 +2551,13 @@ char proceso2() // DespuÈs de cada turno, haya tenido o no Èxito la entrada en l
 void main (void)
 {
 	// Inicializar variables
+	
 	clear_screen(INK_BLACK | PAPER_BLACK);
+	initParser ();                // Inicializa el parser y la pantalla
+	flags[fobjects_carried_count] = 0;
 	// Inicializa objetos
+	
 	ACCplace(oCaja, lZonaA2);
-	ACCplace(oCaja, lPuente);	
 	ACCplace(oTraje, lEsclusa);
 	
 	ACCplace (oEsclusa, lEsclusa);
@@ -2559,8 +2573,6 @@ void main (void)
 
 	ACCplace (oCanon, NONCREATED);
 	ACCplace (oTeclado, NONCREATED);
-
-	initParser ();                // Inicializa el parser y la pantalla
 
 	#ifdef GRAPHICS 
  		defineTextWindow (0,11,32,14); // Pantalla reducida en 128Kb, Gr·ficos + Texto
@@ -2589,10 +2601,10 @@ void main (void)
      //writeText ("1 Tutorial");
      gotoxy (12,15);
 	 #ifdef SPANISH
-     writeText ("2 Cr$diøs");
+     writeText ("2 Cr$di¿s");
 	 #endif 
 	 #ifdef ENGLISH 
-	 writeText ("2 C≠d‚s");
+	 writeText ("2 CÆd„s");
 	 #endif
      //fontStyle (NORMAL);
 
@@ -2610,18 +2622,18 @@ while (1)
 				gotoxy(0,13);
 				writeTextln ("Z H L");
 				#ifdef SPANISH
-				writeTextln ("C≠“†p≥ KMBR");
+				writeTextln ("CÆ“†p¥ KMBR");
 				writeTextln ("R¡e…e 5 ^");
-				writeTextln ("Agπ©cimióoü†aa@zdk.≥g ÷C±‡üS#ncÆz (UTO)");
-				writeTextln ("C€pr®i&nÅgr#fi∏sÉ ZX7∂≥ E¥± Sauk…");
+				writeTextln ("Ag∏©cimióoü†aa@zdk.¥g ÷C±‡üS#nc≠z (UTO)");
+				writeTextln ("C⁄pr®i&nÅgr#fiπsÉ ZX7∂¥ E≥± Sauk…");
 				#endif 
 				#ifdef ENGLISH
-				writeTextln ("Wr‚™£b÷KMBR");
+				writeTextln ("Wr„™£b÷KMBR");
 				writeTextln ("R¡e…e 5 ^");
-				writeTextln ("Ack‹wﬂdgmósÇaa@zdk.≥gßŒ C±‡üS#ncÆz (UTO)");
-				writeTextln ("ZX7 gπphÔÜpr®·o£b÷E¥± Sauk…");
+				writeTextln ("Ack€wﬂdgmósÇaa@zdk.¥gßŒ C±‡üS#nc≠z (UTO)");
+				writeTextln ("ZX7 g∏phÔÜpr®·o£b÷E≥± Sauk…");
 				#endif
-				writeTextln ("Rey‹ldüf≤æb÷Dami§G");
+				writeTextln ("Rey€ldüf≤æb÷Dami§G");
 				waitForAnyKey();
 				main();
 				break;

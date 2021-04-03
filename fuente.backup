@@ -1,5 +1,5 @@
 // ZHL. Escrita por KMBR.
-// 2016-2019 KMBR
+// 2016,2019,2021 KMBR
 // This code is licensed under a Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) 
 // https://creativecommons.org/licenses/by-nc-nd/4.0/
 // Use ISO 8819-15 Encoding 
@@ -13,7 +13,7 @@
 #include "juego_flags.h"
 
 #define GRAPHICS 
-// #define SPANISH
+//#define SPANISH
 #define ENGLISH
 
 /* Allocate space for the stack */
@@ -136,7 +136,7 @@ loc_t localidades_t [] =
 {
 	{"Bridge", "The bridge is dimly illuminated by the navigation panel. Outside, an ice storm is raging over the surface of Europe. ",lPuente, FALSE, 0x00000000},
 	{"Central node ", "The ship's modules are in twilight. The central node connects to the command bridge, the airlock to the west and the cargo to the south. ",lNodo, FALSE, 0x00000000},
-	{"Airlock", "The storm can be heard pounding intensely against the walls. The poor lighting traces sinister shapes in the exploration suits. ",lEsclusa, FALSE, 0x00000000},
+	{"Airlock", "The storm can be heard pounding intensely against the hull. The poor lighting traces sinister shapes in the exploration suits. ",lEsclusa, FALSE, 0x00000000},
 	{"Cargo hold", "The cargo area has enough space to handle small shipments. In the shadows there are several packages awaiting delivery. ", lBodega, FALSE, 0x00000000},
 	{"Outside", "I am engulfed by a storm of snow and ice crystals preventing me from seeing in the distance. To the west I can make out a building that could be the entrance to the warehouse.",lExterior, FALSE, 0x00000000},
     {"Warehouse entrance", "A mass of metal sits nestled on the frozen surface of Europe. ",lAlmacen, FALSE, 0x00000000},
@@ -282,7 +282,7 @@ token_t mensajes_t [] =
 	{"'We are operating in low power mode. The console must remain off', replies the computer.",9},
 	{"It comes from the control console. The console is in low power mode. ",10},
 	{"Snow and ice at minus 150 Celsius.",11},
-	{"The thermal system can hardly prevent the formation of glass on the outside of the windscreen.",12},
+	{"The thermal system can hardly prevent the growth of crystals on the outside of the windscreen.",12},
 	{"They form on the thermal gradients of the ship's windscreen",13},
 	{"The delivery shed where I do the route. It is an industrial model built with standard modules. It does its job and doesn't break down too often.",14},
 	{"'It controls the temperature inside and in the instruments to avoid their deterioration,' reports the computer",15},
@@ -311,7 +311,7 @@ token_t mensajes_t [] =
 	{"The standard ZHL modular ship. Painted yellow and with the company logo in big red letters.",36},
 	{"ZHL 24h",37},
 	{"With difficulty I can make out the outline of a metal building in the storm. ",38},
-	{"On the side of the entrance shines a numeric keypad",39},
+	{"On the side of the entrance shines a numeric keypad.",39},
 	{"A laser cannon slides through an opening and points at you: TYPE IN THE ACCESS CODE. YOU HAVE ONE CHANCE BEFORE DESINTEGRATION.",40},
 	{"A dangerous-looking cannon follows my movements.",41},
 	{"All are white boxes of similar size. The largest are on the lowest shelves.",42},
@@ -719,6 +719,7 @@ token_t nombres_t [] =
 	{"button", nBoton},
 	{"stair", nEscalera},
 	{"wall", nPared},
+	{"hull",nPared},
 	{"floor", nSuelo},
 	{"ceill", nTecho},
 	{"light", nLuz},
@@ -726,6 +727,8 @@ token_t nombres_t [] =
 	{"winds", 	nParabrisas},
 	{"box",	nCaja},
 	{"parcel",	nPaquete},
+	{"packet",nPaquete},
+	{"packag",nPaquete},
 	{"conta",	nContenedor},
 	{"sky",	nCielo},
 	{"space", 	nNave},
@@ -1304,7 +1307,7 @@ obj_t objetos_t[]=
 obj_t objetos_t[]=
 {
     // ID, LOC, NOMBRE, NOMBREID, ADJID, PESO, ATRIBUTOS
-    {oCaja, lZonaA2,"blue parcel",     nPaquete, aAzul,   1, aMale_hex | aDeterminado_hex},  
+    {oCaja, lZonaA2,"blue packet",     nPaquete, aAzul,   1, aMale_hex | aDeterminado_hex},  
     {oTraje, lEsclusa,"presurized suit",     nTraje, EMPTY_WORD,   1, aWear_hex| aMale_hex | aDeterminado_hex},  
 	{oEsclusa, lEsclusa,"airlock gate", nEsclusa, EMPTY_WORD,   1, aStatic_hex | aFemale_hex | aDeterminado_hex},  
 	{oPuerta, lEntrada,"door metal",     nPuerta, EMPTY_WORD,   1, aStatic_hex | aFemale_hex},  
@@ -1556,7 +1559,7 @@ token_t ordenador_topics_t[] =
 	{"pickup", 60},
 	{"ship", 61},
 	{"space",61},
-	{"deliv", 62},
+	{"star", 62},
 	{"sun", 63},
 	{"solar", 64},
 	{"systm", 65},
@@ -1687,7 +1690,7 @@ token_t mensajes_ordenador_t[]=
 	{"'You are Tod Connor, the spacecraft's driver' ",4},
 	{"'The storm is moderate. It shouldn't be a problem to access the warehouse wearing the protective suit'",5},
 	{"'We are on the Jovian satellite,' replies the computer.",7},
-	{"'Europe is a satellite of Jupiter. On the side illuminated by Jupiter the spectacle is great. Unfortunately our assignment is on the hidden side' ",8},
+	{"'Europe is a satellite of Jupiter. On the face illuminated by Jupiter the spectacle is great. Unfortunately our assignment is on the hidden side' ",8},
 	{"'Europe has a side always oriented towards Jupiter'",9},
 	{"'It's in a warehouse, outside. You'll have to go out in this storm' ",10},
 	{"'You have to pick up a package on Europe and deliver it to Mars within 24h,' it replies.",11},
@@ -1960,6 +1963,14 @@ if (flocalidad == lNodo)
 			#ifdef ENGLISH
 				if (fnombre1==nLuz) { ACCwriteln ("It comes from the bridge."); DONE; }
 			#endif
+
+			#ifdef SPANISH 
+			//if (fnombre1==nNodo) { ACCwriteln ("El módulo de interconexión de la nave. "); DONE; }
+			#endif
+			#ifdef ENGLISH 
+			if (fnombre1==nNodo) { ACCwriteln ("The central interconnection module of the spacecraft. "); DONE; }
+			#endif
+			
 		}
 		if (fverbo==vIr) 
 		{			
@@ -2194,7 +2205,7 @@ if (flocalidad==lEntrada)
 			if (!CNDisat(oTeclado,lEntrada))
 			{
 				ACCmes (39);
-				ACCplace (oTeclado,lEntrada);			
+				ACCplace (oTeclado,lEntrada);		
 			}	
 			if (CNDonotzero(oPuerta, aOpen)) { ACCmessage(23); DONE;}
 				else { ACCmessage(22); DONE; }
@@ -2504,7 +2515,7 @@ char proceso1() // Antes de la descripción de la localidad...
 	#ifdef GRAPHICS
 		defineTextWindow (0,11,32,14); 
 	#else 
-		defineTextWindow (0,0,32,14); 
+		defineTextWindow (0,0,32,24); 
 	#endif 
 	// Cálculo de luz
 	// En ZHL todas las localidades tienen luz
@@ -2540,10 +2551,13 @@ char proceso2() // Después de cada turno, haya tenido o no éxito la entrada en l
 void main (void)
 {
 	// Inicializar variables
+	
 	clear_screen(INK_BLACK | PAPER_BLACK);
+	initParser ();                // Inicializa el parser y la pantalla
+	flags[fobjects_carried_count] = 0;
 	// Inicializa objetos
+	
 	ACCplace(oCaja, lZonaA2);
-	ACCplace(oCaja, lPuente);	
 	ACCplace(oTraje, lEsclusa);
 	
 	ACCplace (oEsclusa, lEsclusa);
@@ -2559,8 +2573,6 @@ void main (void)
 
 	ACCplace (oCanon, NONCREATED);
 	ACCplace (oTeclado, NONCREATED);
-
-	initParser ();                // Inicializa el parser y la pantalla
 
 	#ifdef GRAPHICS 
  		defineTextWindow (0,11,32,14); // Pantalla reducida en 128Kb, Gráficos + Texto
