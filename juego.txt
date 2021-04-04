@@ -512,6 +512,6 @@
 "Compresión de gráficos con ZX7 por Einar Saukas"
 "Written by KMBR"
 "Release 5 ^"
-"Acknowledgments to aa@zdk.org and Carlos Sánchez (UTO)"
+"Acknowledgments to aa@zdk.org and Carlos Sanchez (UTO)"
 "ZX7 graphic compression by Einar Saukas"
 "Reynolds font by DamienG"

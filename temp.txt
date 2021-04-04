@@ -442,7 +442,7 @@ token_t mensajesSistema_t [] =
     {"N¢™Ãg¢qË¶Ëda•g¥Õ.^",SYSMESS_YOUCANNOTTAKE},
 	{"N¢Ñ®â qË¶Ëd mov¥Õ.^", SYSMESS_CANNOTMOVE},
 	{"LßvoœŸm·oŸvê%É.^", SYSMESS_CARRYNOTHING},
-	{"SÃidžvÊibl¨:",SYSMESS_EXISTLIST},
+	{"SÃidžvÊibl¨:",SYSMESS_EXITSLIST},
 	{"",0}	
 };
 #endif 
@@ -524,7 +524,7 @@ token_t mensajesSistema_t [] =
     {"ItˆÛt°Úe¯‰I«·¡ake.^",SYSMESS_YOUCANNOTTAKE},
 	{"It«·Û¾be¿oÌd.^", SYSMESS_CANNOTMOVE},
 	{"MÖh·dŸa®¦mpty.^", SYSMESS_CARRYNOTHING},
-	{"Exists:",SYSMESS_EXISTLIST},
+	{"Exits:",SYSMESS_EXITSLIST},
 	{"",0}	
 };
 
@@ -2630,7 +2630,7 @@ while (1)
 				#ifdef ENGLISH
 				writeTextln ("Wrãª£bÖKMBR");
 				writeTextln ("RÁeÉe 5 ^");
-				writeTextln ("AckÛwßdgm—s‚aa@zdk.´g§Î C±àŸS#nc­z (UTO)");
+				writeTextln ("AckÛwßdgm—s‚aa@zdk.´g§Î C±àŸS·c­z (UTO)");
 				writeTextln ("ZX7 g¸phï†pr¨áo£bÖE³± SaukÉ");
 				#endif
 				writeTextln ("ReyÛldŸf²¾bÖDami¤G");

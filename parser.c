@@ -345,7 +345,7 @@ void ParserLoop (void) // 664 bytes
                 // Si están activas, describe las salidas
                 if (flags[fsalidas])
                 {
-                    writeSysMessage (SYSMESS_EXISTLIST);
+                    writeSysMessage (SYSMESS_EXITSLIST);
                     for (i=0;i<10;++i)
                     {
                         j = conexiones_t[loc_temp].con[i];

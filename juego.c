@@ -442,7 +442,7 @@ token_t mensajesSistema_t [] =
     {"No es algo que pueda cogerse.^",SYSMESS_YOUCANNOTTAKE},
 	{"No parece que pueda moverse.^", SYSMESS_CANNOTMOVE},
 	{"Llevo las manos vacías.^", SYSMESS_CARRYNOTHING},
-	{"Salidas visibles:",SYSMESS_EXISTLIST},
+	{"Salidas visibles:",SYSMESS_EXITSLIST},
 	{"",0}	
 };
 #endif 
@@ -524,7 +524,7 @@ token_t mensajesSistema_t [] =
     {"It is not something I can take.^",SYSMESS_YOUCANNOTTAKE},
 	{"It cannot be moved.^", SYSMESS_CANNOTMOVE},
 	{"My hands are empty.^", SYSMESS_CARRYNOTHING},
-	{"Exists:",SYSMESS_EXISTLIST},
+	{"Exits:",SYSMESS_EXITSLIST},
 	{"",0}	
 };
 
@@ -2630,7 +2630,7 @@ while (1)
 				#ifdef ENGLISH
 				writeTextln ("Written by KMBR");
 				writeTextln ("Release 5 ^");
-				writeTextln ("Acknowledgments to aa@zdk.org and Carlos Sánchez (UTO)");
+				writeTextln ("Acknowledgments to aa@zdk.org and Carlos Sanchez (UTO)");
 				writeTextln ("ZX7 graphic compression by Einar Saukas");
 				#endif
 				writeTextln ("Reynolds font by DamienG");
