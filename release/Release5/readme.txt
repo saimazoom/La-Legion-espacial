@@ -7,7 +7,7 @@ You are Tod Connor, a deliveryman working for ZHL, a multi-planetary package pic
 A science fiction tale created by KMBR
 
 Release 5
-Acknowledgements to aa@zdk.org and Carlos Sánchhez (UTO)
+Acknowledgements to aa@zdk.org and Carlos Sánchez (UTO)
 Reynolds font by DamienG https://damieng.com/zx-origins 
 ZX7 graphics compression written by Einar Saukas 
 Compiled on Z88DK v1.99b
